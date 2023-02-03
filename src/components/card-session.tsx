@@ -6,23 +6,40 @@ import {
   Box,
   Heading,
   Flex,
+  Wrap,
+  WrapItem,
 } from '@chakra-ui/react'
 import ThumbnailCard from './thumbnail-card'
 
 const CardSession = () => {
   return (
-    <Box>
-      <Heading as="h5" size="md">
-        Features
-      </Heading>
-      <Flex className="card-session">
-        <ThumbnailCard></ThumbnailCard>
-        <ThumbnailCard></ThumbnailCard>
-        <ThumbnailCard></ThumbnailCard>
-        <ThumbnailCard></ThumbnailCard>
-        <ThumbnailCard></ThumbnailCard>
-      </Flex>
-    </Box>
+    <Flex justify="center">
+      <Box>
+        <Heading as="h3" size="md" mb="5">
+          Features
+        </Heading>
+        <Wrap spacing="24px" maxW="1200px">
+          <WrapItem>
+            <ThumbnailCard></ThumbnailCard>
+          </WrapItem>
+          <WrapItem>
+            <ThumbnailCard></ThumbnailCard>
+          </WrapItem>
+          <WrapItem>
+            <ThumbnailCard></ThumbnailCard>
+          </WrapItem>
+          <WrapItem>
+            <ThumbnailCard></ThumbnailCard>
+          </WrapItem>
+          <WrapItem>
+            <ThumbnailCard></ThumbnailCard>
+          </WrapItem>
+          <WrapItem>
+            <ThumbnailCard></ThumbnailCard>
+          </WrapItem>
+        </Wrap>
+      </Box>
+    </Flex>
   )
 }
 

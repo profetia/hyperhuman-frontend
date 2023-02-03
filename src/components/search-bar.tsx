@@ -4,7 +4,7 @@ const SearchBar = () => {
   return (
     <Box mt={20}>
       <Flex justify="center">
-        <Heading>Hyperhuman</Heading>
+        <Heading as="h1">Hyperhuman</Heading>
       </Flex>
       <Flex justify="center" mt={10}>
         <Box width={600}>
