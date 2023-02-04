@@ -19,8 +19,8 @@ const CardSession = (props: Props) => {
   return (
     <Box>
       <Wrap spacing="24px" maxW="1000px">
-        {Array(10).fill(
-          <WrapItem>
+        {Array.from(Array(10).keys()).map((value, index) => (
+          <WrapItem key={index}>
             <ThumbnailCard
               prompt={
                 props.title === 'Latest'
@@ -34,7 +34,7 @@ const CardSession = (props: Props) => {
               }
             ></ThumbnailCard>
           </WrapItem>
-        )}
+        ))}
       </Wrap>
     </Box>
   )
