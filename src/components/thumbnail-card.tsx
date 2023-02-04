@@ -49,7 +49,7 @@ const ThumbnailCard = (props: Props) => {
           boxSize={200}
           borderBottomRadius="0"
         />
-        <CardBody px={0} py={2}>
+        <CardBody px={1} py={2}>
           <Center>
             <Text color="" fontSize="md" maxWidth={180} noOfLines={2}>
               {props.prompt}
