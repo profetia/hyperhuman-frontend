@@ -15,6 +15,7 @@ import {
   useDisclosure,
   Wrap,
   HStack,
+  Center,
 } from '@chakra-ui/react'
 import DialogCard from './dialog-card'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
@@ -39,21 +40,23 @@ const ThumbnailCard = (props: Props) => {
   }
   return (
     <Card maxW="sm" variant="outline">
-      <Image
-        src={props.img_url}
-        alt="A laughing man"
-        borderRadius="lg"
-        objectFit="cover"
-        boxSize={300}
-        borderBottomRadius="0"
-      />
-      <CardBody px={0} onClick={onOpen}>
-        <VStack mt={1} spacing="3">
-          <Text color="" fontSize="md" maxWidth={250}>
-            {props.prompt}
-          </Text>
-        </VStack>
-      </CardBody>
+      <Box onClick={onOpen}>
+        <Image
+          src={props.img_url}
+          alt="A laughing man"
+          borderRadius="lg"
+          objectFit="cover"
+          boxSize={300}
+          borderBottomRadius="0"
+        />
+        <CardBody px={0} py={2}>
+          <Center>
+            <Text color="" fontSize="md" maxWidth={260} noOfLines={2}>
+              {props.prompt}
+            </Text>
+          </Center>
+        </CardBody>
+      </Box>
       <Divider />
       <CardFooter justifyContent="space-around" p={4} alignItems="center">
         <DialogCard
