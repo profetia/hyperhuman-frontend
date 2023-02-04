@@ -18,7 +18,7 @@ const CardSession = () => {
         <Heading as="h3" size="md" mb="5">
           Features
         </Heading>
-        <Wrap spacing="24px" maxW="1200px">
+        <Wrap spacing="24px" maxW="1300px">
           <WrapItem>
             <ThumbnailCard></ThumbnailCard>
           </WrapItem>
