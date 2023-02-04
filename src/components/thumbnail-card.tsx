@@ -46,25 +46,25 @@ const ThumbnailCard = (props: Props) => {
           alt="A laughing man"
           borderRadius="lg"
           objectFit="cover"
-          boxSize={300}
+          boxSize={200}
           borderBottomRadius="0"
         />
         <CardBody px={0} py={2}>
           <Center>
-            <Text color="" fontSize="md" maxWidth={260} noOfLines={2}>
+            <Text color="" fontSize="md" maxWidth={180} noOfLines={2}>
               {props.prompt}
             </Text>
           </Center>
         </CardBody>
       </Box>
       <Divider />
-      <CardFooter justifyContent="space-around" p={4} alignItems="center">
+      <CardFooter justifyContent="space-around" p={2} alignItems="center">
         <DialogCard
           isOpen={isOpen}
           onClose={onClose}
           onOpen={onOpen}
         ></DialogCard>
-        <Text color="gray.400">@Qingcheng</Text>
+        <Text color="gray.400">@Clarive</Text>
         <Text color="gray.400">300 view</Text>
         <Button
           rightIcon={getIcon()}
@@ -75,6 +75,7 @@ const ThumbnailCard = (props: Props) => {
             setIsLiked(!isLiked)
             console.log(isLiked)
           }}
+          size="xs"
         ></Button>
       </CardFooter>
     </Card>

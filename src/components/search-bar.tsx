@@ -12,7 +12,7 @@ const SearchBar = () => {
   return (
     <Box mt={20}>
       <Flex justify="center">
-        <Heading as="h1">Hyperhuman</Heading>
+        <Heading as="h1">DreamFace</Heading>
       </Flex>
       <VStack>
         <Flex justify="center" mt={10}>

@@ -18,7 +18,7 @@ type Props = {
 const CardSession = (props: Props) => {
   return (
     <Box>
-      <Wrap spacing="24px" maxW="1000px">
+      <Wrap spacing="24px" maxW="900px">
         {Array.from(Array(10).keys()).map((value, index) => (
           <WrapItem key={index}>
             <ThumbnailCard
