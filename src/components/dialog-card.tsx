@@ -20,13 +20,16 @@ import {
 import DialogArea from './dialog-area'
 import ModelView from './model-view'
 
-const DialogCard = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+type Props = {
+  isOpen: boolean
+  onOpen: () => void
+  onClose: () => void
+}
+
+const DialogCard = (props: Props) => {
   return (
     <>
-      <Button onClick={onOpen}>Edit</Button>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={props.isOpen} onClose={props.onClose}>
         <ModalOverlay />
         <ModalContent maxWidth={800}>
           <ModalHeader>View Model</ModalHeader>
@@ -46,9 +49,7 @@ const DialogCard = () => {
               </Grid>
             </Flex>
           </ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
-          </ModalFooter>
+          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
     </>

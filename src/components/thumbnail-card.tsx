@@ -4,6 +4,7 @@ import {
   CardBody,
   CardFooter,
   Box,
+  Icon,
   Image,
   VStack,
   Heading,
@@ -11,10 +12,20 @@ import {
   Divider,
   ButtonGroup,
   Button,
+  useDisclosure,
+  Wrap,
+  HStack,
 } from '@chakra-ui/react'
 import DialogCard from './dialog-card'
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
+import { useState } from 'react'
 
 const ThumbnailCard = () => {
+  let { isOpen, onOpen, onClose } = useDisclosure()
+  const [isLiked, setIsLiked] = useState(false)
+  const getIcon = () => {
+    return <Icon as={isLiked ? AiFillHeart : AiOutlineHeart} m={0}></Icon>
+  }
   return (
     <Card maxW="sm" variant="outline">
       <Image
@@ -25,23 +36,33 @@ const ThumbnailCard = () => {
         boxSize={300}
         borderBottomRadius="0"
       />
-      <CardBody px={0}>
+      <CardBody px={0} onClick={onOpen}>
         <VStack mt={1} spacing="3">
-          <Heading size="md">Laughing Man</Heading>
           <Text color="" fontSize="md" maxWidth={250}>
-            He has a great smile He has a face only a mother could love. He has
+            He has a great smile He has a face only a 6other could love. He has
             got dimples. One of his eyes is bigger than the other.
           </Text>
         </VStack>
       </CardBody>
       <Divider />
-      <CardFooter>
-        <ButtonGroup spacing="20">
-          <DialogCard></DialogCard>
-          <Button variant="ghost" colorScheme="gray.200">
-            300view
-          </Button>
-        </ButtonGroup>
+      <CardFooter justifyContent="space-around" p={4} alignItems="center">
+        <DialogCard
+          isOpen={isOpen}
+          onClose={onClose}
+          onOpen={onOpen}
+        ></DialogCard>
+        <Text color="gray.400">@Qingcheng</Text>
+        <Text color="gray.400">300view</Text>
+        <Button
+          rightIcon={getIcon()}
+          variant="ghost"
+          iconSpacing={0}
+          color={isLiked ? 'pink.400' : ''}
+          onClick={() => {
+            setIsLiked(!isLiked)
+            console.log(isLiked)
+          }}
+        ></Button>
       </CardFooter>
     </Card>
   )
