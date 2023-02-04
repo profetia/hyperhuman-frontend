@@ -28,7 +28,7 @@ const DialogCard = () => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent maxWidth={700}>
+        <ModalContent maxWidth={800}>
           <ModalHeader>View Model</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
