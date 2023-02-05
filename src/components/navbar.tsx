@@ -40,12 +40,17 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode()
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const getLogo = () => {
+    return colorMode === 'dark' ? '/deemos.png' : '/deemos-dark.png'
+  }
+
   return (
     <>
       <Box px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack>
-            <Image src="/deemos.png" alt="Deemos" height="64px" />
+            <Image src={getLogo()} alt="Deemos" height="64px" />
             <Text fontSize="2xl">-</Text>
             <Heading as="h2" size="lg">
               HyperHuman Project
