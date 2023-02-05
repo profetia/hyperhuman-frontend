@@ -16,6 +16,7 @@ import {
   Wrap,
   HStack,
   Center,
+  IconButton,
 } from '@chakra-ui/react'
 import DialogCard from './dialog-card'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
@@ -66,17 +67,17 @@ const ThumbnailCard = (props: Props) => {
         ></DialogCard>
         <Text color="gray.400">@Clarive</Text>
         <Text color="gray.400">300 view</Text>
-        <Button
-          rightIcon={getIcon()}
+        <IconButton
+          aria-label="Like"
+          icon={getIcon()}
           variant="ghost"
-          iconSpacing={0}
           color={isLiked ? 'pink.400' : ''}
           onClick={() => {
             setIsLiked(!isLiked)
             console.log(isLiked)
           }}
           size="xs"
-        ></Button>
+        ></IconButton>
       </CardFooter>
     </Card>
   )
