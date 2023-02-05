@@ -17,6 +17,7 @@ import {
   HStack,
   Center,
   IconButton,
+  Tooltip,
 } from '@chakra-ui/react'
 import DialogCard from './dialog-card'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
@@ -52,9 +53,16 @@ const ThumbnailCard = (props: Props) => {
         />
         <CardBody px={1} py={2}>
           <Center>
-            <Text color="" fontSize="md" maxWidth={180} noOfLines={2}>
-              {props.prompt}
-            </Text>
+            <Tooltip
+              label={props.prompt}
+              hasArrow
+              bgColor="gray.700"
+              color="gray.300"
+            >
+              <Text color="" fontSize="md" maxWidth={180} noOfLines={2}>
+                {props.prompt}
+              </Text>
+            </Tooltip>
           </Center>
         </CardBody>
       </Box>
