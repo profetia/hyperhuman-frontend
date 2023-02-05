@@ -1,3 +1,4 @@
+import { useHomeContext } from '@/contexts/home'
 import {
   Card,
   CardHeader,
@@ -16,6 +17,8 @@ type Props = {
 }
 
 const CardSession = (props: Props) => {
+  const homeContext = useHomeContext()
+
   return (
     <Box>
       <Wrap spacing="24px" maxW="900px">
