@@ -50,9 +50,9 @@ export default function NavBar() {
       <Box px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <HStack>
-            <Image src={getLogo()} alt="Deemos" height="64px" />
+            <Image src={getLogo()} alt="Deemos" height="40px" />
             <Text fontSize="2xl">-</Text>
-            <Heading as="h2" size="lg">
+            <Heading as="h2" size="md">
               HyperHuman Project
             </Heading>
           </HStack>
