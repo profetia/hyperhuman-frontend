@@ -24,7 +24,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { useState } from 'react'
 
 type Props = {
-  img_url: string
+  mediaSource: string
   prompt: string
 }
 
@@ -44,7 +44,7 @@ const ThumbnailCard = (props: Props) => {
     <Card maxW="sm" variant="outline">
       <Box onClick={onOpen}>
         <Image
-          src={props.img_url}
+          src={props.mediaSource}
           alt="A laughing man"
           borderRadius="lg"
           objectFit="cover"

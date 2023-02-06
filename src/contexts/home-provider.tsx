@@ -1,10 +1,14 @@
 import { createContext, ReactNode, useState, useContext } from 'react'
-import { Session } from '@/models/session'
+import {
+  exampleLatestSession,
+  exampleFeaturedSessions,
+  Session,
+} from '@/models/session'
 import { Sentence } from '@/models/dialog'
 
 export interface HomeSessions {
   latestSessions: Session[]
-  popularSessions: Session[]
+  featuredSessions: Session[]
 }
 
 export interface HomeConversation {
@@ -20,10 +24,10 @@ export interface HomeSearch {
 }
 
 export const HomeContext = createContext<
-  HomeSessions | HomeConversation | HomeSearch
+  HomeSessions & HomeConversation & HomeSearch
 >({
   latestSessions: [],
-  popularSessions: [],
+  featuredSessions: [],
   currentConversation: [],
   addSentence: (sentence: Sentence) => {},
   searchInput: '',
@@ -33,8 +37,8 @@ export const HomeContext = createContext<
 })
 
 export default function HomeProvider({ children }: { children: ReactNode }) {
-  const latestSessions: Session[] = []
-  const popularSessions: Session[] = []
+  const latestSessions: Session[] = Array(10).fill(exampleLatestSession)
+  const popularSessions: Session[] = Array(10).fill(exampleFeaturedSessions)
 
   const [currentConversation, setCurrentConversation] = useState<Sentence[]>([])
   const addSentence = (sentence: Sentence) => {}
@@ -48,7 +52,7 @@ export default function HomeProvider({ children }: { children: ReactNode }) {
     <HomeContext.Provider
       value={{
         latestSessions,
-        popularSessions,
+        featuredSessions: popularSessions,
         currentConversation,
         addSentence,
         searchInput,

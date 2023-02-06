@@ -15,11 +15,14 @@ import styles from '@/styles/Home.module.css'
 import SearchBar from '@/components/search-bar'
 import CardSession from '@/components/card-session'
 import NavBar from '@/components/navbar'
-import HomeProvider from '@/contexts/home'
+import HomeProvider, { useHomeContext } from '@/contexts/home-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const { latestSessions, featuredSessions } = useHomeContext()
+  console.log(latestSessions)
+
   return (
     <>
       <Head>
