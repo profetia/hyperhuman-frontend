@@ -19,21 +19,21 @@ type Props = {
 
 const CardSession = (props: Props) => {
   const {
-    latestSessions,
     featuredSessions,
-    updateLatestSession,
-    updateFeaturedSession,
+    latestSessions,
+    setFeaturedSessions,
+    setLatestSessions,
   } = useHomeContext()
 
   const targetSessions =
     props.title === 'Featured'
       ? {
           value: featuredSessions,
-          update: updateFeaturedSession,
+          setter: setFeaturedSessions,
         }
       : {
           value: latestSessions,
-          update: updateLatestSession,
+          setter: setLatestSessions,
         }
 
   return (
@@ -45,10 +45,9 @@ const CardSession = (props: Props) => {
               {...{
                 ...session,
                 onLike: () => {
-                  targetSessions.update(index, {
-                    ...session,
-                    liked: !session.liked,
-                  })
+                  const newSessions = [...targetSessions.value]
+                  newSessions[index].liked = !newSessions[index].liked
+                  targetSessions.setter(newSessions)
                   console.log('liked')
                 },
               }}

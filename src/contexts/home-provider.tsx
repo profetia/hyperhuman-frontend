@@ -3,82 +3,72 @@ import {
   exampleLatestSession,
   exampleFeaturedSessions,
   Session,
+  SessionState,
+  SessionAction,
 } from '@/models/session'
-import { Sentence } from '@/models/dialog'
-
-export interface HomeSessions {
-  latestSessions: Session[]
-  updateLatestSession: (index: number, session: Session) => void
-  featuredSessions: Session[]
-  updateFeaturedSession: (index: number, session: Session) => void
-}
-
-export interface HomeConversation {
-  currentConversation: Sentence[]
-  addSentence: (sentence: Sentence) => void
-}
-
-export interface HomeSearch {
-  searchInput: string
-  setSearchInput: (input: string) => void
-  searchType: 'search' | 'generate' | null
-  setSearchType: (type: 'search' | 'generate' | null) => void
-}
+import { Sentence, DialogState, DialogAction } from '@/models/dialog'
+import { SearchState, SearchAction, SearchType } from '@/models/search'
 
 export const HomeContext = createContext<
-  HomeSessions & HomeConversation & HomeSearch
+  SearchState &
+    DialogState &
+    SessionState &
+    SearchAction &
+    DialogAction &
+    SessionAction
 >({
-  latestSessions: [],
-  updateLatestSession: (index: number, session: Session) => {},
   featuredSessions: [],
-  updateFeaturedSession: (index: number, session: Session) => {},
-  currentConversation: [],
-  addSentence: (sentence: Sentence) => {},
+  latestSessions: [],
   searchInput: '',
-  setSearchInput: (input: string) => {},
-  searchType: null,
-  setSearchType: (type: 'search' | 'generate' | null) => {},
+  searchType: undefined,
+  prompt: '',
+  modelSource: '',
+  conversation: [],
+  setLatestSessions: () => {},
+  setFeaturedSessions: () => {},
+  setSearchInput: () => {},
+  setSearchType: () => {},
+  setConversation: () => {},
+  setPrompt: () => {},
+  setModelSource: () => {},
 })
 
 export default function HomeProvider({ children }: { children: ReactNode }) {
   const [latestSessions, setLatestSessions] = useState<Session[]>(
-    Array(10).fill(exampleLatestSession)
+    Array(10)
+      .fill({})
+      .map(() => ({ ...exampleLatestSession }))
   )
-  const updateLatestSession = (index: number, session: Session) => {
-    const newSessions = [...latestSessions]
-    newSessions[index] = session
-    setLatestSessions(newSessions)
-  }
   const [featuredSessions, setFeaturedSessions] = useState<Session[]>(
-    Array(10).fill(exampleFeaturedSessions)
+    Array(10)
+      .fill({})
+      .map(() => ({ ...exampleFeaturedSessions }))
   )
-  const updateFeaturedSession = (index: number, session: Session) => {
-    const newSessions = [...featuredSessions]
-    newSessions[index] = session
-    setFeaturedSessions(newSessions)
-  }
-
-  const [currentConversation, setCurrentConversation] = useState<Sentence[]>([])
-  const addSentence = (sentence: Sentence) => {}
 
   const [searchInput, setSearchInput] = useState('')
-  const [searchType, setSearchType] = useState<'search' | 'generate' | null>(
-    null
-  )
+  const [searchType, setSearchType] = useState<SearchType>(undefined)
+
+  const [prompt, setPrompt] = useState<string>('')
+  const [modelSource, setModelSource] = useState<string>('')
+  const [conversation, setConversation] = useState<Sentence[]>([])
 
   return (
     <HomeContext.Provider
       value={{
-        latestSessions,
-        updateLatestSession,
         featuredSessions,
-        updateFeaturedSession,
-        currentConversation,
-        addSentence,
+        latestSessions,
+        conversation,
         searchInput,
-        setSearchInput,
         searchType,
+        setLatestSessions,
+        setFeaturedSessions,
+        setConversation,
+        setSearchInput,
         setSearchType,
+        prompt,
+        modelSource,
+        setPrompt,
+        setModelSource,
       }}
     >
       {children}

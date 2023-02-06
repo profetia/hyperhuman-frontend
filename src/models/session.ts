@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react'
+
 export interface Session {
   description: string
   id: string
@@ -5,6 +7,16 @@ export interface Session {
   liked: boolean
   views: number
   mediaSource: string
+}
+
+export interface SessionState {
+  latestSessions: Session[]
+  featuredSessions: Session[]
+}
+
+export interface SessionAction {
+  setLatestSessions: Dispatch<SetStateAction<Session[]>>
+  setFeaturedSessions: Dispatch<SetStateAction<Session[]>>
 }
 
 export const exampleLatestSession: Session = {
