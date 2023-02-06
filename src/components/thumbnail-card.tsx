@@ -22,6 +22,7 @@ import {
 import DialogCard from './dialog-card'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { Session } from '@/models/session'
+import { Dialog } from '@/models/dialog'
 
 type Props = Session & {
   onLike?: () => void
@@ -44,7 +45,7 @@ const ThumbnailCard = (props: Props) => {
       <Box onClick={onOpen}>
         <Image
           src={props.mediaSource}
-          alt="A laughing man"
+          alt="media source"
           borderRadius="lg"
           objectFit="cover"
           boxSize={200}
@@ -72,8 +73,8 @@ const ThumbnailCard = (props: Props) => {
           onClose={onClose}
           onOpen={onOpen}
         ></DialogCard>
-        <Text color="gray.400">@Clarive</Text>
-        <Text color="gray.400">300 view</Text>
+        <Text color="gray.400">@{props.author}</Text>
+        <Text color="gray.400">{props.views} view</Text>
         <IconButton
           aria-label="Like"
           icon={getIcon()}

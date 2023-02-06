@@ -1,3 +1,4 @@
+import { Dialog, exampleDialog } from '@/models/dialog'
 import {
   Modal,
   ModalOverlay,
@@ -27,6 +28,8 @@ type Props = {
 }
 
 const DialogCard = (props: Props) => {
+  const dialog: Dialog = exampleDialog
+
   return (
     <>
       <Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -41,10 +44,13 @@ const DialogCard = (props: Props) => {
                 templateColumns="repeat(2, 1fr)"
               >
                 <GridItem colSpan={1} rowSpan={1}>
-                  <ModelView></ModelView>
+                  <ModelView
+                    modelSource={dialog.modelSource}
+                    prompt={dialog.prompt}
+                  ></ModelView>
                 </GridItem>
                 <GridItem colSpan={1} rowSpan={1}>
-                  <DialogArea></DialogArea>
+                  <DialogArea conversation={dialog.conversation}></DialogArea>
                 </GridItem>
               </Grid>
             </Flex>
