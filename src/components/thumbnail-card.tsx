@@ -21,20 +21,19 @@ import {
 } from '@chakra-ui/react'
 import DialogCard from './dialog-card'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-import { useState } from 'react'
+import { Session } from '@/models/session'
 
-type Props = {
-  mediaSource: string
-  prompt: string
+type Props = Session & {
+  onLike?: () => void
 }
 
 const ThumbnailCard = (props: Props) => {
   let { isOpen, onOpen, onClose } = useDisclosure()
-  const [isLiked, setIsLiked] = useState(false)
+
   const getIcon = () => {
     return (
       <Icon
-        as={isLiked ? AiFillHeart : AiOutlineHeart}
+        as={props.liked ? AiFillHeart : AiOutlineHeart}
         m={0}
         boxSize={6}
       ></Icon>
@@ -54,13 +53,13 @@ const ThumbnailCard = (props: Props) => {
         <CardBody px={1} py={2}>
           <Center>
             <Tooltip
-              label={props.prompt}
+              label={props.description}
               hasArrow
               bgColor="gray.700"
               color="gray.300"
             >
               <Text color="" fontSize="md" maxWidth={180} noOfLines={2}>
-                {props.prompt}
+                {props.description}
               </Text>
             </Tooltip>
           </Center>
@@ -79,11 +78,8 @@ const ThumbnailCard = (props: Props) => {
           aria-label="Like"
           icon={getIcon()}
           variant="ghost"
-          color={isLiked ? 'pink.400' : ''}
-          onClick={() => {
-            setIsLiked(!isLiked)
-            console.log(isLiked)
-          }}
+          color={props.liked ? 'pink.400' : ''}
+          onClick={props.onLike}
           size="xs"
         ></IconButton>
       </CardFooter>

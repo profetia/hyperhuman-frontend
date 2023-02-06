@@ -8,7 +8,9 @@ import { Sentence } from '@/models/dialog'
 
 export interface HomeSessions {
   latestSessions: Session[]
+  updateLatestSession: (index: number, session: Session) => void
   featuredSessions: Session[]
+  updateFeaturedSession: (index: number, session: Session) => void
 }
 
 export interface HomeConversation {
@@ -27,7 +29,9 @@ export const HomeContext = createContext<
   HomeSessions & HomeConversation & HomeSearch
 >({
   latestSessions: [],
+  updateLatestSession: (index: number, session: Session) => {},
   featuredSessions: [],
+  updateFeaturedSession: (index: number, session: Session) => {},
   currentConversation: [],
   addSentence: (sentence: Sentence) => {},
   searchInput: '',
@@ -37,8 +41,22 @@ export const HomeContext = createContext<
 })
 
 export default function HomeProvider({ children }: { children: ReactNode }) {
-  const latestSessions: Session[] = Array(10).fill(exampleLatestSession)
-  const popularSessions: Session[] = Array(10).fill(exampleFeaturedSessions)
+  const [latestSessions, setLatestSessions] = useState<Session[]>(
+    Array(10).fill(exampleLatestSession)
+  )
+  const updateLatestSession = (index: number, session: Session) => {
+    const newSessions = [...latestSessions]
+    newSessions[index] = session
+    setLatestSessions(newSessions)
+  }
+  const [featuredSessions, setFeaturedSessions] = useState<Session[]>(
+    Array(10).fill(exampleFeaturedSessions)
+  )
+  const updateFeaturedSession = (index: number, session: Session) => {
+    const newSessions = [...featuredSessions]
+    newSessions[index] = session
+    setFeaturedSessions(newSessions)
+  }
 
   const [currentConversation, setCurrentConversation] = useState<Sentence[]>([])
   const addSentence = (sentence: Sentence) => {}
@@ -52,7 +70,9 @@ export default function HomeProvider({ children }: { children: ReactNode }) {
     <HomeContext.Provider
       value={{
         latestSessions,
-        featuredSessions: popularSessions,
+        updateLatestSession,
+        featuredSessions,
+        updateFeaturedSession,
         currentConversation,
         addSentence,
         searchInput,

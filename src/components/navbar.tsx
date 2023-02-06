@@ -39,7 +39,6 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode()
-  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const getLogo = () => {
     return colorMode === 'dark' ? '/deemos.png' : '/deemos-dark.png'

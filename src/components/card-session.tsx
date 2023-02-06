@@ -18,21 +18,43 @@ type Props = {
 }
 
 const CardSession = (props: Props) => {
-  const { latestSessions, featuredSessions } = useHomeContext()
+  const {
+    latestSessions,
+    featuredSessions,
+    updateLatestSession,
+    updateFeaturedSession,
+  } = useHomeContext()
+
+  const targetSessions =
+    props.title === 'Featured'
+      ? {
+          value: featuredSessions,
+          update: updateFeaturedSession,
+        }
+      : {
+          value: latestSessions,
+          update: updateLatestSession,
+        }
 
   return (
     <Box>
       <Wrap spacing="24px" maxW="900px">
-        {(props.title === 'Featured' ? featuredSessions : latestSessions).map(
-          (session, index) => (
-            <WrapItem key={index}>
-              <ThumbnailCard
-                prompt={session.description}
-                mediaSource={session.mediaSource}
-              ></ThumbnailCard>
-            </WrapItem>
-          )
-        )}
+        {targetSessions.value.map((session, index) => (
+          <WrapItem key={index}>
+            <ThumbnailCard
+              {...{
+                ...session,
+                onLike: () => {
+                  targetSessions.update(index, {
+                    ...session,
+                    liked: !session.liked,
+                  })
+                  console.log('liked')
+                },
+              }}
+            ></ThumbnailCard>
+          </WrapItem>
+        ))}
       </Wrap>
     </Box>
   )
