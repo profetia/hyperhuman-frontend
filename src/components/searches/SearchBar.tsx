@@ -10,6 +10,8 @@ import {
   VStack,
   IconButton,
 } from '@chakra-ui/react'
+import GenerateBtn from '@/components/searches/GenerateBtn'
+import SearchBtn from '@/components/searches/SearchBtn'
 
 import { CgMicrobit } from 'react-icons/cg'
 
@@ -50,12 +52,8 @@ const SearchBar = () => {
           </Box>
         </Flex>
         <ButtonGroup mx={3}>
-          <Button colorScheme="blue" width={20}>
-            Search
-          </Button>
-          <Button colorScheme="blue" width={20}>
-            Generate
-          </Button>
+          <SearchBtn></SearchBtn>
+          <GenerateBtn></GenerateBtn>
         </ButtonGroup>
       </VStack>
     </Box>

@@ -1,12 +1,14 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import section from '@/stores/task/section'
 import user from '@/stores/user/profile'
+import chat from '@/stores/user/chat'
 
 export const store = configureStore({
   reducer: {
     // Add the generated reducer as a specific top-level slice
     section: section,
     user: user,
+    chat: chat,
   },
 })
 

@@ -18,7 +18,7 @@ import { TaskSession } from '@/models/task/cards'
 import DialogCard from '@/components/dialogs/DialogCard'
 import { TaskDetail } from '@/models/task/detail'
 import { useState } from 'react'
-import { getTaskDetail } from '@/api/restful/task'
+import { getTaskDetail } from '@/api/task'
 
 interface Props extends TaskSession {
   onLike: () => void

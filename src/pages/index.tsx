@@ -18,7 +18,7 @@ import NavBar from '@/components/navigators/NavBar'
 import { useEffect } from 'react'
 import { initTaskSessions } from '@/stores/task/section'
 import { useAppDispatch, useAppSelector } from '@/hooks'
-import { getTaskCards } from '@/api/restful/task'
+import { getTaskCards } from '@/api/task'
 
 const inter = Inter({ subsets: ['latin'] })
 
