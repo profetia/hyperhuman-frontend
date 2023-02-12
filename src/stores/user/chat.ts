@@ -24,10 +24,16 @@ const chatSlice = createSlice({
       action: AppAction<{
         task_uuid: string
         subscription: string
+        prelude: string
       }>
     ) => {
       state.task_uuid = action.payload.task_uuid
       state.subscription = action.payload.subscription
+
+      state.chat_history = state.chat_history.concat({
+        provider: 'human',
+        content: action.payload.prelude,
+      } as Sentence)
     },
     setPrompt: (state, action: AppAction<string>) => {
       state.prompt = action.payload

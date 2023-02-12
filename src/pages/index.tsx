@@ -24,6 +24,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const section = useAppSelector((state) => state.section)
+  const user = useAppSelector((state) => state.user)
 
   const dispatch = useAppDispatch()
 
@@ -37,7 +38,13 @@ export default function Home() {
 
     const initialFeatureSessions = getTaskCards(1)
     const initialRecentSessions = getTaskCards(1)
-    const initialAuthorSessions = getTaskCards(1)
+    const initialAuthorSessions = (() => {
+      if (user.isLogin) {
+        return getTaskCards(1)
+      } else {
+        return []
+      }
+    })()
 
     dispatch(
       initTaskSessions({
@@ -65,6 +72,7 @@ export default function Home() {
               <VStack>
                 <Tab>Feature</Tab>
                 <Tab>Recent</Tab>
+                {user.isLogin && <Tab>Author</Tab>}
                 {section.currentSection === 'search' && <Tab>Search</Tab>}
               </VStack>
             </TabList>
@@ -74,6 +82,9 @@ export default function Home() {
               </TabPanel>
               <TabPanel>
                 <Session title="recent"></Session>
+              </TabPanel>
+              <TabPanel>
+                <Session title="author"></Session>
               </TabPanel>
               <TabPanel>
                 <Session title="search"></Session>

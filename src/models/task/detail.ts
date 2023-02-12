@@ -40,7 +40,19 @@ export const mockTaskDetail: TaskDetail = {
       provider: 'ai',
     },
     {
+      content: 'You betrayed him, and murdered him!',
+      provider: 'ai',
+    },
+    {
       content: 'No. I am your father.',
+      provider: 'human',
+    },
+    {
+      content: "No. That can't be. Nooooooooo",
+      provider: 'ai',
+    },
+    {
+      content: 'Search your feelings, you know it is true',
       provider: 'human',
     },
   ],

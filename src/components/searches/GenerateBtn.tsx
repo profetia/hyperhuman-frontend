@@ -1,8 +1,8 @@
 import { Button, useDisclosure } from '@chakra-ui/react'
-import DialogCard from '@/components/dialogs/DialogCard'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 import { startAChat } from '@/api/chat'
 import { initChat } from '@/stores/user/chat'
+import ChatDialog from './ChatDialog'
 
 interface Props {
   prelude: string
@@ -14,22 +14,30 @@ export default function GenerateBtn({ prelude }: Props) {
 
   const { isOpen, onClose, onOpen } = useDisclosure({
     onOpen: () => {
-      if (prelude !== '' && chat.task_uuid !== '') {
+      if (chat.task_uuid === '') {
         const { subscription, task_uuid } = startAChat()
-        dispatch(initChat({ subscription, task_uuid }))
+        dispatch(initChat({ subscription, task_uuid, prelude }))
       }
     },
   })
 
   return (
     <>
-      <DialogCard
+      <ChatDialog
         {...chat}
         isOpen={isOpen}
         onClose={onClose}
         onOpen={onOpen}
-      ></DialogCard>
-      <Button colorScheme="blue" width={20} onClick={onOpen}>
+      ></ChatDialog>
+      <Button
+        colorScheme="blue"
+        width={20}
+        onClick={() => {
+          if (prelude !== '') {
+            onOpen()
+          }
+        }}
+      >
         Generate
       </Button>
     </>

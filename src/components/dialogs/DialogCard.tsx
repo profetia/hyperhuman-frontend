@@ -10,7 +10,7 @@ import {
   Grid,
   GridItem,
 } from '@chakra-ui/react'
-import DialogArea from '@/components/dialogs/DialogArea'
+import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
 import { ChatDetail } from '@/models/user/chat'
 
@@ -41,7 +41,7 @@ export default function DialogCard(props: Props) {
                   ></ModelView>
                 </GridItem>
                 <GridItem colSpan={1} rowSpan={1}>
-                  <DialogArea history={props.chat_history}></DialogArea>
+                  <ChatArea history={props.chat_history}></ChatArea>
                 </GridItem>
               </Grid>
             </Flex>
