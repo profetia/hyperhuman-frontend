@@ -19,6 +19,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { IoMdMoon as MoonIcon, IoMdSunny as SunIcon } from 'react-icons/io'
+import { UserProfile } from '@/api/restful/user/profile'
 
 const getLogo = (colorMode: string) => {
   switch (colorMode) {
@@ -29,7 +30,9 @@ const getLogo = (colorMode: string) => {
   }
 }
 
-export default function NavBar() {
+interface Props extends UserProfile {}
+
+export default function NavBar(props: Props) {
   const { colorMode, toggleColorMode } = useColorMode()
 
   return (
@@ -58,22 +61,16 @@ export default function NavBar() {
                   cursor={'pointer'}
                   minW={0}
                 >
-                  <Avatar
-                    size={'sm'}
-                    src={'https://avatars.dicebear.com/api/male/username.svg'}
-                  />
+                  <Avatar size={'sm'} src={props.avatar_url} />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
                   <br />
                   <Center>
-                    <Avatar
-                      size={'2xl'}
-                      src={'https://avatars.dicebear.com/api/male/username.svg'}
-                    />
+                    <Avatar size={'2xl'} src={props.avatar_url} />
                   </Center>
                   <br />
                   <Center>
-                    <p>Username</p>
+                    <p>{props.name}</p>
                   </Center>
                   <br />
                   <MenuDivider />

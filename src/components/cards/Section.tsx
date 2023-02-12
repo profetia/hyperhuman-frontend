@@ -9,7 +9,7 @@ type Props = {
 }
 
 export default function Session({ title }: Props) {
-  const section: SectionState = useAppSelector((state) => state.sectionReducer)
+  const section: SectionState = useAppSelector((state) => state.section)
   const dispatch = useAppDispatch()
 
   return (

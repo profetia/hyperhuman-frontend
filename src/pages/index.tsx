@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
-import SearchBar from '@/components/search/SearchBar'
+import SearchBar from '@/components/searches/SearchBar'
 import Session from '@/components/cards/Section'
 import {
   Center,
@@ -16,18 +16,16 @@ import {
 } from '@chakra-ui/react'
 import NavBar from '@/components/navigators/NavBar'
 import { useEffect } from 'react'
-import {
-  extendFeatureSessions,
-  extendRecentSessions,
-  initTaskSessions,
-} from '@/stores/task/section'
+import { initTaskSessions } from '@/stores/task/section'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 import { mockTaskCardResponse } from '@/api/restful/task/cards'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const section = useAppSelector((state) => state.sectionReducer)
+  const section = useAppSelector((state) => state.section)
+  const user = useAppSelector((state) => state.user)
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -55,7 +53,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <NavBar></NavBar>
+      <NavBar {...user.profile}></NavBar>
       <SearchBar></SearchBar>
       <Center mt={10}>
         <Tabs variant="solid-rounded" colorScheme="blue" size="lg">

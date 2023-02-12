@@ -1,11 +1,12 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import sectionReducer from '@/stores/task/section'
-import { type } from 'os'
+import section from '@/stores/task/section'
+import user from '@/stores/user/profile'
 
 export const store = configureStore({
   reducer: {
     // Add the generated reducer as a specific top-level slice
-    sectionReducer: sectionReducer,
+    section: section,
+    user: user,
   },
 })
 
