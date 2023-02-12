@@ -1,4 +1,4 @@
-import { UserProfile } from '@/api/restful/user/profile'
+import { UserProfile } from '@/models/user/profile'
 
 export type SectionType = 'feature' | 'recent' | 'author'
 
@@ -37,7 +37,3 @@ export const mockTaskSession: TaskSession = {
       'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
   },
 }
-
-export const mockTaskCardResponse: TaskCardResponse = new Array(10).fill(
-  mockTaskSession
-)

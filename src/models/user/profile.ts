@@ -1,4 +1,4 @@
-import { TaskSession } from '@/api/restful/task/cards'
+import { TaskSession } from '@/models/task/cards'
 
 export interface UserProfile {
   id: string

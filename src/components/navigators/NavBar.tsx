@@ -19,7 +19,8 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { IoMdMoon as MoonIcon, IoMdSunny as SunIcon } from 'react-icons/io'
-import { UserProfile } from '@/api/restful/user/profile'
+import { UserProfile } from '@/models/user/profile'
+import { useAppSelector } from '@/hooks'
 
 const getLogo = (colorMode: string) => {
   switch (colorMode) {
@@ -30,10 +31,9 @@ const getLogo = (colorMode: string) => {
   }
 }
 
-interface Props extends UserProfile {}
-
-export default function NavBar(props: Props) {
+export default function NavBar() {
   const { colorMode, toggleColorMode } = useColorMode()
+  const { isLogin, profile } = useAppSelector((state) => state.user)
 
   return (
     <>
@@ -61,16 +61,16 @@ export default function NavBar(props: Props) {
                   cursor={'pointer'}
                   minW={0}
                 >
-                  <Avatar size={'sm'} src={props.avatar_url} />
+                  <Avatar size={'sm'} src={profile.avatar_url} />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
                   <br />
                   <Center>
-                    <Avatar size={'2xl'} src={props.avatar_url} />
+                    <Avatar size={'2xl'} src={profile.avatar_url} />
                   </Center>
                   <br />
                   <Center>
-                    <p>{props.name}</p>
+                    <p>{profile.name}</p>
                   </Center>
                   <br />
                   <MenuDivider />

@@ -1,4 +1,4 @@
-import { SectionType, TaskSession } from '@/api/restful/task/cards'
+import { SectionType, TaskSession } from '@/models/task/cards'
 import { AppAction } from '@/store'
 import { createSlice } from '@reduxjs/toolkit'
 

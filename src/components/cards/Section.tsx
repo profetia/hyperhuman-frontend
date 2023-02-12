@@ -1,4 +1,4 @@
-import { SectionType } from '@/api/restful/task/cards'
+import { SectionType } from '@/models/task/cards'
 import { Box, Wrap, WrapItem } from '@chakra-ui/react'
 import ThumbnailCard from '@/components/cards/Thumbnil'
 import { giveALike, SectionState } from '@/stores/task/section'

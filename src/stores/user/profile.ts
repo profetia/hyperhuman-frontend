@@ -1,5 +1,5 @@
-import { SectionType, TaskSession } from '@/api/restful/task/cards'
-import { mockUserProfile, UserProfile } from '@/api/restful/user/profile'
+import { SectionType, TaskSession } from '@/models/task/cards'
+import { mockUserProfile, UserProfile } from '@/models/user/profile'
 import { AppAction } from '@/store'
 import { createSlice } from '@reduxjs/toolkit'
 

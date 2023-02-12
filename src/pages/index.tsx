@@ -18,13 +18,12 @@ import NavBar from '@/components/navigators/NavBar'
 import { useEffect } from 'react'
 import { initTaskSessions } from '@/stores/task/section'
 import { useAppDispatch, useAppSelector } from '@/hooks'
-import { mockTaskCardResponse } from '@/api/restful/task/cards'
+import { getTaskCards } from '@/api/restful/task'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const section = useAppSelector((state) => state.section)
-  const user = useAppSelector((state) => state.user)
 
   const dispatch = useAppDispatch()
 
@@ -36,11 +35,15 @@ export default function Home() {
       return
     }
 
+    const initialFeatureSessions = getTaskCards(1)
+    const initialRecentSessions = getTaskCards(1)
+    const initialAuthorSessions = getTaskCards(1)
+
     dispatch(
       initTaskSessions({
-        feature: mockTaskCardResponse,
-        recent: mockTaskCardResponse,
-        author: mockTaskCardResponse,
+        feature: initialFeatureSessions,
+        recent: initialRecentSessions,
+        author: initialAuthorSessions,
       })
     )
   })
@@ -53,7 +56,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <NavBar {...user.profile}></NavBar>
+      <NavBar></NavBar>
       <SearchBar></SearchBar>
       <Center mt={10}>
         <Tabs variant="solid-rounded" colorScheme="blue" size="lg">

@@ -1,27 +1,24 @@
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
   Box,
   Icon,
   Image,
-  VStack,
-  Heading,
   Text,
   Divider,
-  ButtonGroup,
-  Button,
   useDisclosure,
-  Wrap,
-  HStack,
   Center,
   IconButton,
   Tooltip,
 } from '@chakra-ui/react'
 
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-import { TaskSession } from '@/api/restful/task/cards'
+import { TaskSession } from '@/models/task/cards'
+import DialogCard from '@/components/dialogs/DialogCard'
+import { TaskDetail } from '@/models/task/detail'
+import { useState } from 'react'
+import { getTaskDetail } from '@/api/restful/task'
 
 interface Props extends TaskSession {
   onLike: () => void
@@ -34,7 +31,17 @@ const getIcon = (is_liked: boolean) => {
 }
 
 export default function ThumbnailCard(props: Props) {
-  let { isOpen, onOpen, onClose } = useDisclosure()
+  let { isOpen, onOpen, onClose } = useDisclosure({
+    onOpen: () => {
+      setTaskDetail(getTaskDetail(props.task_uuid))
+    },
+  })
+
+  const [taskDetail, setTaskDetail] = useState<TaskDetail>({
+    ...props,
+    chat_history: [],
+    resource_url: '',
+  })
 
   return (
     <Card maxW="sm" variant="outline">
@@ -64,11 +71,12 @@ export default function ThumbnailCard(props: Props) {
       </Box>
       <Divider />
       <CardFooter justifyContent="space-between" p={2} alignItems="center">
-        {/* <DialogCard
+        <DialogCard
+          {...taskDetail}
           isOpen={isOpen}
           onClose={onClose}
           onOpen={onOpen}
-        ></DialogCard> */}
+        ></DialogCard>
         <Text color="gray.400">{props.author.name}</Text>
         {/* <Text color="gray.400">{props.views} view</Text> */}
         <IconButton
