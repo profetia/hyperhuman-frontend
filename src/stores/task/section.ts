@@ -1,4 +1,5 @@
 import { SectionType, TaskSession } from '@/api/restful/task/cards'
+import { AppAction } from '@/store'
 import { createSlice } from '@reduxjs/toolkit'
 
 export interface SectionState {
@@ -22,38 +23,46 @@ const sectionSlice = createSlice({
   name: 'section',
   initialState,
   reducers: {
-    setCurrentSection(state, action) {
+    setCurrentSection(state, action: AppAction<SectionType | 'search'>) {
       state.currentSection = action.payload
     },
-    setSearchSessions(state, action) {
+    setSearchSessions(state, action: AppAction<TaskSession[]>) {
       state.taskSessions.search = action.payload
     },
-    setFeatureSessions(state, action) {
+    setFeatureSessions(state, action: AppAction<TaskSession[]>) {
       state.taskSessions.feature = action.payload
     },
-    extendFeatureSessions(state, action) {
-      state.taskSessions.feature = [
-        ...state.taskSessions.feature,
-        ...action.payload,
-      ]
+    extendFeatureSessions(state, action: AppAction<TaskSession[]>) {
+      state.taskSessions.feature = state.taskSessions.feature.concat(
+        action.payload
+      )
     },
-    setRecentSessions(state, action) {
+    setRecentSessions(state, action: AppAction<TaskSession[]>) {
       state.taskSessions.recent = action.payload
     },
-    extendRecentSessions(state, action) {
-      state.taskSessions.recent = [
-        ...state.taskSessions.recent,
-        ...action.payload,
-      ]
+    extendRecentSessions(state, action: AppAction<TaskSession[]>) {
+      state.taskSessions.recent = state.taskSessions.recent.concat(
+        action.payload
+      )
     },
-    setAuthorSessions(state, action) {
+    setAuthorSessions(state, action: AppAction<TaskSession[]>) {
       state.taskSessions.author = action.payload
     },
-    extendAuthorSessions(state, action) {
-      state.taskSessions.author = [
-        ...state.taskSessions.author,
-        ...action.payload,
-      ]
+    extendAuthorSessions(state, action: AppAction<TaskSession[]>) {
+      state.taskSessions.author = state.taskSessions.author.concat(
+        action.payload
+      )
+    },
+    giveALike(
+      state,
+      action: AppAction<{
+        collection: SectionType | 'search'
+        index: number
+        target: boolean
+      }>
+    ) {
+      const { collection, index, target } = action.payload
+      state.taskSessions[collection][index].is_liked = target
     },
   },
 })
@@ -64,5 +73,6 @@ export const {
   extendFeatureSessions,
   extendRecentSessions,
   extendAuthorSessions,
+  giveALike,
 } = sectionSlice.actions
 export default sectionSlice.reducer

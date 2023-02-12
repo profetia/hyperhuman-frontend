@@ -1,8 +1,8 @@
 import { SectionType } from '@/api/restful/task/cards'
 import { Box, Wrap, WrapItem } from '@chakra-ui/react'
 import ThumbnailCard from '@/components/cards/Thumbnil'
-import { SectionState } from '@/stores/task/section'
-import { useAppSelector } from '@/hooks'
+import { giveALike, SectionState } from '@/stores/task/section'
+import { useAppDispatch, useAppSelector } from '@/hooks'
 
 type Props = {
   title: SectionType | 'search'
@@ -10,6 +10,7 @@ type Props = {
 
 export default function Session({ title }: Props) {
   const section: SectionState = useAppSelector((state) => state.sectionReducer)
+  const dispatch = useAppDispatch()
 
   return (
     <Box>
@@ -19,7 +20,15 @@ export default function Session({ title }: Props) {
             <ThumbnailCard
               {...{
                 ...session,
-                onLike: () => {},
+                onLike: () => {
+                  dispatch(
+                    giveALike({
+                      collection: title,
+                      index: index,
+                      target: !session.is_liked,
+                    })
+                  )
+                },
               }}
             ></ThumbnailCard>
           </WrapItem>

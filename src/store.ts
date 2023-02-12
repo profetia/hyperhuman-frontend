@@ -1,5 +1,6 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import sectionReducer from '@/stores/task/section'
+import { type } from 'os'
 
 export const store = configureStore({
   reducer: {
@@ -16,3 +17,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >
+
+export type AppAction<T> = {
+  type: string
+  payload: T
+}

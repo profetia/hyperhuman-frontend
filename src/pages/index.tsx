@@ -21,7 +21,7 @@ import {
   extendRecentSessions,
 } from '@/stores/task/section'
 import { useAppDispatch, useAppSelector } from '@/hooks'
-import { mockTaskCardResponse } from '@/api/mock/task'
+import { mockTaskCardResponse } from '@/api/restful/task/cards'
 
 const inter = Inter({ subsets: ['latin'] })
 

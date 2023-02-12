@@ -63,13 +63,13 @@ export default function ThumbnailCard(props: Props) {
         </CardBody>
       </Box>
       <Divider />
-      <CardFooter justifyContent="space-around" p={2} alignItems="center">
+      <CardFooter justifyContent="space-between" p={2} alignItems="center">
         {/* <DialogCard
           isOpen={isOpen}
           onClose={onClose}
           onOpen={onOpen}
         ></DialogCard> */}
-        {/* <Text color="gray.400">{props.author.name}</Text> */}
+        <Text color="gray.400">{props.author.name}</Text>
         {/* <Text color="gray.400">{props.views} view</Text> */}
         <IconButton
           aria-label="Like"
