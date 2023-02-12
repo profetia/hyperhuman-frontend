@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
-import SearchBar from '@/features/search/SearchBar'
+import SearchBar from '@/components/search/SearchBar'
 import Session from '@/components/cards/Section'
 import {
   Center,
@@ -19,6 +19,7 @@ import { useEffect } from 'react'
 import {
   extendFeatureSessions,
   extendRecentSessions,
+  initTaskSessions,
 } from '@/stores/task/section'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 import { mockTaskCardResponse } from '@/api/restful/task/cards'
@@ -33,10 +34,17 @@ export default function Home() {
     if (
       section.taskSessions.feature.length > 0 &&
       section.taskSessions.recent.length > 0
-    )
+    ) {
       return
-    dispatch(extendFeatureSessions(mockTaskCardResponse))
-    dispatch(extendRecentSessions(mockTaskCardResponse))
+    }
+
+    dispatch(
+      initTaskSessions({
+        feature: mockTaskCardResponse,
+        recent: mockTaskCardResponse,
+        author: mockTaskCardResponse,
+      })
+    )
   })
 
   return (

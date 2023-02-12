@@ -23,6 +23,19 @@ const sectionSlice = createSlice({
   name: 'section',
   initialState,
   reducers: {
+    initTaskSessions(
+      state,
+      action: AppAction<{
+        feature: TaskSession[]
+        recent: TaskSession[]
+        author: TaskSession[]
+      }>
+    ) {
+      const { feature, recent, author } = action.payload
+      state.taskSessions.feature = feature
+      state.taskSessions.recent = recent
+      state.taskSessions.author = author
+    },
     setCurrentSection(state, action: AppAction<SectionType | 'search'>) {
       state.currentSection = action.payload
     },
@@ -68,6 +81,7 @@ const sectionSlice = createSlice({
 })
 
 export const {
+  initTaskSessions,
   setCurrentSection,
   setSearchSessions,
   extendFeatureSessions,
