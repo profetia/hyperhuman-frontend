@@ -1,11 +1,5 @@
-import { mockTaskSession, TaskSession } from '@/api/restful/task/cards'
-
-export interface UserProfile {
-  id: string
-  name: string
-  avatar_url: string
-  liked_cards: TaskSession[]
-}
+import { UserProfile } from '../restful/user/profile'
+import { mockTaskSession } from './task'
 
 export const mockUserProfile: UserProfile = {
   id: '123',

@@ -15,10 +15,30 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import NavBar from '@/components/navigators/NavBar'
+import { useEffect } from 'react'
+import {
+  extendFeatureSessions,
+  extendRecentSessions,
+} from '@/stores/task/section'
+import { useAppDispatch, useAppSelector } from '@/hooks'
+import { mockTaskCardResponse } from '@/api/mock/task'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const section = useAppSelector((state) => state.sectionReducer)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    if (
+      section.taskSessions.feature.length > 0 &&
+      section.taskSessions.recent.length > 0
+    )
+      return
+    dispatch(extendFeatureSessions(mockTaskCardResponse))
+    dispatch(extendRecentSessions(mockTaskCardResponse))
+  })
+
   return (
     <>
       <Head>
@@ -34,8 +54,9 @@ export default function Home() {
           <HStack alignItems="flex-start">
             <TabList>
               <VStack>
-                <Tab>Featured</Tab>
-                <Tab>Latest</Tab>
+                <Tab>Feature</Tab>
+                <Tab>Recent</Tab>
+                {section.currentSection === 'search' && <Tab>Search</Tab>}
               </VStack>
             </TabList>
             <TabPanels>
@@ -44,6 +65,9 @@ export default function Home() {
               </TabPanel>
               <TabPanel>
                 <Session title="recent"></Session>
+              </TabPanel>
+              <TabPanel>
+                <Session title="search"></Session>
               </TabPanel>
             </TabPanels>
           </HStack>
