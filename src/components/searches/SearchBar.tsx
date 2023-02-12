@@ -14,8 +14,11 @@ import GenerateBtn from '@/components/searches/GenerateBtn'
 import SearchBtn from '@/components/searches/SearchBtn'
 
 import { CgMicrobit } from 'react-icons/cg'
+import { useState } from 'react'
 
-const SearchBar = () => {
+export default function SearchBar() {
+  const [prelude, setPrelude] = useState('')
+
   return (
     <Box mt={20}>
       <Flex justify="center">
@@ -32,6 +35,7 @@ const SearchBar = () => {
                 _focus={{
                   borderColor: 'teal.500',
                 }}
+                onChange={(e) => setPrelude(e.target.value)}
               />
               <InputRightElement
                 className="AIBtn"
@@ -52,12 +56,10 @@ const SearchBar = () => {
           </Box>
         </Flex>
         <ButtonGroup mx={3}>
-          <SearchBtn></SearchBtn>
-          <GenerateBtn></GenerateBtn>
+          <SearchBtn prelude={prelude}></SearchBtn>
+          <GenerateBtn prelude={prelude}></GenerateBtn>
         </ButtonGroup>
       </VStack>
     </Box>
   )
 }
-
-export default SearchBar

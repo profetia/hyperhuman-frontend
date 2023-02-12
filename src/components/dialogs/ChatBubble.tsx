@@ -10,7 +10,7 @@ type Props = {
 const aiAvatarUrl =
   'https://cdn0.iconfinder.com/data/icons/famous-character-vol-1-colored/48/JD-39-512.png'
 
-const ChatBubble = (props: Props) => {
+export default function ChatBubble(props: Props) {
   const { profile } = useAppSelector((state) => state.user)
 
   const getAvatar = () => {
@@ -36,5 +36,3 @@ const ChatBubble = (props: Props) => {
     </Container>
   )
 }
-
-export default ChatBubble

@@ -1,6 +1,10 @@
 import { Button } from '@chakra-ui/react'
 
-export default function GenerateBtn() {
+interface Props {
+  prelude: string
+}
+
+export default function SearchBtn(props: Props) {
   return (
     <Button colorScheme="blue" width={20}>
       Search

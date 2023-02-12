@@ -1,11 +1,11 @@
 import { Image, Box, Code, Heading, VStack } from '@chakra-ui/react'
 
-export interface Props {
+interface Props {
   resource_url: string
   prompt: string
 }
 
-const ModelView = (props: Props) => {
+export default function ModelView(props: Props) {
   return (
     <VStack width={300}>
       <Image
@@ -23,5 +23,3 @@ const ModelView = (props: Props) => {
     </VStack>
   )
 }
-
-export default ModelView

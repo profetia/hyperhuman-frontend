@@ -16,11 +16,11 @@ import {
 import ChatBubble from '@/components/dialogs/ChatBubble'
 import { Sentence } from '@/models/task/detail'
 
-export interface Props {
+interface Props {
   history: Sentence[]
 }
 
-const DialogArea = (props: Props) => {
+export default function DialogArea(props: Props) {
   return (
     <Flex direction="column" justifyContent="space-between" h={'100%'}>
       <Box>
@@ -49,5 +49,3 @@ const DialogArea = (props: Props) => {
     </Flex>
   )
 }
-
-export default DialogArea

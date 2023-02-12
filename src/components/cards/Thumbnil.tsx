@@ -24,7 +24,7 @@ interface Props extends TaskSession {
   onLike: () => void
 }
 
-const getIcon = (is_liked: boolean) => {
+function getIcon(is_liked: boolean) {
   return (
     <Icon as={is_liked ? AiFillHeart : AiOutlineHeart} m={0} boxSize={6}></Icon>
   )

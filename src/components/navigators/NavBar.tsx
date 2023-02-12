@@ -22,7 +22,7 @@ import { IoMdMoon as MoonIcon, IoMdSunny as SunIcon } from 'react-icons/io'
 import { UserProfile } from '@/models/user/profile'
 import { useAppSelector } from '@/hooks'
 
-const getLogo = (colorMode: string) => {
+function getLogo(colorMode: string) {
   switch (colorMode) {
     case 'dark':
       return '/deemos.png'

@@ -8,17 +8,18 @@ interface Props {
   prelude: string
 }
 
-export default function GenerateBtn() {
+export default function GenerateBtn({ prelude }: Props) {
   const dispatch = useAppDispatch()
+  const chat = useAppSelector((state) => state.chat)
 
   const { isOpen, onClose, onOpen } = useDisclosure({
     onOpen: () => {
-      const { subscription, task_uuid } = startAChat()
-      dispatch(initChat({ subscription, task_uuid }))
+      if (prelude !== '' && chat.task_uuid !== '') {
+        const { subscription, task_uuid } = startAChat()
+        dispatch(initChat({ subscription, task_uuid }))
+      }
     },
   })
-
-  const chat = useAppSelector((state) => state.chat)
 
   return (
     <>
