@@ -5,6 +5,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export interface ChatState extends ChatDetail {
   subscription: string
+  recommend: string
 }
 
 const initialState: ChatState = {
@@ -13,6 +14,7 @@ const initialState: ChatState = {
   resource_url: '',
   chat_history: [],
   subscription: '',
+  recommend: '',
 }
 
 const chatSlice = createSlice({
@@ -32,6 +34,9 @@ const chatSlice = createSlice({
     setPrompt: (state, action: AppAction<string>) => {
       state.prompt = action.payload
     },
+    setRecommend: (state, action: AppAction<string>) => {
+      state.recommend = action.payload
+    },
     setResourceUrl: (state, action: AppAction<string>) => {
       state.resource_url = action.payload
     },
@@ -47,6 +52,7 @@ const chatSlice = createSlice({
 export const {
   initChat,
   setPrompt,
+  setRecommend,
   setResourceUrl,
   setChatHistory,
   extendChatHistory,

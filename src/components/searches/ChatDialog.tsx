@@ -12,13 +12,18 @@ import {
   Textarea,
   HStack,
   Button,
+  Code,
 } from '@chakra-ui/react'
 import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
 import { ChatDetail } from '@/models/user/chat'
-import { useState } from 'react'
+import { ChangeEvent } from 'react'
 
 interface Props extends ChatDetail {
+  recommend: string
+  input: string
+  onInput: (event: ChangeEvent<HTMLTextAreaElement>) => void
+  onSubmit: () => void
   isOpen: boolean
   onOpen: () => void
   onClose: () => void
@@ -26,8 +31,6 @@ interface Props extends ChatDetail {
 }
 
 export default function ChatDialog(props: Props) {
-  const [input, setInput] = useState<string>('')
-
   return (
     <>
       <Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -54,24 +57,14 @@ export default function ChatDialog(props: Props) {
                     h={'100%'}
                   >
                     <ChatArea history={props.chat_history}></ChatArea>
+                    <Code>{props.recommend}</Code>
                     <HStack>
                       <Textarea
                         placeholder="Please describe the model you want to generate."
-                        value={input}
-                        onChange={(e) => {
-                          setInput(e.target.value)
-                        }}
+                        value={props.input}
+                        onChange={props.onInput}
                       ></Textarea>
-                      <Button
-                        colorScheme="blue"
-                        onClick={() => {
-                          if (input) {
-                            console.log('on input', input)
-                            props.onSend(input)
-                            setInput('')
-                          }
-                        }}
-                      >
+                      <Button colorScheme="blue" onClick={props.onSubmit}>
                         Send
                       </Button>
                     </HStack>
