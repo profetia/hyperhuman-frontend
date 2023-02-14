@@ -66,6 +66,7 @@ export default function ChatDialog(props: Props) {
                         colorScheme="blue"
                         onClick={() => {
                           if (input) {
+                            console.log('on input', input)
                             props.onSend(input)
                             setInput('')
                           }

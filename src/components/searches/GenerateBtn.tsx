@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks'
 import { doStartAChat } from '@/api/chat'
 import { extendChatHistory, initChat, setChatHistory } from '@/stores/user/chat'
 import ChatDialog from './ChatDialog'
-import { useEffect, useMemo, useState } from 'react'
+import { useRef, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
 
 interface Props {
@@ -14,14 +14,18 @@ export default function GenerateBtn({ prelude }: Props) {
   const dispatch = useAppDispatch()
   const chat = useAppSelector((state) => state.chat)
   const [socket, setSocket] = useState<Socket | undefined>(undefined)
-  let [allowInput, setAllowInput] = useState<boolean>(true)
-  let [latestMessage, setLatestMessage] = useState<string>('')
+  const isFirtQuery = useRef(true)
+  const allowInput = useRef(true)
 
-  const onSend = (msg: string) => {
-    if (socket && allowInput) {
-      socket.emit('send', {
+  const onSend = (
+    msg: string,
+    ws: Socket | undefined = socket,
+    task_uuid = chat.task_uuid
+  ) => {
+    if (ws && allowInput) {
+      ws.emit('message', {
         content: msg,
-        task_uuid: chat.task_uuid,
+        task_uuid: task_uuid,
         provider: 'User',
       })
       dispatch(extendChatHistory({ content: msg, provider: 'human' }))
@@ -42,23 +46,32 @@ export default function GenerateBtn({ prelude }: Props) {
           }
         )
         newSocket.on('connect', () => {
-          console.log('connect')
           resolve(newSocket)
-        })
-        newSocket.on('connect_error', (event) => {
-          console.log('connect_error', event)
         })
       })
 
       newSocket.on('message', (event) => {
         if (event.content === '[START]') {
-          setAllowInput(() => false)
+          allowInput.current = false
+
           dispatch((dispatch, getState) => {
             dispatch(extendChatHistory({ content: '', provider: 'ai' }))
           })
         } else if (event.content === '[END]') {
-          setAllowInput(() => true)
+          allowInput.current = true
+          console.log('prelude', prelude)
+
+          if (isFirtQuery.current) {
+            onSend(prelude, newSocket, task_uuid)
+            isFirtQuery.current = false
+          }
         } else {
+          if (
+            typeof event === 'string' &&
+            (event as string).startsWith('You said: ')
+          ) {
+            return
+          }
           dispatch((dispatch, getState) => {
             const chat = getState().chat
             dispatch(
@@ -75,13 +88,6 @@ export default function GenerateBtn({ prelude }: Props) {
           })
         }
       })
-
-      newSocket.emit('send', {
-        content: prelude,
-        task_uuid: task_uuid,
-        provider: 'User',
-      })
-      dispatch(extendChatHistory({ content: prelude, provider: 'human' }))
 
       setSocket(newSocket)
     }

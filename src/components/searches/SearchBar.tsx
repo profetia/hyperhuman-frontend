@@ -5,7 +5,6 @@ import {
   Flex,
   Box,
   Heading,
-  Button,
   ButtonGroup,
   VStack,
   IconButton,
@@ -35,6 +34,7 @@ export default function SearchBar() {
                 _focus={{
                   borderColor: 'teal.500',
                 }}
+                value={prelude}
                 onChange={(e) => setPrelude(e.target.value)}
               />
               <InputRightElement

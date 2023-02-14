@@ -1,7 +1,7 @@
 export async function doStartAChat() {
   return {
     subscription:
-      'eyJhbGciOiJIUzI1NiJ9.YWQ4YzNhNjktYWU5NC00MWQ4LWIxMWItZThjMjYwMDU4YmM0.Hj_wbKY6p9AmhppuO6tYXaD-xe9rNy5JsxAnBAxHayQ',
-    task_uuid: 'ad8c3a69-ae94-41d8-b11b-e8c260058bc4',
+      'eyJhbGciOiJIUzI1NiJ9.M2ZmMjhhZGItOWZjOS00MTRlLTg0YTQtOWY1OWVhMzMyYTQ5.jDVBbdlGms9OagfPPHqR40XW6JXLP_BdLxqtEMcq5IY',
+    task_uuid: '3ff28adb-9fc9-414e-84a4-9f59ea332a49',
   }
 }
