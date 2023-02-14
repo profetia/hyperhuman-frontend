@@ -1,7 +1,7 @@
-export function startAChat() {
+export async function doStartAChat() {
   return {
     subscription:
-      'wss://demo.piesocket.com/v3/channel_123?api_key=VCXCEuvhGcBDP7XhiJJUDvR1e1D3eiVjgZ9VRiaV&notify_self',
-    task_uuid: '1232131',
+      'eyJhbGciOiJIUzI1NiJ9.YWQ4YzNhNjktYWU5NC00MWQ4LWIxMWItZThjMjYwMDU4YmM0.Hj_wbKY6p9AmhppuO6tYXaD-xe9rNy5JsxAnBAxHayQ',
+    task_uuid: 'ad8c3a69-ae94-41d8-b11b-e8c260058bc4',
   }
 }

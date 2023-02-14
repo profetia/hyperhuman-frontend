@@ -24,16 +24,10 @@ const chatSlice = createSlice({
       action: AppAction<{
         task_uuid: string
         subscription: string
-        prelude: string
       }>
     ) => {
       state.task_uuid = action.payload.task_uuid
       state.subscription = action.payload.subscription
-
-      state.chat_history = state.chat_history.concat({
-        provider: 'human',
-        content: action.payload.prelude,
-      } as Sentence)
     },
     setPrompt: (state, action: AppAction<string>) => {
       state.prompt = action.payload
@@ -41,12 +35,20 @@ const chatSlice = createSlice({
     setResourceUrl: (state, action: AppAction<string>) => {
       state.resource_url = action.payload
     },
+    setChatHistory: (state, action: AppAction<Sentence[]>) => {
+      state.chat_history = action.payload
+    },
     extendChatHistory: (state, action: AppAction<Sentence>) => {
       state.chat_history = state.chat_history.concat(action.payload)
     },
   },
 })
 
-export const { initChat, setPrompt, setResourceUrl, extendChatHistory } =
-  chatSlice.actions
+export const {
+  initChat,
+  setPrompt,
+  setResourceUrl,
+  setChatHistory,
+  extendChatHistory,
+} = chatSlice.actions
 export default chatSlice.reducer

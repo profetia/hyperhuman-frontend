@@ -16,45 +16,17 @@ import {
 import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
 import { ChatDetail } from '@/models/user/chat'
-import { useAppSelector } from '@/hooks'
-import { useEffect, useState } from 'react'
-import { io, Socket } from 'socket.io-client'
+import { useState } from 'react'
 
 interface Props extends ChatDetail {
   isOpen: boolean
   onOpen: () => void
   onClose: () => void
+  onSend: (msg: string) => void
 }
 
 export default function ChatDialog(props: Props) {
-  const chat = useAppSelector((state) => state.chat)
-
-  const [socket, setSocket] = useState<Socket | undefined>(undefined)
-
-  useEffect(() => {
-    console.log('hi')
-    if (!socket && chat.subscription) {
-      const newSocket = io(chat.subscription)
-      newSocket.on('connect', () => {
-        console.log(newSocket.id)
-      })
-      newSocket.on('disconnect', () => {
-        console.log(newSocket.id)
-      })
-      newSocket.on('connect_error', () => {
-        console.log('Connection failed')
-      })
-
-      newSocket.on('data', (event) => {
-        console.log(event)
-      })
-      console.log(newSocket)
-      setSocket(socket)
-      return () => {
-        newSocket.close()
-      }
-    }
-  }, [chat.subscription, socket])
+  const [input, setInput] = useState<string>('')
 
   return (
     <>
@@ -81,10 +53,26 @@ export default function ChatDialog(props: Props) {
                     justifyContent="space-between"
                     h={'100%'}
                   >
-                    <ChatArea history={chat.chat_history}></ChatArea>
+                    <ChatArea history={props.chat_history}></ChatArea>
                     <HStack>
-                      <Textarea placeholder="Please describe the model you want to generate."></Textarea>
-                      <Button colorScheme="blue">Send</Button>
+                      <Textarea
+                        placeholder="Please describe the model you want to generate."
+                        value={input}
+                        onChange={(e) => {
+                          setInput(e.target.value)
+                        }}
+                      ></Textarea>
+                      <Button
+                        colorScheme="blue"
+                        onClick={() => {
+                          if (input) {
+                            props.onSend(input)
+                            setInput('')
+                          }
+                        }}
+                      >
+                        Send
+                      </Button>
                     </HStack>
                   </Flex>
                 </GridItem>

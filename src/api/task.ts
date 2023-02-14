@@ -1,10 +1,10 @@
-import { mockTaskSession } from '@/models/task/cards'
-import { mockTaskDetail } from '@/models/task/detail'
+import { mockTaskSession, TaskSession } from '@/models/task/cards'
+import { mockTaskDetail, TaskDetail } from '@/models/task/detail'
 
-export function getTaskCards(pageNum: number) {
+export async function doGetTaskCards(pageNum: number): Promise<TaskSession[]> {
   return new Array(10).fill(mockTaskSession)
 }
 
-export function getTaskDetail(taskId: string) {
+export async function doGetTaskDetail(taskId: string): Promise<TaskDetail> {
   return mockTaskDetail
 }

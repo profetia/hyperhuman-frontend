@@ -18,7 +18,7 @@ import { TaskSession } from '@/models/task/cards'
 import DialogCard from '@/components/dialogs/DialogCard'
 import { TaskDetail } from '@/models/task/detail'
 import { useState } from 'react'
-import { getTaskDetail } from '@/api/task'
+import { doGetTaskDetail } from '@/api/task'
 
 interface Props extends TaskSession {
   onLike: () => void
@@ -33,7 +33,10 @@ function getIcon(is_liked: boolean) {
 export default function ThumbnailCard(props: Props) {
   let { isOpen, onOpen, onClose } = useDisclosure({
     onOpen: () => {
-      setTaskDetail(getTaskDetail(props.task_uuid))
+      const fetchInitTaskDetail = async () => {
+        setTaskDetail(await doGetTaskDetail(props.task_uuid))
+      }
+      fetchInitTaskDetail()
     },
   })
 

@@ -18,7 +18,7 @@ import NavBar from '@/components/navigators/NavBar'
 import { useEffect } from 'react'
 import { initTaskSessions } from '@/stores/task/section'
 import { useAppDispatch, useAppSelector } from '@/hooks'
-import { getTaskCards } from '@/api/task'
+import { doGetTaskCards } from '@/api/task'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -36,23 +36,27 @@ export default function Home() {
       return
     }
 
-    const initialFeatureSessions = getTaskCards(1)
-    const initialRecentSessions = getTaskCards(1)
-    const initialAuthorSessions = (() => {
-      if (user.isLogin) {
-        return getTaskCards(1)
-      } else {
-        return []
-      }
-    })()
+    const fetchInitialTaskSessions = async () => {
+      const initialFeatureSessions = await doGetTaskCards(1)
+      const initialRecentSessions = await doGetTaskCards(1)
+      const initialAuthorSessions = await (async () => {
+        if (user.isLogin) {
+          return await doGetTaskCards(1)
+        } else {
+          return []
+        }
+      })()
 
-    dispatch(
-      initTaskSessions({
-        feature: initialFeatureSessions,
-        recent: initialRecentSessions,
-        author: initialAuthorSessions,
-      })
-    )
+      dispatch(
+        initTaskSessions({
+          feature: initialFeatureSessions,
+          recent: initialRecentSessions,
+          author: initialAuthorSessions,
+        })
+      )
+    }
+
+    fetchInitialTaskSessions()
   })
 
   return (
