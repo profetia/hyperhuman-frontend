@@ -16,14 +16,6 @@ interface Props {
   prelude: string
 }
 
-enum SocketStage {
-  INITIAL,
-  PENDING,
-  PROMPT,
-  CHAT,
-  RECOMMEND,
-}
-
 export default function GenerateBtn({ prelude }: Props) {
   const dispatch = useAppDispatch()
   const chat = useAppSelector((state) => state.chat)
@@ -32,7 +24,6 @@ export default function GenerateBtn({ prelude }: Props) {
   const [input, setInput] = useState<string>('')
 
   const [socket, setSocket] = useState<Socket | undefined>(undefined)
-  const socketStep = useRef<SocketStage>(SocketStage.INITIAL)
 
   const onSend = (
     msg: string,
@@ -45,7 +36,6 @@ export default function GenerateBtn({ prelude }: Props) {
         task_uuid: task_uuid,
         provider: 'User',
       })
-      socketStep.current = SocketStage.PROMPT
       dispatch(extendChatHistory({ content: msg, provider: 'human' }))
     }
   }
@@ -68,74 +58,61 @@ export default function GenerateBtn({ prelude }: Props) {
         })
       })
 
-      newSocket.on('message', (event) => {
+      newSocket.on('AI Assistant', (event) => {
         if (event.content === '[START]') {
           allowInput.current = false
-
-          if (socketStep.current === SocketStage.PROMPT) {
-            dispatch((dispatch, getState) => {
-              dispatch(setPrompt(''))
-            })
-          } else if (
-            socketStep.current === SocketStage.CHAT ||
-            socketStep.current === SocketStage.INITIAL
-          ) {
-            dispatch((dispatch, getState) => {
-              dispatch(extendChatHistory({ content: '', provider: 'ai' }))
-            })
-          } else if (socketStep.current === SocketStage.RECOMMEND) {
-            dispatch((dispatch, getState) => {
-              dispatch(setRecommend(''))
-            })
-          }
+          dispatch((dispatch, getState) => {
+            dispatch(extendChatHistory({ content: '', provider: 'ai' }))
+          })
         } else if (event.content === '[END]') {
-          if (socketStep.current === SocketStage.PROMPT) {
-            socketStep.current = SocketStage.CHAT
-          } else if (socketStep.current === SocketStage.CHAT) {
-            socketStep.current = SocketStage.RECOMMEND
-          } else if (
-            socketStep.current === SocketStage.RECOMMEND ||
-            socketStep.current === SocketStage.INITIAL
-          ) {
-            socketStep.current = SocketStage.PENDING
-            allowInput.current = true
-          }
+          allowInput.current = true
         } else {
-          if (
-            typeof event === 'string' &&
-            (event as string).startsWith('You said: ')
-          ) {
-            return
-          }
-          if (socketStep.current === SocketStage.PROMPT) {
-            dispatch((dispatch, getState) => {
-              const chat = getState().chat
-              dispatch(setPrompt(chat.prompt + event.content))
-            })
-          } else if (
-            socketStep.current === SocketStage.CHAT ||
-            socketStep.current === SocketStage.INITIAL
-          ) {
-            dispatch((dispatch, getState) => {
-              const chat = getState().chat
-              dispatch(
-                setChatHistory([
-                  ...chat.chat_history.slice(0, -1),
-                  {
-                    content:
-                      chat.chat_history[chat.chat_history.length - 1].content +
-                      event.content,
-                    provider: 'ai',
-                  },
-                ])
-              )
-            })
-          } else if (socketStep.current === SocketStage.RECOMMEND) {
-            dispatch((dispatch, getState) => {
-              const chat = getState().chat
-              dispatch(setRecommend(chat.recommend + event.content))
-            })
-          }
+          dispatch((dispatch, getState) => {
+            const chat = getState().chat
+            dispatch(
+              setChatHistory([
+                ...chat.chat_history.slice(0, -1),
+                {
+                  content:
+                    chat.chat_history[chat.chat_history.length - 1].content +
+                    event.content,
+                  provider: 'ai',
+                },
+              ])
+            )
+          })
+        }
+      })
+
+      newSocket.on('summary', (event) => {
+        if (event.content === '[START]') {
+          allowInput.current = false
+          dispatch((dispatch, getState) => {
+            dispatch(setPrompt(''))
+          })
+        } else if (event.content === '[END]') {
+          allowInput.current = true
+        } else {
+          dispatch((dispatch, getState) => {
+            const chat = getState().chat
+            dispatch(setPrompt(chat.prompt + event.content))
+          })
+        }
+      })
+
+      newSocket.on('guess', (event) => {
+        if (event.content === '[START]') {
+          allowInput.current = false
+          dispatch((dispatch, getState) => {
+            dispatch(setRecommend(''))
+          })
+        } else if (event.content === '[END]') {
+          allowInput.current = true
+        } else {
+          dispatch((dispatch, getState) => {
+            const chat = getState().chat
+            dispatch(setRecommend(chat.recommend + event.content))
+          })
         }
       })
 
