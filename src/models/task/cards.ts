@@ -15,7 +15,7 @@ export interface TaskSession {
   num_like: number
   time: number
   is_liked: boolean
-  author: UserProfile
+  // author: UserProfile
 }
 
 export type TaskCardResponse = TaskSession[]
@@ -30,10 +30,10 @@ export const mockTaskSession: TaskSession = {
   num_like: 6,
   time: 1145141919810,
   is_liked: false,
-  author: {
-    id: '123',
-    name: 'John Doe',
-    avatar_url:
-      'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
-  },
+  // author: {
+  //   id: '123',
+  //   name: 'John Doe',
+  //   avatar_url:
+  //     'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
+  // },
 }

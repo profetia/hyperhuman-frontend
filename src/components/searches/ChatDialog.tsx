@@ -46,7 +46,7 @@ export default function ChatDialog(props: Props) {
               >
                 <GridItem colSpan={1} rowSpan={1}>
                   <ModelView
-                    resource_url={props.resource_url}
+                    modelSource={props.resource_url}
                     prompt={props.prompt}
                   ></ModelView>
                 </GridItem>

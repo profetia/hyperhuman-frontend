@@ -30,18 +30,18 @@ export default function Home() {
 
   useEffect(() => {
     if (
-      section.taskSessions.feature.length > 0 &&
+      section.taskSessions.feature.length > 0 ||
       section.taskSessions.recent.length > 0
     ) {
       return
     }
 
     const fetchInitialTaskSessions = async () => {
-      const initialFeatureSessions = await doGetTaskCards(1)
-      const initialRecentSessions = await doGetTaskCards(1)
+      const initialFeatureSessions = await doGetTaskCards(1, 'feature')
+      const initialRecentSessions = await doGetTaskCards(1, 'recent')
       const initialAuthorSessions = await (async () => {
         if (user.isLogin) {
-          return await doGetTaskCards(1)
+          return await doGetTaskCards(1, 'author')
         } else {
           return []
         }

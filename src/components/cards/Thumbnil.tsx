@@ -80,7 +80,7 @@ export default function ThumbnailCard(props: Props) {
           onClose={onClose}
           onOpen={onOpen}
         ></DialogCard>
-        <Text color="gray.400">{props.author.name}</Text>
+        {/* <Text color="gray.400">{props.author.name}</Text> */}
         {/* <Text color="gray.400">{props.views} view</Text> */}
         <IconButton
           aria-label="Like"
