@@ -15,7 +15,7 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import NavBar from '@/components/navigators/NavBar'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { initTaskSessions } from '@/stores/task/section'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 import { doGetTaskCards } from '@/api/task'
@@ -59,6 +59,14 @@ export default function Home() {
     fetchInitialTaskSessions()
   })
 
+  const [tabIndex, setTabIndex] = useState<number | undefined>(undefined)
+
+  useEffect(() => {
+    if (section.currentSection === 'search') {
+      setTabIndex(3)
+    }
+  }, [section.currentSection])
+
   return (
     <>
       <Head>
@@ -70,7 +78,12 @@ export default function Home() {
       <NavBar></NavBar>
       <SearchBar></SearchBar>
       <Center mt={10}>
-        <Tabs variant="solid-rounded" colorScheme="blue" size="lg">
+        <Tabs
+          variant="solid-rounded"
+          colorScheme="blue"
+          size="lg"
+          index={tabIndex}
+        >
           <HStack alignItems="flex-start">
             <TabList>
               <VStack>

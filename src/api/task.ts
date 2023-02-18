@@ -17,3 +17,12 @@ export async function doGetTaskDetail(taskId: string): Promise<TaskDetail> {
   const response = await POST(`/task/card/${taskId}`, {})
   return response.data
 }
+
+export async function doGetSearchResult(
+  keyword: string
+): Promise<TaskSession[]> {
+  const response = await POST('/task/search', {
+    keyword: keyword,
+  })
+  return response.data
+}
