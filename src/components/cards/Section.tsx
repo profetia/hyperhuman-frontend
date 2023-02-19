@@ -1,6 +1,6 @@
 import { SectionType } from '@/models/task/cards'
 import { Box, Wrap, WrapItem } from '@chakra-ui/react'
-import ThumbnailCard from '@/components/cards/Thumbnil'
+import ThumbnailCard from '@/components/cards/Thumbnail'
 import { giveALike, SectionState } from '@/stores/task/section'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 
