@@ -1,0 +1,39 @@
+.overlay {
+  transition: 0.5s ease;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.container:hover .overlay {
+  opacity: 1;
+}
+
+.background {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+
+.container:hover .background {
+  opacity: 0.3;
+}
+
+.footer {
+  background: linear-gradient(180deg, rgb(0 0 0 / 0%), rgb(0 0 0 / 16%));
+  border-radius: 0 0 8px 8px;
+}
+
+.container:hover .footer {
+  opacity: 0;
+}
+
+.prompt {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
