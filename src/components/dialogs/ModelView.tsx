@@ -13,8 +13,8 @@ import {
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader'
 
-export interface Props {
-  modelSource: string
+interface Props {
+  resource_url: string
   prompt: string
 }
 
