@@ -50,9 +50,14 @@ export default function ThumbnailCard(props: Props) {
   })
 
   return (
-    <Card maxW="sm" variant="outline" className={styles.container}>
+    <Card
+      maxW="sm"
+      variant="outline"
+      className={styles.container}
+      onClick={onOpen}
+    >
       <Box className={styles.background}>
-        <Box onClick={onOpen}>
+        <Box>
           <Image
             src={props.image_url}
             alt="media source"
@@ -102,10 +107,9 @@ export default function ThumbnailCard(props: Props) {
           <IconButton
             aria-label="Like"
             icon={getIcon(props.is_liked)}
-            variant="ghost"
             color={props.is_liked ? 'pink.400' : ''}
             onClick={props.onLike}
-            size="xs"
+            size="sm"
           ></IconButton>
         </Flex>
         <Card variant="filled" mx={2} mb={2} p={2} className={styles.prompt}>
