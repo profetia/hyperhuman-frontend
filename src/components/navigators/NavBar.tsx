@@ -54,14 +54,8 @@ export default function NavBar() {
               </Button>
 
               <Menu>
-                <MenuButton
-                  as={Button}
-                  rounded={'full'}
-                  variant={'link'}
-                  cursor={'pointer'}
-                  minW={0}
-                >
-                  <Avatar size={'sm'} src={profile.avatar_url} />
+                <MenuButton rounded="full" cursor="pointer">
+                  <Avatar size="sm" src={profile.avatar_url} />
                 </MenuButton>
                 <MenuList alignItems={'center'}>
                   <br />
