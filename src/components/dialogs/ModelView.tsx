@@ -15,6 +15,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BsLink45Deg } from 'react-icons/bs'
 import * as THREE from 'three'
 import React, { useRef, useState } from 'react'
+import { startUp } from '@/models/rendering/rendering'
 import { Canvas, ThreeElements, useLoader } from '@react-three/fiber'
 import {
   PresentationControls,
@@ -116,37 +117,60 @@ const ModelEnvironment = () => {
 
 const ModelView = (props: Props) => {
   const [isLiked, setIsLiked] = useState(false)
+  const mesh_profile = {
+    model: 'assets/juanfu/exported_vs_pca_dis_vn.obj',
+    diffuse: 'assets/juanfu/002_diffuse_neutral.png',
+    normal: 'assets/juanfu/002_normal_neutral.png',
+    specular: 'assets/juanfu/002_specular_neutral.png',
+    roughness_ao_thickness: 'assets/juanfu/rat.png',
+    roughness_detail: 'assets/juanfu/roughness-detail.jpg',
+    env_irradiance: 'assets/env/lapa_4k_panorama_irradiance.hdr',
+    env_specular: 'assets/env/lapa_4k_panorama_specular.hdr',
+  }
+  // startUp(mesh_profile)
   return (
     <Box>
-      <Box>
-        <HStack mb={2} justifyContent="space-between">
-          <HStack>
-            <Avatar
-              name="Dan Abrahmov"
-              src="https://bit.ly/dan-abramov"
-              boxSize={8}
-            />
-            <Box>
-              <Text className={styles['model-view-author-name']}>Clarive</Text>
-              <Text color="gray.500" className={styles['model-view-status']}>
-                Zhengzhou / 1 Hour Ago / 300view{' '}
-              </Text>
-            </Box>
-          </HStack>
+      <HStack mb={2} justifyContent="space-between">
+        <HStack>
+          <Avatar
+            name="Dan Abrahmov"
+            src="https://bit.ly/dan-abramov"
+            boxSize={8}
+          />
           <Box>
-            <Button leftIcon={<BsLink45Deg />} mr={2} size="sm">
-              Share
-            </Button>
-            <IconButton
-              size="sm"
-              aria-label="like"
-              color="pink.200"
-              icon={getLikeIcon(isLiked)}
-              onClick={() => setIsLiked(!isLiked)}
-            />
+            <Text className={styles['model-view-author-name']}>Clarive</Text>
+            <Text color="gray.500" className={styles['model-view-status']}>
+              Zhengzhou / 1 Hour Ago / 300view{' '}
+            </Text>
           </Box>
         </HStack>
-        <ModelEnvironment></ModelEnvironment>
+        <Box>
+          <Button leftIcon={<BsLink45Deg />} mr={2} size="sm">
+            Share
+          </Button>
+          <IconButton
+            size="sm"
+            aria-label="like"
+            color="pink.200"
+            icon={getLikeIcon(isLiked)}
+            onClick={() => setIsLiked(!isLiked)}
+          />
+        </Box>
+      </HStack>
+      {/* <ModelEnvironment></ModelEnvironment> */}
+      <Box id="info"></Box>
+      <Box id="webglcontainer"></Box>
+      <Box id="preloader" className="preloader">
+        <Box id="preloaderBar" className="vAligned">
+          Loading...
+          <Box className="preloaderBorder">
+            <Box
+              id="preloaderProgress"
+              className="preloaderProgress"
+              style={{ width: '85%' }}
+            ></Box>
+          </Box>
+        </Box>
       </Box>
     </Box>
   )
