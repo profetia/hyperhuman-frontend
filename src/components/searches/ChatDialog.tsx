@@ -46,7 +46,7 @@ export default function ChatDialog(props: Props) {
               >
                 <GridItem colSpan={1} rowSpan={1}>
                   <ModelView
-                    modelSource={props.resource_url}
+                    resource_url={props.resource_url}
                     prompt={props.prompt}
                   ></ModelView>
                 </GridItem>
@@ -57,7 +57,8 @@ export default function ChatDialog(props: Props) {
                     h={'100%'}
                   >
                     <ChatArea history={props.chat_history}></ChatArea>
-                    <Code>{props.recommend}</Code>
+                    <Code>{props.prompt}</Code>
+                    <Code mt={1}>{props.recommend}</Code>
                     <HStack>
                       <Textarea
                         placeholder="Please describe the model you want to generate."

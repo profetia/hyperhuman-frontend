@@ -25,10 +25,8 @@ export default function DialogCard(props: Props) {
     <>
       <Modal isOpen={props.isOpen} onClose={props.onClose}>
         <ModalOverlay />
-        <ModalContent maxWidth={800} minHeight={496}>
-          <ModalHeader>View Model</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+        <ModalContent height={560} maxWidth={850}>
+          <ModalBody p={6}>
             <Flex justify="center" height="100%">
               <Grid
                 templateRows="repeat(1, 1fr)"
@@ -46,7 +44,6 @@ export default function DialogCard(props: Props) {
               </Grid>
             </Flex>
           </ModalBody>
-          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
     </>

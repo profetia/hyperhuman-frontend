@@ -1,4 +1,13 @@
-import { Image, Box, Code, Heading, VStack } from '@chakra-ui/react'
+import {
+  Image,
+  Box,
+  Code,
+  Heading,
+  VStack,
+  HStack,
+  Avatar,
+  Text,
+} from '@chakra-ui/react'
 import * as THREE from 'three'
 import React, { useRef, useState } from 'react'
 import { Canvas, ThreeElements, useLoader } from '@react-three/fiber'
@@ -12,6 +21,7 @@ import {
 } from '@react-three/drei'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader'
+import styles from '@/styles/dialogs.module.css'
 
 interface Props {
   resource_url: string
@@ -55,40 +65,65 @@ const Model = (props: ThreeElements['mesh']) => {
   )
 }
 
+const ModelEnvironment = () => {
+  return (
+    <Box className={styles['model-view-environment-box']}>
+      <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 4], fov: 50 }}>
+        <ambientLight intensity={0.5} />
+        <spotLight
+          position={[10, 10, 10]}
+          angle={0.15}
+          penumbra={1}
+          shadow-mapSize={[512, 512]}
+          castShadow
+        />
+        <PresentationControls
+          global
+          config={{ mass: 2, tension: 500 }}
+          snap={{ mass: 4, tension: 1500 }}
+          rotation={[0, 0.3, 0]}
+          polar={[-Math.PI / 3, Math.PI / 3]}
+          azimuth={[-Math.PI / 1.4, Math.PI / 2]}
+        >
+          <Model
+            // rotation={[-Math.PI / 2, 0, 0]}
+            position={[0, 0.25, 0]}
+            // scale={0.003}
+          />
+        </PresentationControls>
+        <ContactShadows
+          position={[0, -1.4, 0]}
+          opacity={0.75}
+          scale={10}
+          blur={2.5}
+          far={4}
+        />
+        <Environment preset="city" />
+      </Canvas>
+    </Box>
+  )
+}
+
 const ModelView = (props: Props) => {
   return (
-    <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 4], fov: 50 }}>
-      <ambientLight intensity={0.5} />
-      <spotLight
-        position={[10, 10, 10]}
-        angle={0.15}
-        penumbra={1}
-        shadow-mapSize={[512, 512]}
-        castShadow
-      />
-      <PresentationControls
-        global
-        config={{ mass: 2, tension: 500 }}
-        snap={{ mass: 4, tension: 1500 }}
-        rotation={[0, 0.3, 0]}
-        polar={[-Math.PI / 3, Math.PI / 3]}
-        azimuth={[-Math.PI / 1.4, Math.PI / 2]}
-      >
-        <Model
-          // rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, 0.25, 0]}
-          // scale={0.003}
-        />
-      </PresentationControls>
-      <ContactShadows
-        position={[0, -1.4, 0]}
-        opacity={0.75}
-        scale={10}
-        blur={2.5}
-        far={4}
-      />
-      <Environment preset="city" />
-    </Canvas>
+    <Box>
+      <Box>
+        <HStack>
+          <Avatar
+            name="Dan Abrahmov"
+            src="https://bit.ly/dan-abramov"
+            boxSize={8}
+          />
+          <Box>
+            <Text className={styles['model-view-author-name']}>Clarive</Text>
+            <Text color="gray.500" className={styles['model-view-status']}>
+              Zhengzhou / 1 Hour Ago / 300view{' '}
+            </Text>
+          </Box>
+        </HStack>
+        <ModelEnvironment></ModelEnvironment>
+      </Box>
+    </Box>
   )
 }
 

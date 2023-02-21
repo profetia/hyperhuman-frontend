@@ -1,0 +1,36 @@
+.chat-area-card {
+  width: 362px;
+  height: 466px;
+  overflow-y: scroll;
+}
+
+.chat-area-card::-webkit-scrollbar {
+  width: 20px;
+}
+
+.chat-area-card::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.chat-area-card::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+.model-view-environment-box {
+  width: 428px;
+  height: 466px;
+  overflow-y: hidden;
+}
+
+.model-view-author-name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.model-view-status {
+  font-size: 10px;
+  font-weight: 400;
+}
