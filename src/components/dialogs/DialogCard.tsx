@@ -31,6 +31,7 @@ export default function DialogCard(props: Props) {
               <Grid
                 templateRows="repeat(1, 1fr)"
                 templateColumns="repeat(2, 1fr)"
+                gap={4}
               >
                 <GridItem colSpan={1} rowSpan={1}>
                   <ModelView

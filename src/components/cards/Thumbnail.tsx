@@ -27,7 +27,7 @@ interface Props extends TaskSession {
   onLike: () => void
 }
 
-function getIcon(is_liked: boolean) {
+function getLikeIcon(is_liked: boolean) {
   return (
     <Icon as={is_liked ? AiFillHeart : AiOutlineHeart} m={0} boxSize={6}></Icon>
   )
@@ -66,36 +66,23 @@ export default function ThumbnailCard(props: Props) {
             boxSize={200}
             borderBottomRadius="0"
           />
-          <CardBody px={1} py={2}>
-            <Center>
-              <Tooltip
-                label={props.prompt}
-                hasArrow
-                bgColor="gray.700"
-                color="gray.300"
-              >
-                <Text color="" fontSize="md" maxWidth={180} noOfLines={2}>
-                  {props.prompt}
-                </Text>
-              </Tooltip>
-            </Center>
-          </CardBody>
         </Box>
-        <CardFooter
+        <HStack
           justifyContent="space-between"
           p={2}
           alignItems="center"
           className={styles.footer}
+          width="100%"
         >
-          <DialogCard
-            {...taskDetail}
-            isOpen={isOpen}
-            onClose={onClose}
-            onOpen={onOpen}
-          ></DialogCard>
           <Text color="gray.400">Clarive</Text>
           <Text color="gray.400">300 view</Text>
-        </CardFooter>
+        </HStack>
+        <DialogCard
+          {...taskDetail}
+          isOpen={isOpen}
+          onClose={onClose}
+          onOpen={onOpen}
+        ></DialogCard>
       </Box>
       <Box
         className={styles.overlay}
@@ -106,16 +93,19 @@ export default function ThumbnailCard(props: Props) {
         <Flex flexDirection="row-reverse">
           <IconButton
             aria-label="Like"
-            icon={getIcon(props.is_liked)}
+            icon={getLikeIcon(props.is_liked)}
             color={props.is_liked ? 'pink.400' : ''}
             onClick={props.onLike}
             size="sm"
           ></IconButton>
         </Flex>
-        <Card variant="filled" mx={2} mb={2} p={2} className={styles.prompt}>
-          He has a great smile He has a face only a mother could love. He has
-          got dimples. One of his eyes is bigger than the other.
-        </Card>
+        <Center>
+          <Box mx={2} mb={2} p={2} className={styles['prompt-box']}>
+            <Text className={styles['prompt-text']} noOfLines={3}>
+              {props.prompt}
+            </Text>
+          </Box>
+        </Center>
       </Box>
     </Card>
   )

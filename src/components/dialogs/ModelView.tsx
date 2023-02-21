@@ -7,7 +7,12 @@ import {
   HStack,
   Avatar,
   Text,
+  IconButton,
+  Button,
+  Icon,
 } from '@chakra-ui/react'
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
+import { BsLink45Deg } from 'react-icons/bs'
 import * as THREE from 'three'
 import React, { useRef, useState } from 'react'
 import { Canvas, ThreeElements, useLoader } from '@react-three/fiber'
@@ -28,6 +33,12 @@ interface Props {
   prompt: string
 }
 
+function getLikeIcon(is_liked: boolean) {
+  return (
+    <Icon as={is_liked ? AiFillHeart : AiOutlineHeart} m={0} boxSize={5}></Icon>
+  )
+}
+
 const Model = (props: ThreeElements['mesh']) => {
   const mesh = useRef<THREE.Mesh>(null!)
   const [hovered, setHover] = useState(false)
@@ -43,7 +54,6 @@ const Model = (props: ThreeElements['mesh']) => {
     'models/model_2/model_2.ply'
   )
   geometry.computeVertexNormals()
-
   return (
     <mesh
       {...props}
@@ -105,20 +115,35 @@ const ModelEnvironment = () => {
 }
 
 const ModelView = (props: Props) => {
+  const [isLiked, setIsLiked] = useState(false)
   return (
     <Box>
       <Box>
-        <HStack>
-          <Avatar
-            name="Dan Abrahmov"
-            src="https://bit.ly/dan-abramov"
-            boxSize={8}
-          />
+        <HStack mb={2} justifyContent="space-between">
+          <HStack>
+            <Avatar
+              name="Dan Abrahmov"
+              src="https://bit.ly/dan-abramov"
+              boxSize={8}
+            />
+            <Box>
+              <Text className={styles['model-view-author-name']}>Clarive</Text>
+              <Text color="gray.500" className={styles['model-view-status']}>
+                Zhengzhou / 1 Hour Ago / 300view{' '}
+              </Text>
+            </Box>
+          </HStack>
           <Box>
-            <Text className={styles['model-view-author-name']}>Clarive</Text>
-            <Text color="gray.500" className={styles['model-view-status']}>
-              Zhengzhou / 1 Hour Ago / 300view{' '}
-            </Text>
+            <Button leftIcon={<BsLink45Deg />} mr={2} size="sm">
+              Share
+            </Button>
+            <IconButton
+              size="sm"
+              aria-label="like"
+              color="pink.200"
+              icon={getLikeIcon(isLiked)}
+              onClick={() => setIsLiked(!isLiked)}
+            />
           </Box>
         </HStack>
         <ModelEnvironment></ModelEnvironment>

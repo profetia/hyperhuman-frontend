@@ -26,14 +26,25 @@
 .footer {
   background: linear-gradient(180deg, rgb(0 0 0 / 0%), rgb(0 0 0 / 16%));
   border-radius: 0 0 8px 8px;
+  position: absolute;
+  bottom: 0;
 }
 
 .container:hover .footer {
   opacity: 0;
 }
 
-.prompt {
+.prompt-text {
   font-size: 12px;
   font-weight: 400;
+  color: #000;
   line-height: 16px;
+}
+
+.prompt-box {
+  width: 182px;
+  height: 64px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  opacity: 0.5;
 }
