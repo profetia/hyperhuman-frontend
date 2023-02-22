@@ -50,7 +50,7 @@ export default function ChatDialog(props: Props) {
               >
                 <GridItem colSpan={1} rowSpan={1}>
                   <ModelView
-                    resource_url={props.resource_url}
+                    resourceUrl={props.resource_url}
                     prompt={props.prompt}
                   ></ModelView>
                 </GridItem>
@@ -61,7 +61,6 @@ export default function ChatDialog(props: Props) {
                     h={'100%'}
                   >
                     <ChatArea history={props.chat_history}></ChatArea>
-                    <Code>{props.prompt}</Code>
                     {recommendItems.map((item, index) => {
                       return (
                         <Code

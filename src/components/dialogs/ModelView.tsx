@@ -10,11 +10,14 @@ import {
   IconButton,
   Button,
   Icon,
+  Editable,
+  EditableTextarea,
+  EditablePreview,
 } from '@chakra-ui/react'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BsLink45Deg } from 'react-icons/bs'
 import * as THREE from 'three'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { startUp } from '@/models/rendering/rendering'
 import { Canvas, ThreeElements, useLoader } from '@react-three/fiber'
 import {
@@ -30,7 +33,7 @@ import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader'
 import styles from '@/styles/dialogs.module.css'
 
 interface Props {
-  resource_url: string
+  resourceUrl: string
   prompt: string
 }
 
@@ -127,6 +130,12 @@ const ModelView = (props: Props) => {
     env_irradiance: 'assets/env/lapa_4k_panorama_irradiance.hdr',
     env_specular: 'assets/env/lapa_4k_panorama_specular.hdr',
   }
+
+  const [localPrompt, setLocalPrompt] = useState<string>('')
+  useEffect(() => {
+    setLocalPrompt(props.prompt)
+  }, [props.prompt])
+
   // startUp(mesh_profile)
   return (
     <Box>
@@ -158,6 +167,15 @@ const ModelView = (props: Props) => {
         </Box>
       </HStack>
       {/* <ModelEnvironment></ModelEnvironment> */}
+      <Editable
+        value={localPrompt}
+        onChange={(nextValue: string) => {
+          setLocalPrompt(nextValue)
+        }}
+      >
+        <EditablePreview />
+        <EditableTextarea />
+      </Editable>
       <Box id="info"></Box>
       <Box id="webglcontainer"></Box>
       <Box id="preloader" className="preloader">
