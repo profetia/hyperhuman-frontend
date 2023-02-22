@@ -1,6 +1,7 @@
 import { useAppSelector } from '@/hooks'
 import { ChatProvider } from '@/models/task/detail'
-import { Stack, Tag, Avatar, Container } from '@chakra-ui/react'
+import { Stack, Text, Box, Avatar, Container } from '@chakra-ui/react'
+import styles from '@/styles/dialogs.module.css'
 
 type Props = {
   message: string
@@ -15,9 +16,9 @@ export default function ChatBubble(props: Props) {
 
   const getAvatar = () => {
     if (props.type === 'human') {
-      return <Avatar name="Kent Dodds" src={profile.avatar_url} size="md" />
+      return <Avatar name="Kent Dodds" src={profile.avatar_url} size="sm" />
     } else {
-      return <Avatar name="Dan Abrahmov" src={aiAvatarUrl} size="md" />
+      return <Avatar name="Dan Abrahmov" src={aiAvatarUrl} size="sm" />
     }
   }
 
@@ -25,13 +26,9 @@ export default function ChatBubble(props: Props) {
     <Container my={2}>
       <Stack direction={props.type === 'human' ? 'row-reverse' : 'row'}>
         {getAvatar()}
-        <Tag
-          size="lg"
-          colorScheme={props.type === 'human' ? 'blue' : 'green'}
-          py={1}
-        >
-          {props.message}
-        </Tag>
+        <Box py={2} px={4} className={styles['chat-bubble-box']}>
+          <Text className={styles['chat-bubble-text']}>{props.message}</Text>
+        </Box>
       </Stack>
     </Container>
   )

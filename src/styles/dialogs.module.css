@@ -1,7 +1,17 @@
+.dialog-card {
+  width: 850px;
+  height: 560px;
+  box-shadow: 0 3px 12px 1px rgb(145 145 145 / 16%);
+  border-radius: 8px;
+  opacity: 1;
+}
+
 .chat-area-card {
   width: 362px;
   height: 466px;
   overflow-y: scroll;
+  border-radius: 8px;
+  background: #f8f8f8;
 }
 
 .chat-area-card::-webkit-scrollbar {
@@ -19,6 +29,28 @@
   background-clip: content-box;
 }
 
+.chat-area-card-heading {
+  width: 49px;
+  height: 17px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #aaa;
+  line-height: 0px;
+}
+
+.chat-bubble-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  color: #393939;
+}
+
+.chat-bubble-box {
+  background: #e7e3f1;
+  border-radius: 8px;
+  opacity: 1;
+}
+
 .model-view-environment-box {
   width: 428px;
   height: 466px;
@@ -28,9 +60,17 @@
 .model-view-author-name {
   font-size: 14px;
   font-weight: bold;
+  color: #4b4b4b;
 }
 
 .model-view-status {
   font-size: 10px;
   font-weight: 400;
+}
+
+.model-view-share-button {
+  font-size: 12px;
+  font-weight: 400;
+  color: #2d2d2d;
+  line-height: 0px;
 }

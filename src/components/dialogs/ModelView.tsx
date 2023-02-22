@@ -13,6 +13,7 @@ import {
   Editable,
   EditableTextarea,
   EditablePreview,
+  LightMode,
 } from '@chakra-ui/react'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BsLink45Deg } from 'react-icons/bs'
@@ -154,7 +155,12 @@ const ModelView = (props: Props) => {
           </Box>
         </HStack>
         <Box>
-          <Button leftIcon={<BsLink45Deg />} mr={2} size="sm">
+          <Button
+            leftIcon={<BsLink45Deg />}
+            mr={2}
+            size="sm"
+            className={styles['model-view-share-button']}
+          >
             Share
           </Button>
           <IconButton
