@@ -10,9 +10,6 @@ import {
   IconButton,
   Button,
   Icon,
-  Editable,
-  EditableTextarea,
-  EditablePreview,
   LightMode,
 } from '@chakra-ui/react'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
@@ -178,15 +175,6 @@ const ModelView = (props: Props) => {
         </Box>
       </HStack>
       {/* <ModelEnvironment></ModelEnvironment> */}
-      <Editable
-        value={localPrompt}
-        onChange={(nextValue: string) => {
-          setLocalPrompt(nextValue)
-        }}
-      >
-        <EditablePreview />
-        <EditableTextarea />
-      </Editable>
       <Box id="info"></Box>
       <Box id="webglcontainer">nihao</Box>
       <Box id="preloader" className="preloader">

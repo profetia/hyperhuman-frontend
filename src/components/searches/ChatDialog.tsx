@@ -3,6 +3,7 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
+  Box,
   ModalFooter,
   ModalBody,
   ModalCloseButton,
@@ -13,11 +14,17 @@ import {
   HStack,
   Button,
   Code,
+  Editable,
+  EditableTextarea,
+  EditablePreview,
+  LightMode,
+  Tag,
 } from '@chakra-ui/react'
 import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
 import { ChatDetail } from '@/models/user/chat'
-import { ChangeEvent, useMemo } from 'react'
+import { ChangeEvent, useMemo, useState, useEffect } from 'react'
+import styles from '@/styles/dialogs.module.css'
 
 interface Props extends ChatDetail {
   recommend: string
@@ -30,29 +37,101 @@ interface Props extends ChatDetail {
   onSend: (msg: string) => void
 }
 
-export default function ChatDialog(props: Props) {
+function ChatInputArea(props: Props) {
   const recommendItems = useMemo(() => {
+    if (props.recommend === '') return []
     return props.recommend.split(/\n[0-9]\. /)
   }, [props.recommend])
 
   return (
-    <>
+    <Box mx={3}>
+      <Box
+        overflowX={'scroll'}
+        whiteSpace="nowrap"
+        className={styles['scrollbar-thin']}
+        maxWidth="340px"
+        position="absolute"
+        bottom="90px"
+      >
+        {recommendItems.map((item, index) => {
+          return (
+            <Tag
+              key={index}
+              m={1}
+              p={2}
+              onClick={() => {
+                props.onSend(item)
+              }}
+              maxWidth="200px"
+              display="inline-block"
+              whiteSpace={'normal'}
+              colorScheme={'twitter'}
+            >
+              {item}
+            </Tag>
+          )
+        })}
+      </Box>
+      <HStack>
+        <Textarea
+          rows={1}
+          placeholder="Please describe the model you want..."
+          variant={'outlined'}
+          value={props.input}
+          onChange={props.onInput}
+          resize="none"
+          className={`${styles['chat-area-input']} ${styles['scrollbar-thin']}`}
+          px={3}
+          fontSize={14}
+          borderRadius="24px"
+          height={10}
+        ></Textarea>
+        <Button
+          onClick={props.onSubmit}
+          borderRadius="20px"
+          background="#4A00E0"
+          colorScheme={'purple'}
+        >
+          Send
+        </Button>
+      </HStack>
+    </Box>
+  )
+}
+
+export default function ChatDialog(props: Props) {
+  const [localPrompt, setLocalPrompt] = useState<string>('')
+
+  useEffect(() => {
+    setLocalPrompt(props.prompt)
+  }, [props.prompt])
+
+  return (
+    <LightMode>
       <Modal isOpen={props.isOpen} onClose={props.onClose}>
         <ModalOverlay />
-        <ModalContent maxWidth={800} minHeight={496}>
-          <ModalHeader>View Model</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
+        <ModalContent height={560} maxWidth={850}>
+          <ModalBody p={6} className={styles['dialog-card']}>
             <Flex justify="center" height="100%">
               <Grid
                 templateRows="repeat(1, 1fr)"
                 templateColumns="repeat(2, 1fr)"
               >
-                <GridItem colSpan={1} rowSpan={1}>
-                  <ModelView
-                    resourceUrl={props.resource_url}
-                    prompt={props.prompt}
-                  ></ModelView>
+                <GridItem
+                  colSpan={1}
+                  rowSpan={1}
+                  className={styles['model-view-environment-box']}
+                >
+                  <Editable
+                    value={localPrompt}
+                    onChange={(nextValue: string) => {
+                      setLocalPrompt(nextValue)
+                    }}
+                    className={styles['dialog-card-editable-text']}
+                  >
+                    <EditablePreview />
+                    <EditableTextarea />
+                  </Editable>
                 </GridItem>
                 <GridItem colSpan={1} rowSpan={1}>
                   <Flex
@@ -60,30 +139,9 @@ export default function ChatDialog(props: Props) {
                     justifyContent="space-between"
                     h={'100%'}
                   >
-                    <ChatArea history={props.chat_history}></ChatArea>
-                    {recommendItems.map((item, index) => {
-                      return (
-                        <Code
-                          key={index}
-                          mt={1}
-                          onClick={() => {
-                            props.onSend(item)
-                          }}
-                        >
-                          {item}
-                        </Code>
-                      )
-                    })}
-                    <HStack>
-                      <Textarea
-                        placeholder="Please describe the model you want to generate."
-                        value={props.input}
-                        onChange={props.onInput}
-                      ></Textarea>
-                      <Button colorScheme="blue" onClick={props.onSubmit}>
-                        Send
-                      </Button>
-                    </HStack>
+                    <ChatArea history={props.chat_history} hasInput>
+                      <ChatInputArea {...props}></ChatInputArea>
+                    </ChatArea>
                   </Flex>
                 </GridItem>
               </Grid>
@@ -92,6 +150,6 @@ export default function ChatDialog(props: Props) {
           <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </LightMode>
   )
 }
