@@ -6,27 +6,24 @@
   opacity: 1;
 }
 
+.dialog-card-editable-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #1e1e1e;
+  line-height: 20px;
+}
+
 .chat-area-card {
   width: 362px;
   height: 466px;
-  overflow-y: scroll;
   border-radius: 8px;
   background: #f8f8f8;
 }
 
-.chat-area-card::-webkit-scrollbar {
-  width: 20px;
-}
-
-.chat-area-card::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-.chat-area-card::-webkit-scrollbar-thumb {
-  background-color: #d6dee1;
-  border-radius: 20px;
-  border: 6px solid transparent;
-  background-clip: content-box;
+.chat-bubble-wrapper {
+  width: 362px;
+  height: 410px;
+  overflow-y: scroll;
 }
 
 .chat-area-card-heading {
@@ -50,10 +47,19 @@
   opacity: 1;
 }
 
+.chat-area-input {
+  background: #fff;
+  color: #1e1e1e;
+  border-style: solid;
+  border-radius: 24px;
+  opacity: 1;
+  font-weight: 400;
+  line-height: 0px;
+}
+
 .model-view-environment-box {
   width: 428px;
   height: 466px;
-  overflow-y: hidden;
 }
 
 .model-view-author-name {
@@ -72,4 +78,34 @@
   font-weight: 400;
   color: #2d2d2d;
   line-height: 0px;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 15px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 7px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollbar-thick::-webkit-scrollbar {
+  width: 20px;
+}
+
+.scrollbar-thick::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.scrollbar-thick::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 10px;
+  border: 6px solid transparent;
+  background-clip: content-box;
 }

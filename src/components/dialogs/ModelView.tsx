@@ -10,9 +10,6 @@ import {
   IconButton,
   Button,
   Icon,
-  Editable,
-  EditableTextarea,
-  EditablePreview,
   LightMode,
 } from '@chakra-ui/react'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
@@ -132,11 +129,6 @@ const ModelView = (props: Props) => {
     env_specular: 'assets/env/lapa_4k_panorama_specular.hdr',
   }
 
-  const [localPrompt, setLocalPrompt] = useState<string>('')
-  useEffect(() => {
-    setLocalPrompt(props.prompt)
-  }, [props.prompt])
-
   // startUp(mesh_profile)
   return (
     <Box>
@@ -173,15 +165,6 @@ const ModelView = (props: Props) => {
         </Box>
       </HStack>
       {/* <ModelEnvironment></ModelEnvironment> */}
-      <Editable
-        value={localPrompt}
-        onChange={(nextValue: string) => {
-          setLocalPrompt(nextValue)
-        }}
-      >
-        <EditablePreview />
-        <EditableTextarea />
-      </Editable>
       <Box id="info"></Box>
       <Box id="webglcontainer"></Box>
       <Box id="preloader" className="preloader">
