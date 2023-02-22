@@ -36,7 +36,11 @@ export default function GenerateBtn({ prelude }: Props) {
         task_uuid: task_uuid,
         provider: 'User',
       })
-      dispatch(extendChatHistory({ content: msg, provider: 'human' }))
+      dispatch((dispatch, getState) => {
+        dispatch(extendChatHistory({ content: msg, provider: 'human' }))
+        dispatch(setPrompt(''))
+        dispatch(setRecommend(''))
+      })
     }
   }
 

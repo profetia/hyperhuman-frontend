@@ -17,7 +17,7 @@ import {
 import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
 import { ChatDetail } from '@/models/user/chat'
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useMemo } from 'react'
 
 interface Props extends ChatDetail {
   recommend: string
@@ -31,6 +31,10 @@ interface Props extends ChatDetail {
 }
 
 export default function ChatDialog(props: Props) {
+  const recommendItems = useMemo(() => {
+    return props.recommend.split(/\n[0-9]\. /)
+  }, [props.recommend])
+
   return (
     <>
       <Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -58,7 +62,19 @@ export default function ChatDialog(props: Props) {
                   >
                     <ChatArea history={props.chat_history}></ChatArea>
                     <Code>{props.prompt}</Code>
-                    <Code mt={1}>{props.recommend}</Code>
+                    {recommendItems.map((item, index) => {
+                      return (
+                        <Code
+                          key={index}
+                          mt={1}
+                          onClick={() => {
+                            props.onSend(item)
+                          }}
+                        >
+                          {item}
+                        </Code>
+                      )
+                    })}
                     <HStack>
                       <Textarea
                         placeholder="Please describe the model you want to generate."
