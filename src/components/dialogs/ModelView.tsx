@@ -119,26 +119,28 @@ const ModelEnvironment = () => {
 
 const ModelView = (props: Props) => {
   const [isLiked, setIsLiked] = useState(false)
-  const mesh_profile = {
-    model: 'assets/juanfu/exported_vs_pca_dis_vn.obj',
-    diffuse: 'assets/juanfu/002_diffuse_neutral.png',
-    normal: 'assets/juanfu/002_normal_neutral.png',
-    specular: 'assets/juanfu/002_specular_neutral.png',
-    roughness_ao_thickness: 'assets/juanfu/rat.png',
-    roughness_detail: 'assets/juanfu/roughness-detail.jpg',
-    env_irradiance: 'assets/env/lapa_4k_panorama_irradiance.hdr',
-    env_specular: 'assets/env/lapa_4k_panorama_specular.hdr',
-  }
+  //   const mesh_profile = {
+  //     model: 'assets/juanfu/exported_vs_pca_dis_vn.obj',
+  //     diffuse: 'assets/juanfu/002_diffuse_neutral.png',
+  //     normal: 'assets/juanfu/002_normal_neutral.png',
+  //     specular: 'assets/juanfu/002_specular_neutral.png',
+  //     roughness_ao_thickness: 'assets/juanfu/rat.png',
+  //     roughness_detail: 'assets/juanfu/roughness-detail.jpg',
+  //     env_irradiance: 'assets/env/lapa_4k_panorama_irradiance.hdr',
+  //     env_specular: 'assets/env/lapa_4k_panorama_specular.hdr',
+  //   }
 
   const [localPrompt, setLocalPrompt] = useState<string>('')
+  // const [meshProfile, setMeshProfile] = useState<MeshProfile>()
   useEffect(() => {
-    console.log('props: ', props.prompt)
+    // console.log('props: ', props.prompt)
     setLocalPrompt(props.prompt)
   }, [props.prompt])
 
-//   useEffect(() => {
-//     startUp(mesh_profile)
-//   }, [])
+  useEffect(() => {
+    // startUp(mesh_profile)
+    console.log('props: ', props)
+  }, [props])
 
   return (
     <Box>
@@ -175,8 +177,9 @@ const ModelView = (props: Props) => {
         </Box>
       </HStack>
       {/* <ModelEnvironment></ModelEnvironment> */}
-      <Box id="info"></Box>
+
       <Box id="webglcontainer">nihao</Box>
+      <Box id="info">{localPrompt}</Box>
       <Box id="preloader" className="preloader">
         <Box id="preloaderBar" className="vAligned">
           Loading...

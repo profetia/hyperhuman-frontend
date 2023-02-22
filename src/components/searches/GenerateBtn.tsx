@@ -37,7 +37,7 @@ export default function GenerateBtn({ prelude }: Props) {
         provider: 'User',
       })
       dispatch((dispatch, getState) => {
-        dispatch(extendChatHistory({ content: msg, provider: 'human' }))
+        dispatch(extendChatHistory({ content: msg, provider: 'Human' }))
         dispatch(setPrompt(''))
         dispatch(setRecommend(''))
       })
@@ -66,7 +66,7 @@ export default function GenerateBtn({ prelude }: Props) {
         if (event.content === '[START]') {
           allowInput.current = false
           dispatch((dispatch, getState) => {
-            dispatch(extendChatHistory({ content: '', provider: 'ai' }))
+            dispatch(extendChatHistory({ content: '', provider: 'AI' }))
           })
         } else if (event.content === '[END]') {
           allowInput.current = true
@@ -80,7 +80,7 @@ export default function GenerateBtn({ prelude }: Props) {
                   content:
                     chat.chat_history[chat.chat_history.length - 1].content +
                     event.content,
-                  provider: 'ai',
+                  provider: 'AI',
                 },
               ])
             )

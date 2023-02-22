@@ -15,7 +15,7 @@ export default function ChatBubble(props: Props) {
   const { profile } = useAppSelector((state) => state.user)
 
   const getAvatar = () => {
-    if (props.type === 'human') {
+    if (props.type === 'Human') {
       return <Avatar name="Kent Dodds" src={profile.avatar_url} size="sm" />
     } else {
       return <Avatar name="Dan Abrahmov" src={aiAvatarUrl} size="sm" />
@@ -24,7 +24,7 @@ export default function ChatBubble(props: Props) {
 
   return (
     <Container my={2}>
-      <Stack direction={props.type === 'human' ? 'row-reverse' : 'row'}>
+      <Stack direction={props.type === 'Human' ? 'row-reverse' : 'row'}>
         {getAvatar()}
         <Box py={2} px={4} className={styles['chat-bubble-box']}>
           <Text className={styles['chat-bubble-text']}>{props.message}</Text>

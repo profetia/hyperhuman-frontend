@@ -24,7 +24,6 @@ interface Props extends ChatDetail {
 
 export default function DialogCard(props: Props) {
   return (
-    <>
       <LightMode>
         <Modal isOpen={props.isOpen} onClose={props.onClose}>
           <ModalOverlay />
@@ -51,6 +50,5 @@ export default function DialogCard(props: Props) {
           </ModalContent>
         </Modal>
       </LightMode>
-    </>
   )
 }
