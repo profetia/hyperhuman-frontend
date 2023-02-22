@@ -32,9 +32,10 @@ import {
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader'
 import styles from '@/styles/dialogs.module.css'
+import { MeshProfile } from '@/models/task/detail'
 
 interface Props {
-  resourceUrl: string
+  resource: MeshProfile
   prompt: string
 }
 
@@ -134,10 +135,14 @@ const ModelView = (props: Props) => {
 
   const [localPrompt, setLocalPrompt] = useState<string>('')
   useEffect(() => {
+    console.log('props: ', props.prompt)
     setLocalPrompt(props.prompt)
   }, [props.prompt])
 
-  // startUp(mesh_profile)
+//   useEffect(() => {
+//     startUp(mesh_profile)
+//   }, [])
+
   return (
     <Box>
       <HStack mb={2} justifyContent="space-between">
@@ -183,7 +188,7 @@ const ModelView = (props: Props) => {
         <EditableTextarea />
       </Editable>
       <Box id="info"></Box>
-      <Box id="webglcontainer"></Box>
+      <Box id="webglcontainer">nihao</Box>
       <Box id="preloader" className="preloader">
         <Box id="preloaderBar" className="vAligned">
           Loading...

@@ -1,9 +1,9 @@
-import { Sentence } from '@/models/task/detail'
+import { MeshProfile, Sentence } from '@/models/task/detail'
 
 export interface ChatDetail {
   task_uuid: string
   prompt: string
-  resource_url: string
+  resource_uuid: MeshProfile
   chat_history: Sentence[]
 }
 
@@ -15,4 +15,10 @@ export interface Subscription {
 export interface GeneratePrompt {
   prompt: string
   task_uuid: string
+}
+
+export const mockSubscription: Subscription = {
+  task_uuid: '66efeec6-5c25-4dd9-a77e-988166ad1503',
+  subscription:
+    'eyJhbGciOiJIUzI1NiJ9.NjZlZmVlYzYtNWMyNS00ZGQ5LWE3N2UtOTg4MTY2YWQxNTAz.Jz0cwBKztW5Zb5VBwoqlBdSDHyQTJd9QlXq_33q83Gg',
 }

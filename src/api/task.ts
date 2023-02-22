@@ -6,16 +6,24 @@ export async function doGetTaskCards(
   pageNum: number,
   type: SectionType
 ): Promise<TaskSession[]> {
-  const response = await POST('/task/cards', {
-    page_num: pageNum,
-    type: type,
-  })
-  return response.data
+  try {
+    const response = await POST('/task/cards', {
+      page_num: pageNum,
+      type: type,
+    })
+    return response.data
+  } catch (e) {
+    return [mockTaskSession]
+  }
 }
 
 export async function doGetTaskDetail(taskId: string): Promise<TaskDetail> {
-  const response = await POST(`/task/card/${taskId}`, {})
-  return response.data
+  try {
+    const response = await POST(`/task/card/${taskId}`, {})
+    return response.data
+  } catch(e) {
+    return mockTaskDetail
+  }
 }
 
 export async function doGetSearchResult(

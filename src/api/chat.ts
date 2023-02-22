@@ -1,10 +1,12 @@
 import { GET } from '@/api/utils'
+import { mockSubscription, Subscription } from '@/models/user/chat'
 
-export async function doStartAChat(): Promise<{
-  subscription: string
-  task_uuid: string
-}> {
-  const response = await GET('/chat')
+export async function doStartAChat(): Promise<Subscription> {
+  try {
+    const response = await GET('/chat')
 
-  return response.data
+    return response.data
+  } catch (e) {
+      return mockSubscription
+  }
 }
