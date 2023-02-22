@@ -36,7 +36,7 @@ export default function Home() {
       return
     }
 
-    const fetchInitialTaskSessions = async () => {
+    dispatch(async (dispatch, getState) => {
       const initialFeatureSessions = await doGetTaskCards(1, 'feature')
       const initialRecentSessions = await doGetTaskCards(1, 'recent')
       const initialAuthorSessions = await (async () => {
@@ -46,7 +46,6 @@ export default function Home() {
           return []
         }
       })()
-
       dispatch(
         initTaskSessions({
           feature: initialFeatureSessions,
@@ -54,12 +53,10 @@ export default function Home() {
           author: initialAuthorSessions,
         })
       )
-    }
-
-    fetchInitialTaskSessions()
+    })
   })
 
-  const [tabIndex, setTabIndex] = useState<number | undefined>(undefined)
+  const [tabIndex, setTabIndex] = useState<number>(0)
 
   useEffect(() => {
     if (section.currentSection === 'search') {
@@ -83,6 +80,9 @@ export default function Home() {
           colorScheme="blue"
           size="lg"
           index={tabIndex}
+          onChange={(index) => {
+            setTabIndex(index)
+          }}
         >
           <HStack alignItems="flex-start">
             <TabList>
