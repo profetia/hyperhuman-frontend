@@ -21,7 +21,7 @@ export async function doGetTaskDetail(taskId: string): Promise<TaskDetail> {
   try {
     const response = await POST(`/task/card/${taskId}`, {})
     return response.data
-  } catch(e) {
+  } catch (e) {
     return mockTaskDetail
   }
 }

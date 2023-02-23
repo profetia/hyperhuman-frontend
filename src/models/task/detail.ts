@@ -21,7 +21,7 @@ export interface MeshProfile {
 }
 
 export interface TaskDetail extends TaskSession {
-    resource_uuid: MeshProfile
+  resource_uuid: MeshProfile
   chat_history: Sentence[]
 }
 

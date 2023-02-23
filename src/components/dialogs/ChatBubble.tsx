@@ -16,7 +16,7 @@ export default function ChatBubble(props: Props) {
 
   const getAvatar = () => {
     if (props.type === 'Human') {
-      return <Avatar name="Kent Dodds" src={profile.avatar_url} size="sm" />
+      return <Avatar name="Kent Dodds" src={profile.avatar} size="sm" />
     } else {
       return <Avatar name="Dan Abrahmov" src={aiAvatarUrl} size="sm" />
     }

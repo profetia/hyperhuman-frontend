@@ -7,6 +7,6 @@ export async function doStartAChat(): Promise<Subscription> {
 
     return response.data
   } catch (e) {
-      return mockSubscription
+    return mockSubscription
   }
 }
