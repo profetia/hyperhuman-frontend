@@ -57,7 +57,7 @@ export default function SearchBar() {
         </Flex>
         <ButtonGroup mx={3}>
           <SearchBtn prelude={prelude}></SearchBtn>
-          <GenerateBtn prelude={prelude}></GenerateBtn>
+          <GenerateBtn></GenerateBtn>
         </ButtonGroup>
       </VStack>
     </Box>

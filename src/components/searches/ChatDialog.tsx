@@ -31,13 +31,10 @@ import styles from '@/styles/dialogs.module.css'
 
 interface Props extends ChatDetail {
   recommend: string
-  input: string
-  onInput: (event: ChangeEvent<HTMLTextAreaElement>) => void
-  onSubmit: () => void
+  onSend: (msg: string) => void
   isOpen: boolean
   onOpen: () => void
   onClose: () => void
-  onChooseItem: (msg: string) => void
 }
 
 function ChatInputArea(props: Props) {
@@ -45,6 +42,8 @@ function ChatInputArea(props: Props) {
     if (props.recommend === '') return []
     return props.recommend.split(/\n[0-9]\. /)
   }, [props.recommend])
+
+  const [input, setInput] = useState<string>('')
 
   return (
     <Box mx={3}>
@@ -63,7 +62,7 @@ function ChatInputArea(props: Props) {
               m={1}
               p={2}
               onClick={() => {
-                props.onChooseItem(item)
+                setInput(item)
               }}
               maxWidth="200px"
               display="inline-block"
@@ -81,8 +80,10 @@ function ChatInputArea(props: Props) {
           rows={1}
           placeholder="Please describe the model you want..."
           variant={'outlined'}
-          value={props.input}
-          onChange={props.onInput}
+          value={input}
+          onChange={(event) => {
+            setInput(event.target.value)
+          }}
           resize="none"
           className={`${styles['chat-area-input']} ${styles['scrollbar-thin']}`}
           px={3}
@@ -91,7 +92,12 @@ function ChatInputArea(props: Props) {
           height={10}
         ></Textarea>
         <Button
-          onClick={props.onSubmit}
+          onClick={() => {
+            if (input !== '') {
+              props.onSend(input)
+              setInput('')
+            }
+          }}
           borderRadius="20px"
           background="#4A00E0"
           colorScheme={'purple'}
@@ -111,6 +117,8 @@ export default function ChatDialog(props: Props) {
   useEffect(() => {
     setLocalPrompt(props.prompt)
   }, [props.prompt])
+
+  const onGenerate = () => {}
 
   return (
     <LightMode>
@@ -157,7 +165,7 @@ export default function ChatDialog(props: Props) {
                     </Editable>
                     <Button
                       mt={3}
-                      onClick={props.onSubmit}
+                      onClick={onGenerate}
                       borderRadius="20px"
                       width="374px"
                       background="#4A00E0"
