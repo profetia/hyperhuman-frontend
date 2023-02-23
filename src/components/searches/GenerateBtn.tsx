@@ -16,7 +16,7 @@ export default function GenerateBtn() {
   const dispatch = useAppDispatch()
   const chat = useAppSelector((state) => state.chat)
 
-  const allowInput = useRef(true)
+  const isCanceled = useRef(false)
 
   const [socket, setSocket] = useState<Socket | undefined>(undefined)
 
@@ -25,7 +25,10 @@ export default function GenerateBtn() {
     ws: Socket | undefined = socket,
     task_uuid = chat.task_uuid
   ) => {
-    if (ws && allowInput) {
+    if (ws) {
+      if (!isCanceled.current) {
+        isCanceled.current = true
+      }
       ws.emit('message', {
         content: msg,
         task_uuid: task_uuid,
@@ -59,12 +62,11 @@ export default function GenerateBtn() {
 
       newSocket.on('AI Assistant', (event) => {
         if (event.content === '[START]') {
-          allowInput.current = false
           dispatch((dispatch, getState) => {
             dispatch(extendChatHistory({ content: '', provider: 'AI' }))
           })
         } else if (event.content === '[END]') {
-          allowInput.current = true
+          isCanceled.current = false
         } else {
           dispatch((dispatch, getState) => {
             const chat = getState().chat
@@ -85,13 +87,12 @@ export default function GenerateBtn() {
 
       newSocket.on('summary', (event) => {
         if (event.content === '[START]') {
-          allowInput.current = false
           dispatch((dispatch, getState) => {
             dispatch(setPrompt(''))
           })
         } else if (event.content === '[END]') {
-          allowInput.current = true
-        } else {
+          isCanceled.current = false
+        } else if (!isCanceled.current) {
           dispatch((dispatch, getState) => {
             const chat = getState().chat
             dispatch(setPrompt(chat.prompt + event.content))
@@ -101,13 +102,12 @@ export default function GenerateBtn() {
 
       newSocket.on('guess', (event) => {
         if (event.content === '[START]') {
-          allowInput.current = false
           dispatch((dispatch, getState) => {
             dispatch(setRecommend(''))
           })
         } else if (event.content === '[END]') {
-          allowInput.current = true
-        } else {
+          isCanceled.current = false
+        } else if (!isCanceled.current) {
           dispatch((dispatch, getState) => {
             const chat = getState().chat
             dispatch(setRecommend(chat.recommend + event.content))
@@ -135,7 +135,6 @@ export default function GenerateBtn() {
   return (
     <>
       <ChatDialog
-        {...chat}
         onSend={onSend}
         isOpen={isOpen}
         onClose={onClose}

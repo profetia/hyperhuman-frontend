@@ -22,7 +22,7 @@ export interface MeshProfile {
 }
 
 export interface TaskDetail extends TaskSession {
-  resource_uuid: MeshProfile
+  resource: MeshProfile
   chat_history: Sentence[]
 }
 
@@ -52,7 +52,7 @@ export const mockTaskDetail: TaskDetail = {
     name: 'John Doe',
     avatar: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
   },
-  resource_uuid: {
+  resource: {
     image_uuid: '5f55a0c7-77cc-4f49-bf0f-65b81636dd1d',
     video_uuid: '9fa79043-e9d1-4cf0-affa-bbc715063028',
     model_uuid: 'f3fabce9-ada0-451a-88f9-78d2b8632d29',

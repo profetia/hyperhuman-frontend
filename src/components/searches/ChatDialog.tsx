@@ -26,13 +26,17 @@ import {
 } from '@chakra-ui/react'
 import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
-import { ChatDetail } from '@/models/user/chat'
+import { ChatDetail, GenerateProgress, GenerateStep } from '@/models/user/chat'
 import { useScrollTrigger } from '@/models/task/detail'
-import { ChangeEvent, useMemo, useState, useEffect } from 'react'
+import { ChangeEvent, useMemo, useState, useEffect, useRef } from 'react'
 import styles from '@/styles/dialogs.module.css'
+import { useAppDispatch, useAppSelector } from '@/hooks'
+import { doGenerateModel, doGetGenerateProgress } from '@/api/chat'
+import { setPrompt } from '@/stores/user/chat'
+import { TaskDetail } from '@/models/task/detail'
+import { doGetTaskDetail } from '@/api/task'
 
-interface Props extends ChatDetail {
-  recommend: string
+interface Props {
   onSend: (msg: string) => void
   isOpen: boolean
   onOpen: () => void
@@ -40,10 +44,12 @@ interface Props extends ChatDetail {
 }
 
 function ChatInputArea(props: Props) {
+  const chat = useAppSelector((state) => state.chat)
+
   const recommendItems = useMemo(() => {
-    if (props.recommend === '') return []
-    return props.recommend.split(/\n[0-9]\. /)
-  }, [props.recommend])
+    if (chat.recommend === '') return []
+    return chat.recommend.split(/\n[0-9]\./).map((item) => item.trim())
+  }, [chat.recommend])
 
   const [input, setInput] = useState<string>('')
 
@@ -112,16 +118,65 @@ function ChatInputArea(props: Props) {
 }
 
 export default function ChatDialog(props: Props) {
-  const [localPrompt, setLocalPrompt] = useState<string>(
-    'He has a great smile He has a face only a mother could love. He has got dimples. One of his eyes is bigger than the other.'
+  const chat = useAppSelector((state) => state.chat)
+  const dispatch = useAppDispatch()
+
+  const generateInterval = useRef<number | undefined>(undefined)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [generateStage, setGenerateStage] = useState<
+    GenerateProgress | undefined
+  >(undefined)
+  const [taskDetail, setTaskDetail] = useState<TaskDetail | undefined>(
+    undefined
   )
   const { triggerScroll, scrollToBottom } = useScrollTrigger()
 
-  useEffect(() => {
-    setLocalPrompt(props.prompt)
-  }, [props.prompt])
+  const onGenerate = async () => {
+    setIsGenerating(true)
+    setGenerateStage(undefined)
+    await doGenerateModel(chat.task_uuid, chat.prompt)
+    generateInterval.current = window.setInterval(async () => {
+      const progress = await doGetGenerateProgress(chat.task_uuid)
+      if (progress.stage === GenerateStep.DONE) {
+        setIsGenerating(false)
+        clearInterval(generateInterval.current)
+        const newTaskDetail = await doGetTaskDetail(chat.task_uuid)
+        setTaskDetail(newTaskDetail)
+      }
+      setGenerateStage(progress)
+    }, 1000)
+  }
 
-  const onGenerate = () => {}
+  const getModelView = () => {
+    if (isGenerating) {
+      return (
+        <Center>
+          <Text>Generating...</Text>
+          {generateStage && (
+            <Text>
+              {generateStage.stage} {generateStage.waiting_num}
+              {generateStage.estimate_time}
+            </Text>
+          )}
+        </Center>
+      )
+    } else if (taskDetail) {
+      return <ModelView {...taskDetail}></ModelView>
+    } else {
+      return (
+        <Button
+          mt={3}
+          onClick={onGenerate}
+          borderRadius="20px"
+          width="374px"
+          background="#4A00E0"
+          colorScheme={'purple'}
+        >
+          Generate
+        </Button>
+      )
+    }
+  }
 
   return (
     <LightMode>
@@ -151,9 +206,10 @@ export default function ChatDialog(props: Props) {
                       </Text>
                     </Box>
                     <Editable
-                      value={localPrompt}
+                      value={chat.prompt}
+                      isDisabled={isGenerating}
                       onChange={(nextValue: string) => {
-                        setLocalPrompt(nextValue)
+                        dispatch(setPrompt(nextValue))
                       }}
                       className={styles['dialog-card-editable-text']}
                       resize="none"
@@ -169,16 +225,7 @@ export default function ChatDialog(props: Props) {
                         className={`${styles['dialog-card-editable-text']} ${styles['scrollbar-thick']}`}
                       />
                     </Editable>
-                    <Button
-                      mt={3}
-                      onClick={onGenerate}
-                      borderRadius="20px"
-                      width="374px"
-                      background="#4A00E0"
-                      colorScheme={'purple'}
-                    >
-                      Generate
-                    </Button>
+                    {getModelView()}
                   </VStack>
                 </GridItem>
                 <GridItem colSpan={1} rowSpan={1}>
@@ -188,8 +235,8 @@ export default function ChatDialog(props: Props) {
                     height={'100%'}
                   >
                     <ChatArea
-                      history={props.chat_history}
-                      recommend={props.recommend}
+                      history={chat.chat_history}
+                      recommend={chat.recommend}
                       hasInput
                       triggerScroll={triggerScroll}
                     >
