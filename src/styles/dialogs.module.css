@@ -60,6 +60,10 @@
   opacity: 1;
 }
 
+.chat-area-recommend {
+  cursor: pointer;
+}
+
 .chat-area-input {
   background: #fff;
   color: #1e1e1e;

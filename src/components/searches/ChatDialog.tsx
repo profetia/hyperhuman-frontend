@@ -37,7 +37,7 @@ interface Props extends ChatDetail {
   isOpen: boolean
   onOpen: () => void
   onClose: () => void
-  onSend: (msg: string) => void
+  onChooseItem: (msg: string) => void
 }
 
 function ChatInputArea(props: Props) {
@@ -63,12 +63,13 @@ function ChatInputArea(props: Props) {
               m={1}
               p={2}
               onClick={() => {
-                props.onSend(item)
+                props.onChooseItem(item)
               }}
               maxWidth="200px"
               display="inline-block"
               whiteSpace={'normal'}
               colorScheme={'twitter'}
+              className={styles['chat-area-recommend']}
             >
               {item}
             </Tag>

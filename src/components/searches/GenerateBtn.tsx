@@ -155,7 +155,9 @@ export default function GenerateBtn({ prelude }: Props) {
         isOpen={isOpen}
         onClose={onClose}
         onOpen={onOpen}
-        onSend={onSend}
+        onChooseItem={(msg: string) => {
+          setInput(msg)
+        }}
       ></ChatDialog>
       <Button colorScheme="blue" width={20} onClick={onOpen}>
         Generate
