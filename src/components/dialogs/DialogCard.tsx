@@ -37,7 +37,7 @@ export default function DialogCard(props: Props) {
               >
                 <GridItem colSpan={1} rowSpan={1}>
                   <ModelView
-                    resource={props.resource_uuid}
+                    resource={props.resource}
                     prompt={props.prompt}
                   ></ModelView>
                 </GridItem>

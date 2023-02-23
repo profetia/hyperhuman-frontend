@@ -27,9 +27,9 @@ interface Props extends TaskSession {
   onLike: () => void
 }
 
-function getLikeIcon(is_liked: boolean) {
+function getLikeIcon(isLiked: boolean) {
   return (
-    <Icon as={is_liked ? AiFillHeart : AiOutlineHeart} m={0} boxSize={6}></Icon>
+    <Icon as={isLiked ? AiFillHeart : AiOutlineHeart} m={0} boxSize={6}></Icon>
   )
 }
 
@@ -46,7 +46,7 @@ export default function ThumbnailCard(props: Props) {
   const [taskDetail, setTaskDetail] = useState<TaskDetail>({
     ...props,
     chat_history: [],
-    resource_uuid: {},
+    resource: {},
   })
 
   return (
