@@ -21,14 +21,14 @@ interface Props {
 
 export default function ChatArea(props: Props) {
   const messageEnd = React.createRef<HTMLDivElement>()
-  const scrollToBottom = () => {
-    messageEnd.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+
   useEffect(() => {
     if (props.triggerScroll) {
-      scrollToBottom()
+      ;(() => {
+        messageEnd.current?.scrollIntoView({ behavior: 'smooth' })
+      })()
     }
-  }, [props.triggerScroll])
+  }, [messageEnd, props.triggerScroll])
   return (
     <Box>
       <Text mt={5} className={styles['chat-area-card-heading']}>
