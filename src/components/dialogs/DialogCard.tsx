@@ -14,6 +14,7 @@ import {
 import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
 import { ChatDetail } from '@/models/user/chat'
+import { useScrollTrigger } from '@/models/task/detail'
 import styles from '@/styles/dialogs.module.css'
 
 interface Props extends ChatDetail {
@@ -23,6 +24,7 @@ interface Props extends ChatDetail {
 }
 
 export default function DialogCard(props: Props) {
+  const { triggerScroll, scrollToBottom } = useScrollTrigger()
   return (
     <LightMode>
       <Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -42,7 +44,10 @@ export default function DialogCard(props: Props) {
                   ></ModelView>
                 </GridItem>
                 <GridItem colSpan={1} rowSpan={1}>
-                  <ChatArea history={props.chat_history}></ChatArea>
+                  <ChatArea
+                    history={props.chat_history}
+                    triggerScroll={triggerScroll}
+                  ></ChatArea>
                 </GridItem>
               </Grid>
             </Flex>

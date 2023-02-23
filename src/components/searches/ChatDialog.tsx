@@ -26,6 +26,7 @@ import {
 import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
 import { ChatDetail } from '@/models/user/chat'
+import { useScrollTrigger } from '@/models/task/detail'
 import { ChangeEvent, useMemo, useState, useEffect } from 'react'
 import styles from '@/styles/dialogs.module.css'
 
@@ -106,6 +107,7 @@ export default function ChatDialog(props: Props) {
   const [localPrompt, setLocalPrompt] = useState<string>(
     'He has a great smile He has a face only a mother could love. He has got dimples. One of his eyes is bigger than the other.'
   )
+  const { triggerScroll, scrollToBottom } = useScrollTrigger()
 
   useEffect(() => {
     setLocalPrompt(props.prompt)
@@ -156,7 +158,6 @@ export default function ChatDialog(props: Props) {
                     </Editable>
                     <Button
                       mt={3}
-                      onClick={props.onSubmit}
                       borderRadius="20px"
                       width="374px"
                       background="#4A00E0"
@@ -172,8 +173,18 @@ export default function ChatDialog(props: Props) {
                     justifyContent="space-between"
                     h={'100%'}
                   >
-                    <ChatArea history={props.chat_history} hasInput>
-                      <ChatInputArea {...props}></ChatInputArea>
+                    <ChatArea
+                      history={props.chat_history}
+                      hasInput
+                      triggerScroll={triggerScroll}
+                    >
+                      <ChatInputArea
+                        {...props}
+                        onSubmit={() => {
+                          props.onSubmit()
+                          scrollToBottom()
+                        }}
+                      ></ChatInputArea>
                     </ChatArea>
                   </Flex>
                 </GridItem>

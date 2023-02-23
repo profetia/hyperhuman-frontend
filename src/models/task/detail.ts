@@ -1,4 +1,5 @@
 import { TaskSession } from './cards'
+import { useState } from 'react'
 
 export type ChatProvider = 'Human' | 'AI'
 
@@ -23,6 +24,17 @@ export interface MeshProfile {
 export interface TaskDetail extends TaskSession {
   resource_uuid: MeshProfile
   chat_history: Sentence[]
+}
+
+export const useScrollTrigger = () => {
+  const [triggerScroll, setTriggerScroll] = useState<number>(0)
+  const scrollToBottom = () => {
+    setTriggerScroll(triggerScroll + 1)
+  }
+  return {
+    triggerScroll: triggerScroll,
+    scrollToBottom: scrollToBottom,
+  }
 }
 
 export const mockTaskDetail: TaskDetail = {
