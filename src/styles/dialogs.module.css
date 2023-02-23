@@ -60,6 +60,11 @@
   opacity: 1;
 }
 
+.chat-bubble-place-holder {
+  float: left;
+  clear: both;
+}
+
 .chat-area-recommend {
   cursor: pointer;
 }

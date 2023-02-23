@@ -26,6 +26,7 @@ import {
 import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
 import { ChatDetail, GenerateProgress, GenerateStep } from '@/models/user/chat'
+import { useScrollTrigger } from '@/models/task/detail'
 import { ChangeEvent, useMemo, useState, useEffect, useRef } from 'react'
 import styles from '@/styles/dialogs.module.css'
 import { useAppDispatch, useAppSelector } from '@/hooks'
@@ -127,6 +128,7 @@ export default function ChatDialog(props: Props) {
   const [taskDetail, setTaskDetail] = useState<TaskDetail | undefined>(
     undefined
   )
+  const { triggerScroll, scrollToBottom } = useScrollTrigger()
 
   const onGenerate = async () => {
     setIsGenerating(true)
@@ -228,8 +230,18 @@ export default function ChatDialog(props: Props) {
                     justifyContent="space-between"
                     h={'100%'}
                   >
-                    <ChatArea history={chat.chat_history} hasInput>
-                      <ChatInputArea {...props}></ChatInputArea>
+                    <ChatArea
+                      history={chat.chat_history}
+                      hasInput
+                      triggerScroll={triggerScroll}
+                    >
+                      <ChatInputArea
+                        {...props}
+                        onSend={(msg: string) => {
+                          scrollToBottom()
+                          props.onSend(msg)
+                        }}
+                      ></ChatInputArea>
                     </ChatArea>
                   </Flex>
                 </GridItem>
