@@ -14,4 +14,42 @@
 	height: 70vh;
 	background-color: white;
 	border-radius: 5px;
+	padding: 1.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.col {
+	flex-grow: 1;
+	flex-shrink: 1;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+.col:first-child {
+	margin-right: 1rem;
+}
+.colTitle {
+	width: 100%;
+	font-size: 1.2rem;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 1rem;
+	color: #aaaaaa;
+}
+.colTitle div {
+	cursor: pointer;
+	user-select: none;
+}
+
+.chatCon {
+	background-color: #eee;
+	flex-grow: 1;
+	flex-shrink: 1;
+	width: 100%;
+	border-radius: 5px;
 }

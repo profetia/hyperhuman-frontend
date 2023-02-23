@@ -1,7 +1,17 @@
-import { atom } from "recoil"
+import { atom } from 'recoil'
 
 const taskInitAtom = atom({
 	key: 'taskInitAtom',
 	default: null,
 })
-export { taskInitAtom }
+
+const chatHistoryAtom = atom({
+	key: 'chatHistoryAtom',
+	default: [],
+})
+
+const promptAtom = atom({
+	key: 'promptAtom',
+	default: [],
+})
+export { taskInitAtom, chatHistoryAtom, promptAtom }

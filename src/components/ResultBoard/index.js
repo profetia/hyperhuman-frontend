@@ -1,4 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom'
+import { ChatBoard } from './ChatBoard'
+import { DetailBoard } from './DetailBoard'
+import { GenerateBoard } from './GenerateBoard'
 import style from './result.module.css'
 import { taskInitAtom } from './store.js'
 
@@ -12,16 +15,10 @@ function ResultBoard() {
 		<div className={style.con} onPointerDown={handleClose}>
 			<div className={style.board} onPointerDown={(ev) => ev.stopPropagation()}>
 				<Outlet />
-				<div>
-					<div></div>
-					<div>
-						<div></div>
-						<div></div>
-					</div>
-				</div>
+				<ChatBoard />
 			</div>
 		</div>
 	)
 }
 
-export { ResultBoard, taskInitAtom }
+export { ResultBoard, GenerateBoard, DetailBoard, taskInitAtom }

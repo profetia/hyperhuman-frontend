@@ -5,7 +5,7 @@ import App from './App'
 import { RecoilRoot } from 'recoil'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ErrorPage } from './components/ErrorPage'
-import { ResultBoard } from './components/ResultBoard'
+import { DetailBoard, GenerateBoard, ResultBoard } from './components/ResultBoard'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -22,11 +22,11 @@ function Outter() {
 					children: [
 						{
 							path: 'detail',
-							element: <div>detail</div>,
+							element: <DetailBoard />,
 						},
 						{
 							path: 'generate',
-							element: <div>generate</div>,
+							element: <GenerateBoard />,
 						},
 					],
 				},

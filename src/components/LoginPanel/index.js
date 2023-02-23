@@ -28,7 +28,7 @@ function LoginPanel() {
 			<div className={style.close} onPointerDown={handleClose}>
 				X
 			</div>
-			<h1 onPointerDown={handleLogin}>LoginPanel</h1>
+			<h1 onPointerDown={handleLogin}>Login</h1>
 		</div>
 	)
 }

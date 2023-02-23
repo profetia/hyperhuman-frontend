@@ -30,7 +30,7 @@ function Welcome() {
 			.then((data) => {
 				const taskInit = data.data
 				setTaskInit(taskInit)
-				navi('/result')
+				navi('/result/generate')
 			})
 			.catch((err) => {
 				console.log(err.message)
