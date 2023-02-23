@@ -6,11 +6,24 @@
   opacity: 1;
 }
 
+.dialog-card-editable-heading {
+  height: 17px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #aaa;
+  line-height: 0px;
+}
+
 .dialog-card-editable-text {
   font-size: 14px;
   font-weight: 400;
   color: #1e1e1e;
   line-height: 20px;
+  background: #f8f8f8;
+  width: 374px;
+  height: 103px;
+  border-radius: 8px;
+  opacity: 1;
 }
 
 .chat-area-card {
