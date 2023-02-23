@@ -12,16 +12,11 @@ import ChatDialog from './ChatDialog'
 import { useRef, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
 
-interface Props {
-  prelude: string
-}
-
-export default function GenerateBtn({ prelude }: Props) {
+export default function GenerateBtn() {
   const dispatch = useAppDispatch()
   const chat = useAppSelector((state) => state.chat)
 
   const allowInput = useRef(true)
-  const [input, setInput] = useState<string>('')
 
   const [socket, setSocket] = useState<Socket | undefined>(undefined)
 
@@ -134,7 +129,6 @@ export default function GenerateBtn({ prelude }: Props) {
         }
         fetchInitChat()
       }
-      setInput(prelude)
     },
   })
 
@@ -142,20 +136,10 @@ export default function GenerateBtn({ prelude }: Props) {
     <>
       <ChatDialog
         {...chat}
-        input={input}
-        onInput={(event) => {
-          setInput(event.target.value)
-        }}
-        onSubmit={() => {
-          if (input !== '' && allowInput.current) {
-            onSend(input)
-            setInput('')
-          }
-        }}
+        onSend={onSend}
         isOpen={isOpen}
         onClose={onClose}
         onOpen={onOpen}
-        onSend={onSend}
       ></ChatDialog>
       <Button colorScheme="blue" width={20} onClick={onOpen}>
         Generate

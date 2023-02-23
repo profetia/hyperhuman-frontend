@@ -60,6 +60,15 @@
   opacity: 1;
 }
 
+.chat-bubble-place-holder {
+  float: left;
+  clear: both;
+}
+
+.chat-area-recommend {
+  cursor: pointer;
+}
+
 .chat-area-input {
   background: #fff;
   color: #1e1e1e;
