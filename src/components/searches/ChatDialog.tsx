@@ -28,9 +28,11 @@ import ModelView from '@/components/dialogs/ModelView'
 import { ChatDetail } from '@/models/user/chat'
 import { ChangeEvent, useMemo, useState, useEffect } from 'react'
 import styles from '@/styles/dialogs.module.css'
+import { useAppDispatch, useAppSelector } from '@/hooks'
+import { doGenerateModel } from '@/api/chat'
+import { setPrompt } from '@/stores/user/chat'
 
-interface Props extends ChatDetail {
-  recommend: string
+interface Props {
   onSend: (msg: string) => void
   isOpen: boolean
   onOpen: () => void
@@ -38,10 +40,12 @@ interface Props extends ChatDetail {
 }
 
 function ChatInputArea(props: Props) {
+  const chat = useAppSelector((state) => state.chat)
+
   const recommendItems = useMemo(() => {
-    if (props.recommend === '') return []
-    return props.recommend.split(/\n[0-9]\. /)
-  }, [props.recommend])
+    if (chat.recommend === '') return []
+    return chat.recommend.split(/\n[0-9]\. /)
+  }, [chat.recommend])
 
   const [input, setInput] = useState<string>('')
 
@@ -110,15 +114,15 @@ function ChatInputArea(props: Props) {
 }
 
 export default function ChatDialog(props: Props) {
-  const [localPrompt, setLocalPrompt] = useState<string>(
-    'He has a great smile He has a face only a mother could love. He has got dimples. One of his eyes is bigger than the other.'
-  )
+  const chat = useAppSelector((state) => state.chat)
+  const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    setLocalPrompt(props.prompt)
-  }, [props.prompt])
+  const [isGenerating, setIsGenerating] = useState(false)
 
-  const onGenerate = () => {}
+  const onGenerate = async () => {
+    setIsGenerating(true)
+    await doGenerateModel(chat.task_uuid, chat.prompt)
+  }
 
   return (
     <LightMode>
@@ -148,9 +152,10 @@ export default function ChatDialog(props: Props) {
                       </Text>
                     </Box>
                     <Editable
-                      value={localPrompt}
+                      value={chat.prompt}
+                      isDisabled={isGenerating}
                       onChange={(nextValue: string) => {
-                        setLocalPrompt(nextValue)
+                        dispatch(setPrompt(nextValue))
                       }}
                       className={styles['dialog-card-editable-text']}
                     >
@@ -163,16 +168,22 @@ export default function ChatDialog(props: Props) {
                         className={styles['dialog-card-editable-text']}
                       />
                     </Editable>
-                    <Button
-                      mt={3}
-                      onClick={onGenerate}
-                      borderRadius="20px"
-                      width="374px"
-                      background="#4A00E0"
-                      colorScheme={'purple'}
-                    >
-                      Generate
-                    </Button>
+                    {isGenerating ? (
+                      <Center>
+                        <Text>Generating...</Text>
+                      </Center>
+                    ) : (
+                      <Button
+                        mt={3}
+                        onClick={onGenerate}
+                        borderRadius="20px"
+                        width="374px"
+                        background="#4A00E0"
+                        colorScheme={'purple'}
+                      >
+                        Generate
+                      </Button>
+                    )}
                   </VStack>
                 </GridItem>
                 <GridItem colSpan={1} rowSpan={1}>
@@ -181,7 +192,7 @@ export default function ChatDialog(props: Props) {
                     justifyContent="space-between"
                     h={'100%'}
                   >
-                    <ChatArea history={props.chat_history} hasInput>
+                    <ChatArea history={chat.chat_history} hasInput>
                       <ChatInputArea {...props}></ChatInputArea>
                     </ChatArea>
                   </Flex>

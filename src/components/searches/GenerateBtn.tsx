@@ -135,7 +135,6 @@ export default function GenerateBtn() {
   return (
     <>
       <ChatDialog
-        {...chat}
         onSend={onSend}
         isOpen={isOpen}
         onClose={onClose}
