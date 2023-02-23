@@ -7,6 +7,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	color: rgb(67, 67, 67);
 }
 .board {
 	width: 70vw;

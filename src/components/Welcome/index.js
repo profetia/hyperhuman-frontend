@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { startChat } from '../../net'
@@ -12,9 +12,10 @@ function Welcome() {
 	const logInfo = useRecoilValue(logInfoAtom)
 	const navi = useNavigate()
 
-	useEffect(() => {
-		console.log('input description: ', description)
-	}, [description])
+	// useEffect(() => {
+	// 	console.log('input description: ', description)
+	// }, [description])
+	// useEffect(() => console.log(logInfo), [logInfo])
 
 	const handleInput = (ev) => {
 		setDescription(ev.currentTarget.value)

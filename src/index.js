@@ -2,29 +2,35 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
-import { RecoilRoot, useRecoilValue } from 'recoil'
+import { RecoilRoot } from 'recoil'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ErrorPage } from './components/ErrorPage'
 import { ResultBoard } from './components/ResultBoard'
-import { logInfoAtom } from './components/Header'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
 function Outter() {
-	const logInfo = useRecoilValue(logInfoAtom)
 	const router = createBrowserRouter([
 		{
 			path: '/',
 			element: <App />,
 			errorElement: <ErrorPage />,
-			children: logInfo //路由守卫
-				? [
+			children: [
+				{
+					path: 'result',
+					element: <ResultBoard />,
+					children: [
 						{
-							path: 'result',
-							element: <ResultBoard />,
+							path: 'detail',
+							element: <div>detail</div>,
 						},
-				  ]
-				: [],
+						{
+							path: 'generate',
+							element: <div>generate</div>,
+						},
+					],
+				},
+			],
 		},
 	])
 	return <RouterProvider router={router} />
