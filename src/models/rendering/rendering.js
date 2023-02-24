@@ -189,6 +189,7 @@ class SimpleThreeProject {
     this.camera.near = 0.001
     this.camera.far = 100
     this.scene.add(this.camera)
+    this.container.innerHTML = ''
     this.container.appendChild(this.renderer.domElement)
   }
   _initStats() {
