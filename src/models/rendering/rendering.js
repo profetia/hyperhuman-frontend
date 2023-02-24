@@ -360,7 +360,7 @@ class SSSSSContent {
     var orbit = new OrbitController(this.container)
     orbit.lookAtTarget.z = 0.03
     orbit.radius = 0.3
-    orbit.minRadius = 0.15
+    orbit.minRadius = 0.05
     orbit.maxRadius = 0.3
     orbit.zoomSpeed = 0.05
     orbit.mouse_constant = 0.0002
