@@ -11,7 +11,18 @@ export interface ChatState extends ChatDetail {
 const initialState: ChatState = {
   task_uuid: '',
   prompt: '',
-  resource_url: '',
+  resource_uuid: {
+    image_uuid: '',
+    video_uuid: '',
+    model_uuid: '',
+    texture_diff_high_uuid: '',
+    texture_spec_high_uuid: '',
+    texture_norm_high_uuid: '',
+    texture_diff_low_uuid: '',
+    texture_spec_low_uuid: '',
+    texture_norm_low_uuid: '',
+    export_info_uuid: '',
+  },
   chat_history: [],
   subscription: '',
   recommend: '',
@@ -37,9 +48,6 @@ const chatSlice = createSlice({
     setRecommend: (state, action: AppAction<string>) => {
       state.recommend = action.payload
     },
-    setResourceUrl: (state, action: AppAction<string>) => {
-      state.resource_url = action.payload
-    },
     setChatHistory: (state, action: AppAction<Sentence[]>) => {
       state.chat_history = action.payload
     },
@@ -53,7 +61,6 @@ export const {
   initChat,
   setPrompt,
   setRecommend,
-  setResourceUrl,
   setChatHistory,
   extendChatHistory,
 } = chatSlice.actions

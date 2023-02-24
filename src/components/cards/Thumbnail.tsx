@@ -46,7 +46,18 @@ export default function ThumbnailCard(props: Props) {
   const [taskDetail, setTaskDetail] = useState<TaskDetail>({
     ...props,
     chat_history: [],
-    resource_uuid: {},
+    resource_uuid: {
+      image_uuid: '',
+      video_uuid: '',
+      model_uuid: '',
+      texture_diff_high_uuid: '',
+      texture_diff_low_uuid: '',
+      texture_spec_high_uuid: '',
+      texture_spec_low_uuid: '',
+      texture_norm_high_uuid: '',
+      texture_norm_low_uuid: '',
+      export_info_uuid: '',
+    },
   })
 
   return (
