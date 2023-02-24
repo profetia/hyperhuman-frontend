@@ -143,10 +143,26 @@
 
 .model-view-box {
   overflow: hidden;
-  width: 100%;
-  border-radius: 0.5rem;
+  width: 428px;
+  height: 466px;
+  border-radius: 8px;
+  opacity: 1;
   flex-grow: 1;
   flex-shrink: 1;
+}
+
+.model-view-prompt-box {
+  width: 396px;
+  background: #fff;
+  border-radius: 8px;
+  opacity: 0.85;
+  font-size: 12px;
+  font-weight: 400;
+  color: #343434;
+  line-height: 16px;
+  position: absolute;
+  bottom: 40px;
+  text-align: center;
 }
 
 .scrollbar-thin::-webkit-scrollbar {
