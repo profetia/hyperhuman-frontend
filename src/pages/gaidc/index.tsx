@@ -31,6 +31,7 @@ import {
 import { io, Socket } from 'socket.io-client'
 import { doStartAChat } from '@/api/chat'
 import { useRouter } from 'next/router'
+import { RecieveStep } from '@/models/user/chat'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -38,7 +39,7 @@ export default function Share() {
   const dispatch = useAppDispatch()
   const chat = useAppSelector((state) => state.chat)
 
-  const isCanceled = useRef(false)
+  const recieveState = useRef(RecieveStep.PENDING)
   const socket = useRef<Socket | undefined>(undefined)
 
   const onSend = (
@@ -47,9 +48,10 @@ export default function Share() {
     task_uuid = chat.task_uuid
   ) => {
     if (ws) {
-      if (!isCanceled.current) {
-        isCanceled.current = true
+      if (recieveState.current === RecieveStep.RECIEVING) {
+        recieveState.current = RecieveStep.CANCELED
       }
+
       ws.emit('message', {
         content: msg,
         task_uuid: task_uuid,
@@ -104,7 +106,6 @@ export default function Share() {
                   dispatch(extendChatHistory({ content: '', provider: 'AI' }))
                 })
               } else if (event.content === '[END]') {
-                isCanceled.current = false
               } else {
                 dispatch((dispatch, getState) => {
                   const chat = getState().chat
@@ -129,8 +130,7 @@ export default function Share() {
                   dispatch(setPrompt(''))
                 })
               } else if (event.content === '[END]') {
-                isCanceled.current = false
-              } else if (!isCanceled.current) {
+              } else {
                 dispatch((dispatch, getState) => {
                   const chat = getState().chat
                   dispatch(setPrompt(chat.prompt + event.content))
@@ -140,12 +140,13 @@ export default function Share() {
 
             newSocket.on('guess', (event) => {
               if (event.content === '[START]') {
+                recieveState.current = RecieveStep.RECIEVING
                 dispatch((dispatch, getState) => {
                   dispatch(setRecommend(''))
                 })
               } else if (event.content === '[END]') {
-                isCanceled.current = false
-              } else if (!isCanceled.current) {
+                recieveState.current = RecieveStep.PENDING
+              } else if (recieveState.current !== RecieveStep.CANCELED) {
                 dispatch((dispatch, getState) => {
                   const chat = getState().chat
                   dispatch(setRecommend(chat.recommend + event.content))

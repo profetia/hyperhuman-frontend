@@ -11,23 +11,23 @@ import {
 import ChatDialog from './ChatDialog'
 import { useRef, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
+import { RecieveStep } from '@/models/user/chat'
 
 export default function GenerateBtn() {
   const dispatch = useAppDispatch()
   const chat = useAppSelector((state) => state.chat)
 
-  const isCanceled = useRef(false)
-
-  const [socket, setSocket] = useState<Socket | undefined>(undefined)
+  const recieveState = useRef(RecieveStep.PENDING)
+  const socket = useRef<Socket | undefined>(undefined)
 
   const onSend = (
     msg: string,
-    ws: Socket | undefined = socket,
+    ws: Socket | undefined = socket.current,
     task_uuid = chat.task_uuid
   ) => {
     if (ws) {
-      if (!isCanceled.current) {
-        isCanceled.current = true
+      if (recieveState.current === RecieveStep.RECIEVING) {
+        recieveState.current = RecieveStep.CANCELED
       }
       ws.emit('message', {
         content: msg,
@@ -43,7 +43,7 @@ export default function GenerateBtn() {
   }
 
   const initWebSocket = async (subscription: string, task_uuid: string) => {
-    if (!socket) {
+    if (!socket.current) {
       const newSocket = await new Promise<Socket>((resolve) => {
         const newSocket = io(
           `${process.env.NEXT_PUBLIC_API_BASE as string}/chat_socket`,
@@ -66,7 +66,6 @@ export default function GenerateBtn() {
             dispatch(extendChatHistory({ content: '', provider: 'AI' }))
           })
         } else if (event.content === '[END]') {
-          isCanceled.current = false
         } else {
           dispatch((dispatch, getState) => {
             const chat = getState().chat
@@ -91,8 +90,7 @@ export default function GenerateBtn() {
             dispatch(setPrompt(''))
           })
         } else if (event.content === '[END]') {
-          isCanceled.current = false
-        } else if (!isCanceled.current) {
+        } else {
           dispatch((dispatch, getState) => {
             const chat = getState().chat
             dispatch(setPrompt(chat.prompt + event.content))
@@ -102,12 +100,13 @@ export default function GenerateBtn() {
 
       newSocket.on('guess', (event) => {
         if (event.content === '[START]') {
+          recieveState.current = RecieveStep.RECIEVING
           dispatch((dispatch, getState) => {
             dispatch(setRecommend(''))
           })
         } else if (event.content === '[END]') {
-          isCanceled.current = false
-        } else if (!isCanceled.current) {
+          recieveState.current = RecieveStep.PENDING
+        } else if (recieveState.current !== RecieveStep.CANCELED) {
           dispatch((dispatch, getState) => {
             const chat = getState().chat
             dispatch(setRecommend(chat.recommend + event.content))
@@ -115,7 +114,7 @@ export default function GenerateBtn() {
         }
       })
 
-      setSocket(newSocket)
+      socket.current = newSocket
     }
   }
 

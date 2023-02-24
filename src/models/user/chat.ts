@@ -36,6 +36,12 @@ export enum GenerateStep {
   FAILED = 'Failed',
 }
 
+export enum RecieveStep {
+  PENDING,
+  RECIEVING,
+  CANCELED,
+}
+
 export interface GenerateProgress {
   stage: GenerateStep
   estimate_time: number
