@@ -16,7 +16,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { BsLink45Deg } from 'react-icons/bs'
 import * as THREE from 'three'
 import React, { useEffect, useRef, useState } from 'react'
-import { startUp } from '@/models/rendering/rendering'
+// import { startUp } from '@/models/rendering/rendering'
 import { Canvas, ThreeElements, useLoader } from '@react-three/fiber'
 import {
   PresentationControls,
@@ -167,7 +167,10 @@ const ModelView = (props: Props) => {
       env_specular: '/assets/env/lapa_4k_panorama_specular.hdr',
     }))(resourcePromise)
 
-    resourceUrl.then((data) => startUp(data))
+    resourceUrl.then(async (data) => {
+      const { startUp } = await import('@/models/rendering/rendering')
+      startUp(data)
+    })
   }, [props])
 
   return (
@@ -206,7 +209,7 @@ const ModelView = (props: Props) => {
       </HStack>
       {/* <ModelEnvironment></ModelEnvironment> */}
 
-      <Box id="webglcontainer">nihao</Box>
+      <Box id="webglcontainer"></Box>
       <Box id="info">{localPrompt}</Box>
       <Box id="preloader" className="preloader">
         <Box id="preloaderBar" className="vAligned">
