@@ -504,6 +504,7 @@ function startUp(mesh_profile) {
     assetLibrary.load()
 }
 function onAssetsProgress(e) {
+  if (typeof document === 'undefined') return
   var t = document.getElementById('preloaderProgress')
   t.style.width = Math.floor(100 * e) + '%'
 }

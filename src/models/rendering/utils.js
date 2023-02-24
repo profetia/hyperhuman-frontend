@@ -22,6 +22,8 @@ function isPlatformMobile() {
   )
 }
 let QueryString = (function () {
+  if (typeof window === 'undefined')
+    return console.log('window is undefined'), {}
   for (
     var e = {},
       t = window.location.search.substring(1),
@@ -1286,7 +1288,8 @@ class RenderTargetInjector {
 
     this.skin_material = null
     this.enabled = true
-    document.addEventListener('keyup', this._onKeyUp.bind(this))
+    if (typeof document !== 'undefined')
+      document.addEventListener('keyup', this._onKeyUp.bind(this))
   }
 
   static Type = {
