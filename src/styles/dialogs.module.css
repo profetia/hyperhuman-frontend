@@ -24,6 +24,12 @@
   height: 103px;
   border-radius: 8px;
   opacity: 1;
+
+  /* overflow-y: scroll; */
+}
+
+.dialog-card-editable-text span {
+  overflow-y: scroll;
 }
 
 .chat-area-card {
@@ -31,11 +37,20 @@
   height: 466px;
   border-radius: 8px;
   background: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 1rem 0;
+  margin-top: 0.5rem;
 }
 
 .chat-bubble-wrapper {
   width: 362px;
   overflow-y: scroll;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .chat-area-card-heading {
@@ -91,8 +106,18 @@
 }
 
 .model-view-environment-box {
-  width: 428px;
-  height: 466px;
+  height: 100%;
+  margin-right: 1rem;
+  box-sizing: border-box;
+  padding: 0 0 1rem 1rem;
+}
+
+.model-view-con {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .model-view-author-name {
@@ -111,6 +136,14 @@
   font-weight: 400;
   color: #2d2d2d;
   line-height: 0px;
+}
+
+.model-view-box {
+  overflow: hidden;
+  width: 100%;
+  border-radius: 0.5rem;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .scrollbar-thin::-webkit-scrollbar {

@@ -382,7 +382,7 @@ class SSSSSContent {
     color = 0xffffff
     this.mainLight = new THREE.DirectionalLight(color)
     this.mainLight.position.set(0, 0, -1)
-    this.mainLight.intensity = 1
+    this.mainLight.intensity = 0.5
     // this.mainLight.castShadow = true
     this.scene.add(this.mainLight)
   }

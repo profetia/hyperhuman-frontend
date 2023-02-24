@@ -31,6 +31,7 @@ import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader'
 import styles from '@/styles/dialogs.module.css'
 import { MeshDetail, MeshProfile } from '@/models/task/detail'
 import { doGetTaskDownload } from '@/api/task'
+import { global_render_target_injector } from '@/models/rendering/utils'
 
 interface Props {
   resource_uuid: MeshProfile
@@ -170,11 +171,12 @@ const ModelView = (props: Props) => {
     resourceUrl.then(async (data) => {
       const { startUp } = await import('@/models/rendering/rendering')
       startUp(data)
+      global_render_target_injector.enabled = false
     })
   }, [props])
 
   return (
-    <Box>
+    <Box className={styles['model-view-con']}>
       <HStack mb={2} justifyContent="space-between">
         <HStack>
           <Avatar
@@ -209,7 +211,7 @@ const ModelView = (props: Props) => {
       </HStack>
       {/* <ModelEnvironment></ModelEnvironment> */}
 
-      <Box id="webglcontainer"></Box>
+      <Box id="webglcontainer" className={styles['model-view-box']}></Box>
       <Box id="info">{localPrompt}</Box>
       <Box id="preloader" className="preloader">
         <Box id="preloaderBar" className="vAligned">

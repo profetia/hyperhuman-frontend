@@ -231,9 +231,7 @@ export default function ChatDialog(props: Props) {
                         <Box width="100%">
                           <Text
                             className={styles['dialog-card-editable-heading']}
-                            mt={4}
-                            ml={7}
-                            mb={2}
+                            mt={5}
                           >
                             Prompt
                           </Text>
