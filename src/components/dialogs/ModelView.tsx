@@ -212,7 +212,10 @@ const ModelView = (props: Props) => {
       {/* <ModelEnvironment></ModelEnvironment> */}
 
       <Box id="webglcontainer" className={styles['model-view-box']}></Box>
-      <Box id="info">{localPrompt}</Box>
+      <Box id="info"></Box>
+      <Box className={styles['model-view-prompt-box']} px={4} py={3}>
+        {localPrompt}
+      </Box>
       <Box id="preloader" className="preloader">
         <Box id="preloaderBar" className="vAligned">
           Loading...
