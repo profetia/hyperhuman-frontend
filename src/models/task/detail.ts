@@ -1,4 +1,4 @@
-import { TaskSession } from './cards'startUp
+import { TaskSession } from './cards'
 import { useState } from 'react'
 
 export type ChatProvider = 'Human' | 'AI'

@@ -181,7 +181,7 @@ class SimpleThreeProject {
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(
       46.4,
-      this.container.clientWidth /  this.container.clientWidth,
+      this.container.clientWidth / this.container.clientWidth,
       1,
       10000
     )
@@ -206,8 +206,8 @@ class SimpleThreeProject {
   }
   _resizeCanvas() {
     if (this.renderer) {
-      var e =  this.container.clientWidth,
-        t =  this.container.clientHeight
+      var e = this.container.clientWidth,
+        t = this.container.clientHeight
       this.renderer.setSize(e, t),
         (this.renderer.domElement.style.width = e + 'px'),
         (this.renderer.domElement.style.height = t + 'px'),
