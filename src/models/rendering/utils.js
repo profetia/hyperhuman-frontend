@@ -1321,63 +1321,58 @@ class RenderTargetInjector {
   }
 
   _onKeyUp(event) {
-    if (!this.enabled) return
-
-    switch (event.keyCode) {
-      case 48 + 0:
-      case 96 + 0:
-        this.render_type = RenderTargetInjector.Type.FINAL_COMPOSE
-        if (this.skin_material)
-          this.skin_material.uniforms.return_stage.value = 0
-        break
-
-      case 48 + 1:
-      case 96 + 1:
-        this.render_type = RenderTargetInjector.Type.DEPTH_MAP
-        break
-      case 48 + 2:
-      case 96 + 2:
-        this.render_type = RenderTargetInjector.Type.SHADOW_MAP
-        break
-      case 48 + 3:
-      case 96 + 3:
-        this.render_type = RenderTargetInjector.Type.SHADOW_MAP_BLUR
-        break
-      case 48 + 4:
-      case 96 + 4:
-        this.render_type = RenderTargetInjector.Type.SSS
-        break
-      case 48 + 5:
-      case 96 + 5:
-        this.render_type = RenderTargetInjector.Type.SSS_BLUR
-        break
-
-      case 48 + 6:
-      case 96 + 6:
-        this.render_type = RenderTargetInjector.Type.SKIN_SSS
-        if (this.skin_material)
-          this.skin_material.uniforms.return_stage.value = 1
-        break
-      case 48 + 7:
-      case 96 + 7:
-        this.render_type = RenderTargetInjector.Type.SKIN_TRANSMISSION
-        if (this.skin_material)
-          this.skin_material.uniforms.return_stage.value = 2
-        break
-      case 48 + 8:
-      case 96 + 8:
-        this.render_type = RenderTargetInjector.Type.SKIN_SHADOWDIFFUSE
-        if (this.skin_material)
-          this.skin_material.uniforms.return_stage.value = 3
-        break
-
-      default:
-        this.render_type = RenderTargetInjector.Type.SKIN_FINAL
-        if (this.skin_material)
-          this.skin_material.uniforms.return_stage.value = 0
-    }
-
-    console.log(this.render_type)
+    // if (!this.enabled) return
+    // switch (event.keyCode) {
+    //   case 48 + 0:
+    //   case 96 + 0:
+    //     this.render_type = RenderTargetInjector.Type.FINAL_COMPOSE
+    //     if (this.skin_material)
+    //       this.skin_material.uniforms.return_stage.value = 0
+    //     break
+    //   case 48 + 1:
+    //   case 96 + 1:
+    //     this.render_type = RenderTargetInjector.Type.DEPTH_MAP
+    //     break
+    //   case 48 + 2:
+    //   case 96 + 2:
+    //     this.render_type = RenderTargetInjector.Type.SHADOW_MAP
+    //     break
+    //   case 48 + 3:
+    //   case 96 + 3:
+    //     this.render_type = RenderTargetInjector.Type.SHADOW_MAP_BLUR
+    //     break
+    //   case 48 + 4:
+    //   case 96 + 4:
+    //     this.render_type = RenderTargetInjector.Type.SSS
+    //     break
+    //   case 48 + 5:
+    //   case 96 + 5:
+    //     this.render_type = RenderTargetInjector.Type.SSS_BLUR
+    //     break
+    //   case 48 + 6:
+    //   case 96 + 6:
+    //     this.render_type = RenderTargetInjector.Type.SKIN_SSS
+    //     if (this.skin_material)
+    //       this.skin_material.uniforms.return_stage.value = 1
+    //     break
+    //   case 48 + 7:
+    //   case 96 + 7:
+    //     this.render_type = RenderTargetInjector.Type.SKIN_TRANSMISSION
+    //     if (this.skin_material)
+    //       this.skin_material.uniforms.return_stage.value = 2
+    //     break
+    //   case 48 + 8:
+    //   case 96 + 8:
+    //     this.render_type = RenderTargetInjector.Type.SKIN_SHADOWDIFFUSE
+    //     if (this.skin_material)
+    //       this.skin_material.uniforms.return_stage.value = 3
+    //     break
+    //   default:
+    //     this.render_type = RenderTargetInjector.Type.SKIN_FINAL
+    //     if (this.skin_material)
+    //       this.skin_material.uniforms.return_stage.value = 0
+    // }
+    // console.log(this.render_type)
   }
 }
 
