@@ -31,6 +31,7 @@ import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader'
 import styles from '@/styles/dialogs.module.css'
 import { MeshDetail, MeshProfile } from '@/models/task/detail'
 import { doGetTaskDownload } from '@/api/task'
+import { global_render_target_injector } from '@/models/rendering/utils'
 
 interface Props {
   resource_uuid: MeshProfile
@@ -170,6 +171,7 @@ const ModelView = (props: Props) => {
     resourceUrl.then(async (data) => {
       const { startUp } = await import('@/models/rendering/rendering')
       startUp(data)
+      global_render_target_injector.enabled = false
     })
   }, [props])
 
