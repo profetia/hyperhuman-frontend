@@ -37,15 +37,13 @@ const inter = Inter({ subsets: ['latin'] })
 export default function Share() {
   const dispatch = useAppDispatch()
   const chat = useAppSelector((state) => state.chat)
-  const router = useRouter()
 
   const isCanceled = useRef(false)
-
-  const [socket, setSocket] = useState<Socket | undefined>(undefined)
+  const socket = useRef<Socket | undefined>(undefined)
 
   const onSend = (
     msg: string,
-    ws: Socket | undefined = socket,
+    ws: Socket | undefined = socket.current,
     task_uuid = chat.task_uuid
   ) => {
     if (ws) {
@@ -65,102 +63,106 @@ export default function Share() {
     }
   }
 
-  const initWebSocket = async (subscription: string, task_uuid: string) => {
-    if (!socket) {
-      const newSocket = await new Promise<Socket>((resolve) => {
-        const newSocket = io(
-          `${process.env.NEXT_PUBLIC_API_BASE as string}/chat_socket`,
-          {
-            query: {
-              subscription: subscription,
-            },
-            path: '',
-            transports: ['websocket', 'polling'],
-          }
-        )
-        newSocket.on('connect', () => {
-          resolve(newSocket)
-        })
-      })
-
-      newSocket.on('AI Assistant', (event) => {
-        if (event.content === '[START]') {
-          dispatch((dispatch, getState) => {
-            dispatch(extendChatHistory({ content: '', provider: 'AI' }))
-          })
-        } else if (event.content === '[END]') {
-          isCanceled.current = false
-        } else {
-          dispatch((dispatch, getState) => {
-            const chat = getState().chat
-            dispatch(
-              setChatHistory([
-                ...chat.chat_history.slice(0, -1),
-                {
-                  content:
-                    chat.chat_history[chat.chat_history.length - 1].content +
-                    event.content,
-                  provider: 'AI',
-                },
-              ])
-            )
-          })
-        }
-      })
-
-      newSocket.on('summary', (event) => {
-        if (event.content === '[START]') {
-          dispatch((dispatch, getState) => {
-            dispatch(setPrompt(''))
-          })
-        } else if (event.content === '[END]') {
-          isCanceled.current = false
-        } else if (!isCanceled.current) {
-          dispatch((dispatch, getState) => {
-            const chat = getState().chat
-            dispatch(setPrompt(chat.prompt + event.content))
-          })
-        }
-      })
-
-      newSocket.on('guess', (event) => {
-        if (event.content === '[START]') {
-          dispatch((dispatch, getState) => {
-            dispatch(setRecommend(''))
-          })
-        } else if (event.content === '[END]') {
-          isCanceled.current = false
-        } else if (!isCanceled.current) {
-          dispatch((dispatch, getState) => {
-            const chat = getState().chat
-            dispatch(setRecommend(chat.recommend + event.content))
-          })
-        }
-      })
-
-      setSocket(newSocket)
-    }
-  }
-
   const { isOpen, onClose, onOpen } = useDisclosure({
-    onOpen: () => {
-      if (chat.task_uuid === '') {
-        const fetchInitChat = async () => {
-          const { subscription, task_uuid } = await doStartAChat()
-          await initWebSocket(subscription, task_uuid)
-          dispatch(initChat({ subscription, task_uuid }))
-        }
-        fetchInitChat()
-      }
-    },
-    onClose: () => {
-      router.push('/')
-    },
+    isOpen: true,
+    onOpen: () => {},
+    onClose: () => {},
   })
 
+  const isInit = useRef(false)
+
   useEffect(() => {
-    onOpen()
-  }, [onOpen])
+    if (chat.task_uuid === '' && !isInit.current) {
+      isInit.current = true
+      const fetchInitChat = async () => {
+        const { subscription, task_uuid } = await doStartAChat()
+
+        const initWebSocket = async (
+          subscription: string,
+          task_uuid: string
+        ) => {
+          if (!socket.current) {
+            const newSocket = await new Promise<Socket>((resolve) => {
+              const newSocket = io(
+                `${process.env.NEXT_PUBLIC_API_BASE as string}/chat_socket`,
+                {
+                  query: {
+                    subscription: subscription,
+                  },
+                  path: '',
+                  transports: ['websocket', 'polling'],
+                }
+              )
+              newSocket.on('connect', () => {
+                resolve(newSocket)
+              })
+            })
+
+            newSocket.on('AI Assistant', (event) => {
+              if (event.content === '[START]') {
+                dispatch((dispatch, getState) => {
+                  dispatch(extendChatHistory({ content: '', provider: 'AI' }))
+                })
+              } else if (event.content === '[END]') {
+                isCanceled.current = false
+              } else {
+                dispatch((dispatch, getState) => {
+                  const chat = getState().chat
+                  dispatch(
+                    setChatHistory([
+                      ...chat.chat_history.slice(0, -1),
+                      {
+                        content:
+                          chat.chat_history[chat.chat_history.length - 1]
+                            .content + event.content,
+                        provider: 'AI',
+                      },
+                    ])
+                  )
+                })
+              }
+            })
+
+            newSocket.on('summary', (event) => {
+              if (event.content === '[START]') {
+                dispatch((dispatch, getState) => {
+                  dispatch(setPrompt(''))
+                })
+              } else if (event.content === '[END]') {
+                isCanceled.current = false
+              } else if (!isCanceled.current) {
+                dispatch((dispatch, getState) => {
+                  const chat = getState().chat
+                  dispatch(setPrompt(chat.prompt + event.content))
+                })
+              }
+            })
+
+            newSocket.on('guess', (event) => {
+              if (event.content === '[START]') {
+                dispatch((dispatch, getState) => {
+                  dispatch(setRecommend(''))
+                })
+              } else if (event.content === '[END]') {
+                isCanceled.current = false
+              } else if (!isCanceled.current) {
+                dispatch((dispatch, getState) => {
+                  const chat = getState().chat
+                  dispatch(setRecommend(chat.recommend + event.content))
+                })
+              }
+            })
+
+            socket.current = newSocket
+          }
+        }
+
+        await initWebSocket(subscription, task_uuid)
+        dispatch(initChat({ subscription, task_uuid }))
+      }
+      fetchInitChat()
+    }
+  }, [chat.task_uuid, isInit, dispatch])
 
   return (
     <>
