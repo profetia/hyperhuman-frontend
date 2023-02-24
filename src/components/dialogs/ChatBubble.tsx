@@ -26,7 +26,17 @@ export default function ChatBubble(props: Props) {
     <Container my={2}>
       <Stack direction={props.type === 'Human' ? 'row-reverse' : 'row'}>
         {getAvatar()}
-        <Box py={2} px={4} className={styles['chat-bubble-box']}>
+        <Box
+          py={2}
+          px={4}
+          className={
+            styles[
+              props.type === 'Human'
+                ? 'chat-bubble-box-human'
+                : 'chat-bubble-box-ai'
+            ]
+          }
+        >
           <Text className={styles['chat-bubble-text']}>{props.message}</Text>
         </Box>
       </Stack>

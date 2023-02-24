@@ -53,8 +53,20 @@
   color: #393939;
 }
 
-.chat-bubble-box {
+.chat-bubble-box-ai {
   background: #e7e3f1;
+  border-radius: 8px;
+  opacity: 1;
+}
+
+.chat-bubble-box-human {
+  background: #fff;
+  border-radius: 8px;
+  opacity: 1;
+}
+
+.chat-bubble-box-disabled {
+  background: #ececec;
   border-radius: 8px;
   opacity: 1;
 }
