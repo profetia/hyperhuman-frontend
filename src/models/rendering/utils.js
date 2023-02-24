@@ -10,6 +10,14 @@ import {
   DOFShader,
 } from './shader_parameters.js'
 
+function pauseEvent(e) {
+  if (e.stopPropagation) e.stopPropagation()
+  if (e.preventDefault) e.preventDefault()
+  e.cancelBubble = true
+  e.returnValue = false
+  return false
+}
+
 function isPlatformMobile() {
   var e =
     /AppleWebKit/.test(navigator.userAgent) &&
@@ -402,12 +410,15 @@ class OrbitController extends Component {
       e.setZoomImpulse(-r * e.zoomSpeed * 1e-4)
     }),
       (this._onMouseDown = function (t) {
+        pauseEvent(t)
         ;(e._oldMouseX = void 0), (e._oldMouseY = void 0), (e._isDown = true)
       }),
       (this._onMouseMove = function (t) {
+        pauseEvent(t)
         e._isDown && e._updateMove(t.screenX, t.screenY)
       }),
       (this._onTouchDown = function (t) {
+        pauseEvent(t)
         if (
           ((e._oldMouseX = void 0),
           (e._oldMouseY = void 0),
@@ -423,6 +434,7 @@ class OrbitController extends Component {
         e._isDown = true
       }),
       (this._onTouchMove = function (t) {
+        pauseEvent(t)
         if ((t.preventDefault(), e._isDown)) {
           var r = t.touches.length
           if (1 === r) {
