@@ -258,7 +258,8 @@ class OrbitController extends Component {
       (this._moveAcceleration = new THREE.Vector3()),
       (this._moveVelocity = new THREE.Vector3()),
       (this._isDown = false),
-      this._initListeners()
+      (this.mouse_constant = 0.0015)
+    this._initListeners()
   }
   get radius() {
     return this._coords.z
@@ -387,7 +388,8 @@ class OrbitController extends Component {
     if (void 0 !== this._oldMouseX) {
       var r = e - this._oldMouseX,
         n = t - this._oldMouseY
-      this.setAzimuthImpulse(0.0015 * r), this.setPolarImpulse(0.0015 * -n)
+      this.setAzimuthImpulse(this.mouse_constant * r),
+        this.setPolarImpulse(this.mouse_constant * -n)
     }
     ;(this._oldMouseX = e), (this._oldMouseY = t)
   }
@@ -1283,7 +1285,7 @@ class RenderTargetInjector {
     this.render_type = RenderTargetInjector.Type.FINAL_COMPOSE
 
     this.skin_material = null
-
+    this.enabled = true
     document.addEventListener('keyup', this._onKeyUp.bind(this))
   }
 
@@ -1304,6 +1306,8 @@ class RenderTargetInjector {
   }
 
   _onKeyUp(event) {
+    if (!this.enabled) return
+
     switch (event.keyCode) {
       case 48 + 0:
       case 96 + 0:

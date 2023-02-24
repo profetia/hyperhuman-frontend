@@ -375,6 +375,7 @@ uniform float roughnessDetailRange;
 uniform float probeExposure;
 uniform float sssProfileScale;
 uniform float thicknessRange;
+uniform float specular_intensity;
 uniform vec3 sssTopLayerColor;
 uniform vec3 transmittanceColor;
 uniform mat4 shadowMapMatrix;
@@ -490,7 +491,7 @@ void main() {
     vec3 shadow_diffuse_light = beckmann_getDiffuseLight(-viewNormal, vViewPosition, shadowTransmission);
     vec3 transmission_diffuse_light = transmission_color*shadow_diffuse_light;
     vec3 diffuseLight_sss_tm = diffuseLight_sss + transmission_diffuse_light;
-    vec3 col = albedo.xyz * diffuseLight_sss_tm + specularLight;
+    vec3 col = albedo.xyz * diffuseLight_sss_tm + specularLight * specular_intensity;
 
 
     if (return_stage == 1) {
