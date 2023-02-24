@@ -218,7 +218,6 @@ const ModelView = (props: Props) => {
       </Box>
       <Box id="preloader" className="preloader">
         <Box id="preloaderBar" className="vAligned">
-          Loading...
           <Box className="preloaderBorder">
             <Box
               id="preloaderProgress"

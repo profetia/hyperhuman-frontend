@@ -23,6 +23,7 @@ import {
   Tag,
   Center,
   VStack,
+  Progress,
 } from '@chakra-ui/react'
 import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
@@ -41,7 +42,7 @@ import styles from '@/styles/dialogs.module.css'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 import { doGenerateModel, doGetGenerateProgress } from '@/api/chat'
 import { setPrompt } from '@/stores/user/chat'
-import { TaskDetail } from '@/models/task/detail'
+import { TaskDetail, stagesToPercentage } from '@/models/task/detail'
 import { doGetTaskDetail } from '@/api/task'
 
 interface InputProps {
@@ -182,12 +183,13 @@ export default function ChatDialog(props: Props) {
     if (isGenerating) {
       return (
         <Center>
-          <Text>Generating...</Text>
           {generateStage && (
-            <Text>
-              {generateStage.stage} {generateStage.waiting_num}
-              {generateStage.estimate_time}
-            </Text>
+            <Progress
+              size="md"
+              width={'374px'}
+              value={stagesToPercentage(generateStage.stage)}
+              borderRadius={5}
+            />
           )}
         </Center>
       )
@@ -195,16 +197,18 @@ export default function ChatDialog(props: Props) {
       return <ModelView {...taskDetail}></ModelView>
     } else {
       return (
-        <Button
-          mt={3}
-          onClick={onGenerate}
-          borderRadius="20px"
-          width="374px"
-          background="#4A00E0"
-          colorScheme={'purple'}
-        >
-          Generate
-        </Button>
+        <>
+          <Button
+            mt={3}
+            onClick={onGenerate}
+            borderRadius="20px"
+            width="374px"
+            background="#4A00E0"
+            colorScheme={'purple'}
+          >
+            Generate
+          </Button>
+        </>
       )
     }
   }
@@ -273,7 +277,7 @@ export default function ChatDialog(props: Props) {
                       messages={messages}
                       hasInput
                       triggerScroll={triggerScroll}
-                      disable={isGenerating || taskDetail}
+                      disable={isGenerating || typeof taskDetail != undefined}
                     >
                       {taskDetail || isGenerating ? null : (
                         <ChatInputArea

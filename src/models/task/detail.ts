@@ -48,6 +48,27 @@ export const useScrollTrigger = () => {
   }
 }
 
+const stages = [
+  'Created',
+  'Waiting',
+  'Canceled',
+  'ModelStage',
+  'AppearanceStage',
+  'DetailStage',
+  'UpscaleStage',
+  'ExportStage',
+]
+
+export const stagesToPercentage = (stage: string) => {
+  if (stage === 'Done') return 100
+  if (stage === 'Failed') return 100
+  const index = stages.indexOf(stage)
+  if (index == -1) {
+    console.log('Unknown Stage: ', stage)
+  }
+  return Math.floor((index / stages.length) * 100)
+}
+
 export const mockTaskDetail: TaskDetail = {
   task_uuid: '123',
   video_url: 'https://www.bilibili.com/video/BV1uT4y1P7CX/',
