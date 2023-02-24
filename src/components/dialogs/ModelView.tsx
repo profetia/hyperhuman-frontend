@@ -174,7 +174,7 @@ const ModelView = (props: Props) => {
   }, [props])
 
   return (
-    <Box>
+    <Box className={styles['model-view-con']}>
       <HStack mb={2} justifyContent="space-between">
         <HStack>
           <Avatar
@@ -209,7 +209,7 @@ const ModelView = (props: Props) => {
       </HStack>
       {/* <ModelEnvironment></ModelEnvironment> */}
 
-      <Box id="webglcontainer"></Box>
+      <Box id="webglcontainer" className={styles['model-view-box']}></Box>
       <Box id="info">{localPrompt}</Box>
       <Box id="preloader" className="preloader">
         <Box id="preloaderBar" className="vAligned">
