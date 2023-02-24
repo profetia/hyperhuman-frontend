@@ -3,6 +3,7 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
+  Card,
   Box,
   ModalFooter,
   ModalBody,
@@ -59,12 +60,12 @@ function ChatInputArea(props: Props) {
         whiteSpace="nowrap"
         className={styles['scrollbar-thin']}
         maxWidth="340px"
-        position="absolute"
-        bottom="90px"
+        // position="absolute"
+        // bottom="90px"
       >
         {recommendItems.map((item, index) => {
           return (
-            <Tag
+            <Card
               key={index}
               m={1}
               p={2}
@@ -72,20 +73,20 @@ function ChatInputArea(props: Props) {
                 setInput(item)
               }}
               maxWidth="200px"
+              height={'100%'}
               display="inline-block"
               whiteSpace={'normal'}
-              colorScheme={'twitter'}
               className={styles['chat-area-recommend']}
             >
               {item}
-            </Tag>
+            </Card>
           )
         })}
       </Box>
       <HStack>
         <Textarea
           rows={1}
-          placeholder="Please describe the model you want..."
+          placeholder="A face of..."
           variant={'outlined'}
           value={input}
           onChange={(event) => {
@@ -211,14 +212,17 @@ export default function ChatDialog(props: Props) {
                         dispatch(setPrompt(nextValue))
                       }}
                       className={styles['dialog-card-editable-text']}
+                      resize="none"
                     >
                       <EditablePreview
                         p={3}
-                        className={styles['dialog-card-editable-text']}
+                        resize="none"
+                        className={`${styles['dialog-card-editable-text']} ${styles['scrollbar-thick']}`}
                       />
                       <EditableTextarea
                         p={3}
-                        className={styles['dialog-card-editable-text']}
+                        resize="none"
+                        className={`${styles['dialog-card-editable-text']} ${styles['scrollbar-thick']}`}
                       />
                     </Editable>
                     {getModelView()}
@@ -228,10 +232,11 @@ export default function ChatDialog(props: Props) {
                   <Flex
                     direction="column"
                     justifyContent="space-between"
-                    h={'100%'}
+                    height={'100%'}
                   >
                     <ChatArea
                       history={chat.chat_history}
+                      recommend={chat.recommend}
                       hasInput
                       triggerScroll={triggerScroll}
                     >
