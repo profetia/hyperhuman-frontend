@@ -238,6 +238,7 @@ export default function ChatDialog(props: Props) {
                       <ChatInputArea
                         {...props}
                         onSend={(msg: string) => {
+                          if (msg === '') return
                           scrollToBottom()
                           props.onSend(msg)
                         }}
