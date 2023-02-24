@@ -24,19 +24,19 @@ export default function ChatArea(props: Props) {
   const messageEnd = React.createRef<HTMLDivElement>()
   const childrenRef = useRef<HTMLDivElement>(null)
 
-  const scrollToBottom = () => {
-    messageEnd.current?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   useEffect(() => {
     if (props.triggerScroll) {
-      scrollToBottom()
+      ;(() => {
+        messageEnd.current?.scrollIntoView({ behavior: 'smooth' })
+      })()
     }
-  }, [props.triggerScroll])
+  }, [messageEnd, props.triggerScroll])
 
   useEffect(() => {
-    scrollToBottom()
-  }, [props.history, props.recommend])
+    ;(() => {
+      messageEnd.current?.scrollIntoView({ behavior: 'smooth' })
+    })()
+  }, [messageEnd, props.history, props.recommend])
 
   const [bubbleWrapperHeight, setBubbleWrapperHeight] = useState(448 - 40)
   useLayoutEffect(() => {
@@ -49,7 +49,7 @@ export default function ChatArea(props: Props) {
       console.log('Get from ', childrenRef.current.clientHeight, 'px')
       setBubbleWrapperHeight(heightValue)
     }
-  }, [childrenRef.current, props.history, props.recommend])
+  }, [props.history, props.recommend])
 
   return (
     <Box>
