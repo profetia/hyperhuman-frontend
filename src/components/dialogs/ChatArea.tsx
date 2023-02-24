@@ -18,6 +18,7 @@ interface Props {
   hasInput?: boolean
   children?: React.ReactNode
   triggerScroll?: number
+  messages?: string
 }
 
 export default function ChatArea(props: Props) {
@@ -39,17 +40,22 @@ export default function ChatArea(props: Props) {
   }, [messageEnd, props.history, props.recommend])
 
   const [bubbleWrapperHeight, setBubbleWrapperHeight] = useState(448 - 40)
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (childrenRef.current) {
       let heightValue = 448 - childrenRef.current.clientHeight
       if (heightValue < 0 || heightValue > 448) {
         heightValue = 448 - 40
       }
-      console.log('Set to ', heightValue, 'px')
-      console.log('Get from ', childrenRef.current.clientHeight, 'px')
+      // console.log('Chat bubble wrapper set to', heightValue, 'px')
+      // console.log('Since the sending box is', childrenRef.current.clientHeight, 'px')
       setBubbleWrapperHeight(heightValue)
     }
-  }, [props.history, props.recommend])
+  }, [
+    props.history,
+    props.recommend,
+    props.messages,
+    childrenRef.current?.clientHeight,
+  ])
 
   return (
     <Box>
