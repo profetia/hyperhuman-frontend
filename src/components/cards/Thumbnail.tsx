@@ -46,7 +46,7 @@ export default function ThumbnailCard(props: Props) {
   const [taskDetail, setTaskDetail] = useState<TaskDetail>({
     ...props,
     chat_history: [],
-    resource: {},
+    resource_uuid: {},
   })
 
   return (

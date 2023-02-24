@@ -34,3 +34,8 @@ export async function doGetSearchResult(
   })
   return response.data
 }
+
+export async function doGetTaskDownload(file_uuid: string): Promise<string> {
+  const response = await POST('/task/get_download', { file_uuid })
+  return response.data.url
+}

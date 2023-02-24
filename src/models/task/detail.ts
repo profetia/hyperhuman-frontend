@@ -1,4 +1,4 @@
-import { TaskSession } from './cards'
+import { TaskSession } from './cards'startUp
 import { useState } from 'react'
 
 export type ChatProvider = 'Human' | 'AI'
@@ -9,20 +9,31 @@ export interface Sentence {
 }
 
 export interface MeshProfile {
-  image_uuid?: string
-  video_uuid?: string
-  model_uuid?: string
-  texture_diff_high_uuid?: string
-  texture_spec_high_uuid?: string
-  texture_norm_high_uuid?: string
-  texture_diff_low_uuid?: string
-  texture_spec_low_uuid?: string
-  texture_norm_low_uuid?: string
-  export_info_uuid?: string
+  image_uuid: string
+  video_uuid: string
+  model_uuid: string
+  texture_diff_high_uuid: string
+  texture_spec_high_uuid: string
+  texture_norm_high_uuid: string
+  texture_diff_low_uuid: string
+  texture_spec_low_uuid: string
+  texture_norm_low_uuid: string
+  export_info_uuid: string
+}
+
+export interface MeshDetail {
+  model: string
+  diffuse: string
+  normal: string
+  specular: string
+  roughness_ao_thickness: string
+  roughness_detail: string
+  env_irradiance: string
+  env_specular: string
 }
 
 export interface TaskDetail extends TaskSession {
-  resource: MeshProfile
+  resource_uuid: MeshProfile
   chat_history: Sentence[]
 }
 
@@ -52,7 +63,7 @@ export const mockTaskDetail: TaskDetail = {
     name: 'John Doe',
     avatar: 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
   },
-  resource: {
+  resource_uuid: {
     image_uuid: '5f55a0c7-77cc-4f49-bf0f-65b81636dd1d',
     video_uuid: '9fa79043-e9d1-4cf0-affa-bbc715063028',
     model_uuid: 'f3fabce9-ada0-451a-88f9-78d2b8632d29',

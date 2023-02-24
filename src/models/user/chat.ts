@@ -3,7 +3,7 @@ import { MeshProfile, Sentence } from '@/models/task/detail'
 export interface ChatDetail {
   task_uuid: string
   prompt: string
-  resource: MeshProfile
+  resource_uuid: MeshProfile
   chat_history: Sentence[]
 }
 

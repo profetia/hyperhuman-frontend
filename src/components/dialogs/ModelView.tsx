@@ -29,10 +29,11 @@ import {
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader'
 import styles from '@/styles/dialogs.module.css'
-import { MeshProfile } from '@/models/task/detail'
+import { MeshDetail, MeshProfile } from '@/models/task/detail'
+import { doGetTaskDownload } from '@/api/task'
 
 interface Props {
-  resource: MeshProfile
+  resource_uuid: MeshProfile
   prompt: string
 }
 
@@ -131,7 +132,7 @@ const ModelView = (props: Props) => {
   //   }
 
   const [localPrompt, setLocalPrompt] = useState<string>('')
-  // const [meshProfile, setMeshProfile] = useState<MeshProfile>()
+  const [meshProfile, setMeshProfile] = useState<MeshProfile>()
   useEffect(() => {
     // console.log('props: ', props.prompt)
     setLocalPrompt(props.prompt)
@@ -139,7 +140,34 @@ const ModelView = (props: Props) => {
 
   useEffect(() => {
     // startUp(mesh_profile)
+    if (!props.resource_uuid) return
     console.log('props: ', props)
+
+    const resourceId = props.resource_uuid
+
+    const resourcePromise = {
+      model: doGetTaskDownload(resourceId['model_uuid']),
+      diffuse: doGetTaskDownload(resourceId['texture_diff_low_uuid']),
+      normal: doGetTaskDownload(resourceId['texture_norm_low_uuid']),
+      spectular: doGetTaskDownload(resourceId['texture_spec_low_uuid']),
+    }
+    const resourceUrl = (async (resourceP: {
+      model: Promise<string>
+      diffuse: Promise<string>
+      normal: Promise<string>
+      spectular: Promise<string>
+    }): Promise<MeshDetail> => ({
+      model: await resourceP['model'],
+      diffuse: await resourceP['diffuse'],
+      normal: await resourceP['normal'],
+      specular: await resourceP['spectular'],
+      roughness_ao_thickness: '/assets/juanfu/rat.png',
+      roughness_detail: '/assets/juanfu/roughness-detail.jpg',
+      env_irradiance: '/assets/env/lapa_4k_panorama_irradiance.hdr',
+      env_specular: '/assets/env/lapa_4k_panorama_specular.hdr',
+    }))(resourcePromise)
+
+    resourceUrl.then((data) => startUp(data))
   }, [props])
 
   return (

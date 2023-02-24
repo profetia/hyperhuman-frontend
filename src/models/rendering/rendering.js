@@ -181,7 +181,7 @@ class SimpleThreeProject {
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(
       46.4,
-      window.innerWidth / window.innerHeight,
+      this.container.clientWidth /  this.container.clientWidth,
       1,
       10000
     )
@@ -206,8 +206,8 @@ class SimpleThreeProject {
   }
   _resizeCanvas() {
     if (this.renderer) {
-      var e = window.innerWidth,
-        t = window.innerHeight
+      var e =  this.container.clientWidth,
+        t =  this.container.clientHeight
       this.renderer.setSize(e, t),
         (this.renderer.domElement.style.width = e + 'px'),
         (this.renderer.domElement.style.height = t + 'px'),
@@ -441,7 +441,7 @@ class SSSSSContent {
 function startUp(mesh_profile) {
   window.highPerformance = !isPlatformMobile() && !QueryString.lowPerformance
   console.log('window.highPerformance', window.highPerformance)
-  let assetLibrary = new AssetLibrary('/')
+  let assetLibrary = new AssetLibrary('')
   assetLibrary.queueAsset(
     'model',
     mesh_profile.model,
