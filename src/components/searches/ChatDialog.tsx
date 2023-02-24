@@ -28,7 +28,15 @@ import ChatArea from '@/components/dialogs/ChatArea'
 import ModelView from '@/components/dialogs/ModelView'
 import { ChatDetail, GenerateProgress, GenerateStep } from '@/models/user/chat'
 import { useScrollTrigger } from '@/models/task/detail'
-import { ChangeEvent, useMemo, useState, useEffect, useRef } from 'react'
+import {
+  ChangeEvent,
+  useMemo,
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from 'react'
+import autosize from 'autosize'
 import styles from '@/styles/dialogs.module.css'
 import { useAppDispatch, useAppSelector } from '@/hooks'
 import { doGenerateModel, doGetGenerateProgress } from '@/api/chat'
@@ -36,14 +44,16 @@ import { setPrompt } from '@/stores/user/chat'
 import { TaskDetail } from '@/models/task/detail'
 import { doGetTaskDetail } from '@/api/task'
 
-interface Props {
+interface InputProps {
   onSend: (msg: string) => void
   isOpen: boolean
   onOpen: () => void
   onClose: () => void
+  setMessages: (messages: string) => void
+  messages: string
 }
 
-function ChatInputArea(props: Props) {
+function ChatInputArea(props: InputProps) {
   const chat = useAppSelector((state) => state.chat)
 
   const recommendItems = useMemo(() => {
@@ -51,7 +61,18 @@ function ChatInputArea(props: Props) {
     return chat.recommend.split(/\n[0-9]\./).map((item) => item.trim())
   }, [chat.recommend])
 
-  const [input, setInput] = useState<string>('')
+  const textAreaRef = useRef<HTMLTextAreaElement>(null)
+  useLayoutEffect(() => {
+    // console.log('TextArea height changed')
+    if (textAreaRef.current) {
+      autosize(textAreaRef.current)
+      return () => {
+        if (textAreaRef.current) {
+          autosize.destroy(textAreaRef.current)
+        }
+      }
+    }
+  }, [props.messages])
 
   return (
     <Box mx={3}>
@@ -70,7 +91,7 @@ function ChatInputArea(props: Props) {
               m={1}
               p={2}
               onClick={() => {
-                setInput(item)
+                props.setMessages(item)
               }}
               maxWidth="200px"
               height={'100%'}
@@ -85,25 +106,27 @@ function ChatInputArea(props: Props) {
       </Box>
       <HStack>
         <Textarea
-          rows={1}
+          ref={textAreaRef}
           placeholder="A face of..."
           variant={'outlined'}
-          value={input}
+          value={props.messages}
           onChange={(event) => {
-            setInput(event.target.value)
+            props.setMessages(event.target.value)
           }}
+          transition="height none"
+          minHeight={'40px'}
+          maxHeight={'100px'}
           resize="none"
           className={`${styles['chat-area-input']} ${styles['scrollbar-thin']}`}
           px={3}
           fontSize={14}
           borderRadius="24px"
-          height={10}
         ></Textarea>
         <Button
           onClick={() => {
-            if (input !== '') {
-              props.onSend(input)
-              setInput('')
+            if (props.messages !== '') {
+              props.onSend(props.messages)
+              props.setMessages('')
             }
           }}
           borderRadius="20px"
@@ -115,6 +138,13 @@ function ChatInputArea(props: Props) {
       </HStack>
     </Box>
   )
+}
+
+interface Props {
+  onSend: (msg: string) => void
+  isOpen: boolean
+  onOpen: () => void
+  onClose: () => void
 }
 
 export default function ChatDialog(props: Props) {
@@ -130,6 +160,7 @@ export default function ChatDialog(props: Props) {
     undefined
   )
   const { triggerScroll, scrollToBottom } = useScrollTrigger()
+  const [messages, setMessages] = useState<string>('')
 
   const onGenerate = async () => {
     setIsGenerating(true)
@@ -237,11 +268,14 @@ export default function ChatDialog(props: Props) {
                     <ChatArea
                       history={chat.chat_history}
                       recommend={chat.recommend}
+                      messages={messages}
                       hasInput
                       triggerScroll={triggerScroll}
                     >
                       <ChatInputArea
                         {...props}
+                        messages={messages}
+                        setMessages={setMessages}
                         onSend={(msg: string) => {
                           if (msg === '') return
                           scrollToBottom()
