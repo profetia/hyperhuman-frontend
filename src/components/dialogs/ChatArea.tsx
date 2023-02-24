@@ -49,6 +49,8 @@ export default function ChatArea(props: Props) {
       // console.log('Chat bubble wrapper set to', heightValue, 'px')
       // console.log('Since the sending box is', childrenRef.current.clientHeight, 'px')
       setBubbleWrapperHeight(heightValue)
+    } else {
+      setBubbleWrapperHeight(448 - 40)
     }
   }, [
     props.history,
