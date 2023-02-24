@@ -273,8 +273,9 @@ export default function ChatDialog(props: Props) {
                       messages={messages}
                       hasInput
                       triggerScroll={triggerScroll}
+                      disable={isGenerating || taskDetail}
                     >
-                      {taskDetail ? null : (
+                      {taskDetail || isGenerating ? null : (
                         <ChatInputArea
                           {...props}
                           messages={messages}

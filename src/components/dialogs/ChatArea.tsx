@@ -19,6 +19,7 @@ interface Props {
   children?: React.ReactNode
   triggerScroll?: number
   messages?: string
+  disable?: boolean
 }
 
 export default function ChatArea(props: Props) {
@@ -75,6 +76,7 @@ export default function ChatArea(props: Props) {
                 key={index}
                 message={sentence.content}
                 type={sentence.provider}
+                disable={props.disable}
               />
             )
           })}

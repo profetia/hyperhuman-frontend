@@ -6,6 +6,7 @@ import styles from '@/styles/dialogs.module.css'
 type Props = {
   message: string
   type: ChatProvider
+  disable?: boolean
 }
 
 const aiAvatarUrl =
@@ -31,9 +32,15 @@ export default function ChatBubble(props: Props) {
           px={4}
           className={
             styles[
-              props.type === 'Human'
-                ? 'chat-bubble-box-human'
-                : 'chat-bubble-box-ai'
+              (() => {
+                if (props.type === 'Human') {
+                  return 'chat-bubble-box-human'
+                } else if (props.disable) {
+                  return 'chat-bubble-box-disabled'
+                } else {
+                  return 'chat-bubble-box-ai'
+                }
+              })()
             ]
           }
         >
