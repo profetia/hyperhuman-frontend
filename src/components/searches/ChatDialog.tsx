@@ -195,36 +195,40 @@ export default function ChatDialog(props: Props) {
                   className={styles['model-view-environment-box']}
                 >
                   <VStack>
-                    <Box width="100%">
-                      <Text
-                        className={styles['dialog-card-editable-heading']}
-                        mt={4}
-                        ml={7}
-                        mb={2}
-                      >
-                        Prompt
-                      </Text>
-                    </Box>
-                    <Editable
-                      value={chat.prompt}
-                      isDisabled={isGenerating}
-                      onChange={(nextValue: string) => {
-                        dispatch(setPrompt(nextValue))
-                      }}
-                      className={styles['dialog-card-editable-text']}
-                      resize="none"
-                    >
-                      <EditablePreview
-                        p={3}
-                        resize="none"
-                        className={`${styles['dialog-card-editable-text']} ${styles['scrollbar-thick']}`}
-                      />
-                      <EditableTextarea
-                        p={3}
-                        resize="none"
-                        className={`${styles['dialog-card-editable-text']} ${styles['scrollbar-thick']}`}
-                      />
-                    </Editable>
+                    {taskDetail ? null : (
+                      <>
+                        <Box width="100%">
+                          <Text
+                            className={styles['dialog-card-editable-heading']}
+                            mt={4}
+                            ml={7}
+                            mb={2}
+                          >
+                            Prompt
+                          </Text>
+                        </Box>
+                        <Editable
+                          value={chat.prompt}
+                          isDisabled={isGenerating}
+                          onChange={(nextValue: string) => {
+                            dispatch(setPrompt(nextValue))
+                          }}
+                          className={styles['dialog-card-editable-text']}
+                          resize="none"
+                        >
+                          <EditablePreview
+                            p={3}
+                            resize="none"
+                            className={`${styles['dialog-card-editable-text']} ${styles['scrollbar-thick']}`}
+                          />
+                          <EditableTextarea
+                            p={3}
+                            resize="none"
+                            className={`${styles['dialog-card-editable-text']} ${styles['scrollbar-thick']}`}
+                          />
+                        </Editable>
+                      </>
+                    )}
                     {getModelView()}
                   </VStack>
                 </GridItem>
@@ -240,14 +244,16 @@ export default function ChatDialog(props: Props) {
                       hasInput
                       triggerScroll={triggerScroll}
                     >
-                      <ChatInputArea
-                        {...props}
-                        onSend={(msg: string) => {
-                          if (msg === '') return
-                          scrollToBottom()
-                          props.onSend(msg)
-                        }}
-                      ></ChatInputArea>
+                      {taskDetail ? null : (
+                        <ChatInputArea
+                          {...props}
+                          onSend={(msg: string) => {
+                            if (msg === '') return
+                            scrollToBottom()
+                            props.onSend(msg)
+                          }}
+                        ></ChatInputArea>
+                      )}
                     </ChatArea>
                   </Flex>
                 </GridItem>
