@@ -6,6 +6,8 @@ import { ShaderLibrary } from './shader_library.js'
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js'
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js'
+import { ColorCorrectionShader } from 'three/addons/shaders/ColorCorrectionShader.js'
+import Stats from 'three/addons/libs/stats.module.js'
 
 import {
   FloatTex,
@@ -26,6 +28,10 @@ import {
   RenderTargetInjector,
 } from './utils.js'
 import { FXAAToneMapShader } from './shader_parameters.js'
+
+function hello() {
+  console.log('hello from sssss rendering', THREE.REVISION)
+}
 
 const mesh_profile_default = {
   model: 'assets/juanfu/exported_vs_pca_dis_vn.obj',
@@ -71,11 +77,12 @@ class SkinMaterial extends THREE.ShaderMaterial {
       roughnessMedian: {
         value:
           void 0 === parameters.roughnessMedian
-            ? 0.6
+            ? 0.65
             : parameters.roughnessMedian,
       },
       roughnessDetailMap: { value: parameters.roughnessDetailMap },
       roughnessDetailRange: { value: 0.8 },
+      specular_intensity: { value: 0.7 },
 
       return_stage: { value: 0 },
     }
@@ -198,12 +205,13 @@ class SimpleThreeProject {
       (this._stats.domElement.style.bottom = '0px'),
       (this._stats.domElement.style.right = '0px'),
       (this._stats.domElement.style.zIndex = 100),
-      this.container.appendChild(this._stats.domElement),
-      (this._renderStats = new THREEx.RendererStats()),
-      (this._renderStats.domElement.style.position = 'absolute'),
-      (this._renderStats.domElement.style.bottom = '0px'),
-      (this._renderStats.domElement.style.zIndex = 100),
-      this.container.appendChild(this._renderStats.domElement)
+      // this.container.appendChild(this._stats.domElement);
+      document.getElementById('info1').appendChild(this._stats.domElement)
+    // (this._renderStats = new THREEx.RendererStats()),
+    // (this._renderStats.domElement.style.position = "absolute"),
+    // (this._renderStats.domElement.style.bottom = "0px"),
+    // (this._renderStats.domElement.style.zIndex = 100),
+    // this.container.appendChild(this._renderStats.domElement);
   }
   _resizeCanvas() {
     if (this.renderer) {
@@ -246,8 +254,8 @@ class SimpleThreeProject {
           ? this._content.effectComposer.render(time_delta / 1e3)
           : this.renderer.render(this.scene, this.camera)
 
-      this._stats &&
-        (this._renderStats.update(this.renderer), this._stats.update())
+      // this._stats && (this._renderStats.update(this.renderer), this._stats.update());
+      this._stats && this._stats.update()
     }
   }
   _requestAnimationFrame() {
@@ -294,14 +302,21 @@ class SSSSSContent {
     )
     this.dof.focusPosition.set(0, 0, 0)
     this.dof.enabled = false
-    this.dof.focusRange = 0.01
-    this.dof.focusFalloff = 0.02
+    // this.dof.enabled = true;
+    // this.dof.focusRange = 1;
+    // this.dof.focusFalloff = 0.02;
     this.effectComposer.addPass(this.dof)
 
     this.fxaa = new ShaderPass(FXAAToneMapShader)
     this.fxaa.uniforms.whitePoint.value = 1.7
     this.fxaa.renderToScreen = true
     this.effectComposer.addPass(this.fxaa)
+
+    this.effectColor = new ShaderPass(ColorCorrectionShader)
+    this.effectColor.uniforms['powRGB'].value.set(1, 1, 1)
+    // this.effectColor.uniforms['mulRGB'].value.set(0.95, 0.97, 1.05);
+    this.effectColor.uniforms['mulRGB'].value.set(0.95, 0.97, 1.02)
+    this.effectComposer.addPass(this.effectColor)
 
     this.initSSSProfile()
     this.initCamera()
@@ -311,7 +326,7 @@ class SSSSSContent {
       this.scene,
       this.renderer,
       this.mainLight,
-      512
+      2048
     )
     this.depthRenderer = new SceneDepthRenderer(
       this.scene,
@@ -343,11 +358,12 @@ class SSSSSContent {
   }
   initCamera() {
     var orbit = new OrbitController(this.container)
-    // (e.lookAtTarget.y = 0.13),
+    orbit.lookAtTarget.z = 0.03
     orbit.radius = 0.3
     orbit.minRadius = 0.15
-    orbit.maxRadius = 1.3
-    orbit.zoomSpeed = 0.5
+    orbit.maxRadius = 0.3
+    orbit.zoomSpeed = 0.05
+    orbit.mouse_constant = 0.0002
     Entity.addComponent(this.camera, orbit)
   }
   initSSSProfile() {
@@ -408,9 +424,10 @@ class SSSSSContent {
     if (this.animateLight) {
       this.time += time_delta
       this.mainLight.position.set(
+        // Math.cos(5e-4 * this.time), Math.sin(5e-4 * this.time), Math.sin(2e-4 * this.time)
         Math.cos(5e-4 * this.time),
-        Math.sin(5e-4 * this.time),
-        Math.sin(2e-4 * this.time)
+        Math.sin(3e-4 * this.time) + 1.25,
+        Math.sin(2e-4 * this.time) + 1.2
       )
       this.shadowsInvalid = true
     }
@@ -431,11 +448,12 @@ class SSSSSContent {
       dx = this.camera.matrix.elements[8],
       dy = this.camera.matrix.elements[9],
       dz = this.camera.matrix.elements[10]
-    this.dof.focusPosition.set(dx * t, dy * t + 0.15, dz * t)
+    this.dof.focusPosition.set(dx * t, dy * t, dz * t)
     var i = this.camera.position.length()
     // this.dof.focusRange = Math.max(0.02 + 0.15 * (i - 0.361), 0.002);
-    this.dof.focusRange = Math.max(0.02 + 0.15 * (i - 0.361), 0.02)
+    this.dof.focusRange = Math.max(0.02 + 0.15 * (i - 0.361), 0.5)
     this.dof.focusFalloff = Math.max(2 * this.dof.focusRange, 0.008)
+    // this.dof.focusFalloff = 0;
   }
 }
 
@@ -513,4 +531,4 @@ function onAssetsLoaded(e) {
   }
 }
 
-export { mesh_profile_default, startUp }
+export { hello, mesh_profile_default, startUp, global_render_target_injector }

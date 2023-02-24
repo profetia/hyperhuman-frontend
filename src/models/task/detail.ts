@@ -25,7 +25,7 @@ export interface MeshDetail {
   model: string
   diffuse: string
   normal: string
-  specular: string
+  //   specular: string
   roughness_ao_thickness: string
   roughness_detail: string
   env_irradiance: string
