@@ -295,12 +295,12 @@ class OrbitController extends Component {
       ? 'DOMMouseScroll'
       : 'mousewheel'
     this._container.addEventListener(e, this._onMouseWheel),
-      this._container.addEventListener('mousemove', this._onMouseMove),
-      this._container.addEventListener('touchmove', this._onTouchMove),
+      document.addEventListener('mousemove', this._onMouseMove),
+      document.addEventListener('touchmove', this._onTouchMove),
       this._container.addEventListener('mousedown', this._onMouseDown),
       this._container.addEventListener('touchstart', this._onTouchDown),
-      this._container.addEventListener('mouseup', this._onUp),
-      this._container.addEventListener('touchend', this._onUp),
+      document.addEventListener('mouseup', this._onUp),
+      document.addEventListener('touchend', this._onUp),
       this._moveWithKeys &&
         (document.addEventListener('keyup', this._onKeyUp),
         document.addEventListener('keydown', this._onKeyDown))
