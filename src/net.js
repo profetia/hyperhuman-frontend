@@ -42,47 +42,10 @@ const wsSend = async ({ task_uuid, content }) => {
 		provider: 'User',
 	})
 }
-// const wsGetAI = async () => {
-// 	if (!ws || ws.disconnected) return Promise.reject('not connected')
-
-// 	return new Promise((res, rej) => {
-// 		ws.on('AI Assistant', (ev) => {
-// 			res(ev)
-// 		})
-// 	})
-// }
-// const wsGetGuess = async () => {
-// 	if (!ws || ws.disconnected) return Promise.reject('not connected')
-
-// 	return new Promise((res, rej) => {
-// 		ws.on('guess', (ev) => {
-// 			console.log(ev)
-// 		})
-// 	})
-// }
-// const wsGetSummary = async () => {
-// 	if (!ws || ws.disconnected) return Promise.reject('not connected')
-
-// 	return new Promise((res, rej) => {
-// 		ws.on('summary', (ev) => {
-// 			console.log(ev)
-// 		})
-// 	})
-// }
 
 const closeWebsocket = () => {
 	if (ws && ws.connected) ws.close()
 	ws = null
 }
 
-export {
-	login,
-	getUserInfo,
-	startChat,
-	startWebsocket,
-	wsSend,
-	// wsGetAI,
-	// wsGetGuess,
-	// wsGetSummary,
-	closeWebsocket,
-}
+export { login, getUserInfo, startChat, startWebsocket, wsSend, closeWebsocket }

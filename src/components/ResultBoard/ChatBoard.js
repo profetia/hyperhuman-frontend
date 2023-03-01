@@ -11,7 +11,7 @@ function ChatBoard() {
 	const [chatText, setChatText] = useState('')
 
 	const handleIpt = (ev) => {
-		setChatText(ev.currentTarget.innerText)
+		setChatText(ev.currentTarget.value)
 	}
 
 	const handleSend = (ev) => {
@@ -76,14 +76,16 @@ function ChatBoard() {
 						))}
 					</div>
 					<div className={style.chatRowCon}>
-                        <div
-                            suppressContentEditableWarning={true}
-							contentEditable={true}
-							className={style.ipt}
-							onChange={handleIpt}
-							placeholder='Please describe the model you want'>
-							{chatText}
+						<div className={style.iptLineCon}>
+							<div className={style.iptSpaceholder}>{chatText || 'X'}</div>
+							<textarea
+								className={style.ipt}
+								onChange={handleIpt}
+								value={chatText}
+								placeholder='Please describe the model you want'
+							/>
 						</div>
+
 						<div className={style.chatSendBtn} onPointerDown={handleSend}>
 							Send
 						</div>

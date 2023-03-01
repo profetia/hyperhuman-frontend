@@ -28,7 +28,6 @@
 }
 .col {
 	width: 50%;
-	flex-grow: 1;
 	flex-shrink: 1;
 	height: 100%;
 	display: flex;
@@ -133,6 +132,7 @@
 	align-items: flex-end;
 	width: 100%;
 	overflow-x: auto;
+    overflow-y: hidden;
 	margin-top: 1rem;
 }
 .chatTipsCon::-webkit-scrollbar-thumb {
@@ -149,6 +149,9 @@
 	white-space: pre-wrap;
 	cursor: pointer;
 }
+.chatTips:last-child {
+	margin-right: 0;
+}
 
 .chatRowCon {
 	width: 100%;
@@ -158,26 +161,33 @@
 	align-items: flex-start;
 	margin-top: 1rem;
 }
-.ipt {
-	border: none;
+
+.iptLineCon {
 	margin-right: 1rem;
-	max-height: 9rem;
-	line-height: 1.5rem;
-	background: var(--bg-light-color);
 	text-align: left;
-	/* line-height: 3rem; */
-	padding: 0.75rem 1rem;
-	border-radius: var(--radius);
+	line-height: 1.5rem;
 	flex-grow: 1;
 	flex-shrink: 1;
+	position: relative;
+}
+.iptSpaceholder {
+	visibility: hidden;
+	padding: 0.75rem 1rem;
+	max-height: calc(9rem + 2px);
+	border: 1px solid transparent;
+}
+.ipt {
+	background: var(--bg-light-color);
+	border-radius: var(--radius);
+	padding: 0.75rem 1rem;
 	word-break: break-all;
 	white-space: pre-wrap;
 	overflow-y: auto;
-	border: 1px solid transparent;
-	outline: none;
-}
-.ipt:focus-visible {
-	border-color: var(--theme-color);
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
 }
 .ipt::-webkit-scrollbar-thumb {
 	border-color: var(--bg-light-color);
@@ -192,15 +202,17 @@
 	user-select: none;
 	cursor: pointer;
 }
-
 .iptArea {
-	background: var(--bg-gray0-color);
+	height: 12rem;
 	width: 100%;
+	background: var(--bg-gray0-color);
 	border-radius: var(--radius);
-	min-height: 10rem;
 	padding: 1rem;
 	text-align: left;
 	margin-bottom: 1rem;
+}
+.iptArea::-webkit-scrollbar-thumb {
+	border-color: var(--bg-gray0-color);
 }
 .generateBtn {
 	width: 100%;

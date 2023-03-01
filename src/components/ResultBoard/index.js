@@ -6,16 +6,18 @@ import { ChatBoard } from './ChatBoard'
 import { DetailBoard } from './DetailBoard'
 import { GenerateBoard } from './GenerateBoard'
 import style from './result.module.css'
-import { chatGuessAtom, chatHistoryAtom, taskInitAtom } from './store.js'
+import { chatGuessAtom, chatHistoryAtom, promptAtom, taskInitAtom } from './store.js'
 
 function ResultBoard() {
 	const navi = useNavigate()
 	const taskInit = useRecoilValue(taskInitAtom)
 	const [chatHistory, setChatHistory] = useRecoilState(chatHistoryAtom)
 	const setChatGuess = useSetRecoilState(chatGuessAtom)
+	const [prompt, setPrompt] = useRecoilState(promptAtom)
 	const isListenRef = useRef(false)
 	const chatHistoryRef = useRef({})
 	const chatGuessRef = useRef('')
+	const promptRef = useRef('')
 
 	const handleClose = (ev) => {
 		isListenRef.current = false
@@ -32,12 +34,17 @@ function ResultBoard() {
 		() => () => {
 			reset()
 		},
+		// eslint-disable-next-line
 		[]
 	)
 
 	useEffect(() => {
 		chatHistoryRef.current = { ...chatHistory }
 	}, [chatHistory])
+
+	useEffect(() => {
+		promptRef.current = prompt
+	}, [prompt])
 
 	useEffect(() => {
 		if (!taskInit) return
@@ -71,7 +78,12 @@ function ResultBoard() {
 				}
 			})
 			ws.on('summary', (ev) => {
-				console.log('summary: ', ev)
+				if (ev.content === '[START]') {
+					promptRef.current = ''
+				} else if (ev.content !== '[END]') {
+					promptRef.current += ev.content
+					setPrompt(promptRef.current)
+				}
 			})
 		})()
 		// eslint-disable-next-line

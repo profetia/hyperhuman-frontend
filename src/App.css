@@ -14,3 +14,20 @@
 	--side-gap: 5rem;
 	--radius: 0.5rem;
 }
+
+textarea {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+		'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	border: 1px solid transparent;
+	padding: 0;
+	color: var(--font-dark-color);
+	line-height: 1.5rem;
+	font-size: 1rem;
+	outline: none;
+    resize: none;
+}
+textarea:focus {
+	border-color: var(--theme-color);
+}

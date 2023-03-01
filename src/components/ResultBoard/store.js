@@ -17,6 +17,6 @@ const chatGuessAtom = atom({
 
 const promptAtom = atom({
 	key: 'promptAtom',
-	default: [],
+	default: '',
 })
 export { taskInitAtom, chatHistoryAtom, chatGuessAtom, promptAtom }
