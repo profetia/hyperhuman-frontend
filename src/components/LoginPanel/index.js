@@ -19,10 +19,10 @@ function LoginPanel() {
 			password: '12345678',
 		})
 			.then((data) => {
-				console.log(data.data)
 				setLogInfo(data.data)
 				localStorage.setItem('uuid', data.data.uuid)
 				localStorage.setItem('token', data.data.token)
+				handleClose()
 			})
 			.catch()
 		// .finally(() => {

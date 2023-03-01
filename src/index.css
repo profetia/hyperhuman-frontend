@@ -10,8 +10,18 @@ body {
 }
 * {
 	box-sizing: border-box;
+	transition: all 300ms;
 }
 
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+::-webkit-scrollbar {
+	width: 16px;
+	height: 16px;
+}
+::-webkit-scrollbar-thumb {
+	background-color: rgba(0, 0, 0, 0.2);
+	border-radius: 8px;
+	border: 5px solid;
 }

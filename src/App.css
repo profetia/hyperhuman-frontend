@@ -1,6 +1,6 @@
 .App {
 	text-align: center;
-	--theme-color: #4A00E0;
+	--theme-color: #4a00e0;
 
 	--font-dark-color: rgb(67, 67, 67);
 	--font-gray-color: #aaa;
@@ -8,8 +8,9 @@
 
 	--bg-light-color: #fff;
 	--bg-gray0-color: #eee;
-    --bg-gray1-color: #ddd;
+	--bg-gray1-color: #ddd;
 	--bg-dark-color: #000;
 
 	--side-gap: 5rem;
+	--radius: 0.5rem;
 }
