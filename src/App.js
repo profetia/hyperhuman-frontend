@@ -10,7 +10,8 @@ import { Welcome } from './components/Welcome'
 
 function App() {
 	const showLogin = useRecoilValue(showLoginAtom)
-	const showUser = useRecoilValue(showUserAtom)
+    const showUser = useRecoilValue(showUserAtom)
+    // eslint-disable-next-line
 	const [logInfo, setLogInfo] = useRecoilState(logInfoAtom)
 	const navi = useNavigate()
 

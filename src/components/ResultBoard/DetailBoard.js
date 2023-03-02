@@ -12,7 +12,6 @@ function DetailBoard() {
 	const taskInit = useRecoilValue(taskInitAtom)
 	const prompt = useRecoilValue(promptAtom)
 	const [meshProfile, setMeshProfile] = useRecoilState(meshProfileAtom)
-	const [meshUrl, setMeshUrl] = useState({})
 	const inteRef = useRef(null)
 	const [stage, setStage] = useState('')
 	const [percent, setPercent] = useState(0)
@@ -23,6 +22,7 @@ function DetailBoard() {
 
 		return () => {
 			setShowDetail(false)
+			setMeshProfile(false)
 		}
 		// eslint-disable-next-line
 	}, [])
@@ -106,8 +106,8 @@ function DetailBoard() {
 					<div className={style.creatorInfo}>{taskDetail?.author?.name}</div>
 				</div>
 			</div>
-            <div className={style.modelView} id='webglcontainer'></div>
-            <div id="info"></div>
+			<div className={style.modelView} id='webglcontainer'></div>
+			<div id='info'></div>
 			<div id='preloader' className='preloader'>
 				<div id='preloaderBar' className='vAligned'>
 					Loading...
