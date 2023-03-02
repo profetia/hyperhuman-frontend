@@ -60,6 +60,12 @@ const getGenerateProgress = (task_uuid) =>
 
 const getTaskDetail = (task_uuid) => axios.post(`${BASE_URL}/task/card/${task_uuid}`)
 
+const getTaskDownload = (file_uuid) =>
+	axios.post(`${BASE_URL}/task/get_download`, { file_uuid }).then((data) => {
+		// console.log(file_uuid, data.data.url)
+		return data.data.url
+	})
+
 export {
 	login,
 	getUserInfo,
@@ -71,4 +77,5 @@ export {
 	generateDetail,
 	getGenerateProgress,
 	getTaskDetail,
+	getTaskDownload,
 }

@@ -10,6 +10,11 @@ const taskDetailAtom = atom({
 	default: false,
 })
 
+const meshProfileAtom = atom({
+	key: 'meshProfileAtom',
+	default: false,
+})
+
 const chatHistoryAtom = atom({
 	key: 'chatHistoryAtom',
 	default: {},
@@ -29,4 +34,12 @@ const showDetailAtom = atom({
 	key: 'showDetailAtom',
 	default: false,
 })
-export { taskInitAtom, taskDetailAtom, chatHistoryAtom, chatGuessAtom, promptAtom, showDetailAtom }
+export {
+	taskInitAtom,
+	taskDetailAtom,
+	chatHistoryAtom,
+	chatGuessAtom,
+	promptAtom,
+	showDetailAtom,
+	meshProfileAtom,
+}

@@ -13,6 +13,7 @@ import {
 	showDetailAtom,
 	taskInitAtom,
 	taskDetailAtom,
+	meshProfileAtom,
 } from './store.js'
 
 function ResultBoard() {
@@ -21,6 +22,7 @@ function ResultBoard() {
 	const [taskDetail, setTaskDetail] = useRecoilState(taskDetailAtom)
 	const [chatHistory, setChatHistory] = useRecoilState(chatHistoryAtom)
 	const setChatGuess = useSetRecoilState(chatGuessAtom)
+	const setMeshProfile = useSetRecoilState(meshProfileAtom)
 	const [prompt, setPrompt] = useRecoilState(promptAtom)
 	const showDetail = useRecoilValue(showDetailAtom)
 	const isListenRef = useRef(false)
@@ -120,6 +122,7 @@ function ResultBoard() {
 			)
 		)
 		setPrompt(taskDetail.prompt)
+		setMeshProfile(taskDetail.resource_uuid)
 		// eslint-disable-next-line
 	}, [taskDetail])
 

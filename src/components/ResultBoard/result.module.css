@@ -259,6 +259,8 @@
 	width: 100%;
 	background: var(--bg-gray0-color);
 	border-radius: var(--radius);
+	overflow: hidden;
+	border-radius: var(--radius);
 }
 
 .modelInfoCon {
