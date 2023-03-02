@@ -2,20 +2,28 @@ import { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { wsSend } from '../../net'
 import style from './result.module.css'
-import { chatGuessAtom, chatHistoryAtom, taskInitAtom } from './store'
+import {
+	chatGuessAtom,
+	chatHistoryAtom,
+	showDetailAtom,
+	taskDetailAtom,
+	taskInitAtom,
+} from './store'
 
 function ChatBoard() {
 	const [chatHistory, setChatHistory] = useRecoilState(chatHistoryAtom)
 	const [chatGuess, setChatGuess] = useRecoilState(chatGuessAtom)
 	const taskInit = useRecoilValue(taskInitAtom)
+	const showDetail = useRecoilValue(showDetailAtom)
 	const [chatText, setChatText] = useState('')
+	const taskDetail = useRecoilValue(taskDetailAtom)
 
 	const handleIpt = (ev) => {
 		setChatText(ev.currentTarget.value)
 	}
 
 	const handleSend = (ev) => {
-		if (!chatText) return
+		if (!chatText || !taskInit) return
 		wsSend({
 			task_uuid: taskInit.task_uuid,
 			content: chatText,
@@ -40,14 +48,14 @@ function ChatBoard() {
 	}
 
 	useEffect(() => {
-		// console.log(chatGuess)
-	}, [chatGuess])
+		// if (showDetail !== 2) return
+	}, [showDetail])
 
 	return (
 		<div className={style.col}>
 			<div className={style.colTitle}>
 				<div>Dialog</div>
-				<div className={style.regene}>Regenerate</div>
+				{taskDetail ? <div className={style.regene}>Regenerate</div> : null}
 			</div>
 			<div className={style.chatCon}>
 				<div className={style.chatMsgCon}>
@@ -64,33 +72,35 @@ function ChatBoard() {
 							</div>
 						))}
 				</div>
-				<div className={style.chatIptCon}>
-					<div className={style.chatTipsCon}>
-						{chatGuess.map((guess) => (
-							<div
-								className={style.chatTips}
-								key={guess}
-								onPointerDown={handleSelectTip(guess)}>
-								{guess}
+				{!showDetail ? (
+					<div className={style.chatIptCon}>
+						<div className={style.chatTipsCon}>
+							{chatGuess.map((guess) => (
+								<div
+									className={style.chatTips}
+									key={guess}
+									onPointerDown={handleSelectTip(guess)}>
+									{guess}
+								</div>
+							))}
+						</div>
+						<div className={style.chatRowCon}>
+							<div className={style.iptLineCon}>
+								<div className={style.iptSpaceholder}>{chatText || 'X'}</div>
+								<textarea
+									className={style.ipt}
+									onChange={handleIpt}
+									value={chatText}
+									placeholder='Please describe the model you want'
+								/>
 							</div>
-						))}
-					</div>
-					<div className={style.chatRowCon}>
-						<div className={style.iptLineCon}>
-							<div className={style.iptSpaceholder}>{chatText || 'X'}</div>
-							<textarea
-								className={style.ipt}
-								onChange={handleIpt}
-								value={chatText}
-								placeholder='Please describe the model you want'
-							/>
-						</div>
 
-						<div className={style.chatSendBtn} onPointerDown={handleSend}>
-							Send
+							<div className={style.chatSendBtn} onPointerDown={handleSend}>
+								Send
+							</div>
 						</div>
 					</div>
-				</div>
+				) : null}
 			</div>
 		</div>
 	)

@@ -45,7 +45,30 @@ const wsSend = async ({ task_uuid, content }) => {
 
 const closeWebsocket = () => {
 	if (ws && ws.connected) ws.close()
+}
+
+const disposeWebsocket = () => {
 	ws = null
 }
 
-export { login, getUserInfo, startChat, startWebsocket, wsSend, closeWebsocket }
+//task
+const generateDetail = ({ task_uuid, prompt }) =>
+	axios.post(`${BASE_URL}/task/generate`, { task_uuid, prompt })
+
+const getGenerateProgress = (task_uuid) =>
+	axios.post(`${BASE_URL}/task/check_progress/${task_uuid}`)
+
+const getTaskDetail = (task_uuid) => axios.post(`${BASE_URL}/task/card/${task_uuid}`)
+
+export {
+	login,
+	getUserInfo,
+	startChat,
+	startWebsocket,
+	wsSend,
+	closeWebsocket,
+	disposeWebsocket,
+	generateDetail,
+	getGenerateProgress,
+	getTaskDetail,
+}

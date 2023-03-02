@@ -1,19 +1,28 @@
 import { useEffect, useRef } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { closeWebsocket, startWebsocket } from '../../net'
+import { closeWebsocket, disposeWebsocket, startWebsocket } from '../../net'
 import { ChatBoard } from './ChatBoard'
 import { DetailBoard } from './DetailBoard'
 import { GenerateBoard } from './GenerateBoard'
 import style from './result.module.css'
-import { chatGuessAtom, chatHistoryAtom, promptAtom, taskInitAtom } from './store.js'
+import {
+	chatGuessAtom,
+	chatHistoryAtom,
+	promptAtom,
+	showDetailAtom,
+	taskInitAtom,
+	taskDetailAtom,
+} from './store.js'
 
 function ResultBoard() {
 	const navi = useNavigate()
 	const taskInit = useRecoilValue(taskInitAtom)
+	const [taskDetail, setTaskDetail] = useRecoilState(taskDetailAtom)
 	const [chatHistory, setChatHistory] = useRecoilState(chatHistoryAtom)
 	const setChatGuess = useSetRecoilState(chatGuessAtom)
 	const [prompt, setPrompt] = useRecoilState(promptAtom)
+	const showDetail = useRecoilValue(showDetailAtom)
 	const isListenRef = useRef(false)
 	const chatHistoryRef = useRef({})
 	const chatGuessRef = useRef('')
@@ -22,12 +31,16 @@ function ResultBoard() {
 	const handleClose = (ev) => {
 		isListenRef.current = false
 		closeWebsocket()
+		disposeWebsocket()
 		navi('/')
 	}
 
 	const reset = () => {
+		// setTaskInit(false)
+		setTaskDetail(false)
 		setChatHistory({})
 		setChatGuess([])
+		setPrompt('')
 	}
 
 	useEffect(
@@ -45,6 +58,12 @@ function ResultBoard() {
 	useEffect(() => {
 		promptRef.current = prompt
 	}, [prompt])
+
+	useEffect(() => {
+		if (showDetail) {
+			closeWebsocket()
+		}
+	}, [showDetail])
 
 	useEffect(() => {
 		if (!taskInit) return
@@ -89,6 +108,21 @@ function ResultBoard() {
 		// eslint-disable-next-line
 	}, [taskInit])
 
+	useEffect(() => {
+		if (!taskDetail) return
+		setChatHistory(
+			taskDetail.chat_history.reduce(
+				(res, cur) => ({
+					...res,
+					[cur.chat_uuid]: { ...cur, timeStamp: new Date(cur.time).getTime() },
+				}),
+				{}
+			)
+		)
+		setPrompt(taskDetail.prompt)
+		// eslint-disable-next-line
+	}, [taskDetail])
+
 	return (
 		<div className={style.con} onPointerDown={handleClose}>
 			<div className={style.board} onPointerDown={(ev) => ev.stopPropagation()}>
@@ -99,4 +133,4 @@ function ResultBoard() {
 	)
 }
 
-export { ResultBoard, GenerateBoard, DetailBoard, taskInitAtom }
+export { ResultBoard, GenerateBoard, DetailBoard, taskInitAtom, taskDetailAtom }

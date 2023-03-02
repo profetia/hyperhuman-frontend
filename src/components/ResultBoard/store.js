@@ -5,6 +5,11 @@ const taskInitAtom = atom({
 	default: false,
 })
 
+const taskDetailAtom = atom({
+	key: 'taskDetailAtom',
+	default: false,
+})
+
 const chatHistoryAtom = atom({
 	key: 'chatHistoryAtom',
 	default: {},
@@ -19,4 +24,9 @@ const promptAtom = atom({
 	key: 'promptAtom',
 	default: '',
 })
-export { taskInitAtom, chatHistoryAtom, chatGuessAtom, promptAtom }
+
+const showDetailAtom = atom({
+	key: 'showDetailAtom',
+	default: false,
+})
+export { taskInitAtom, taskDetailAtom, chatHistoryAtom, chatGuessAtom, promptAtom, showDetailAtom }

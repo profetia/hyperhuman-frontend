@@ -7,8 +7,8 @@
 	--font-light-color: #fff;
 
 	--bg-light-color: #fff;
-	--bg-gray0-color: #eee;
-	--bg-gray1-color: #ddd;
+	--bg-gray0-color: #f8f8f8;
+	--bg-gray1-color: #ececec;
 	--bg-dark-color: #000;
 
 	--side-gap: 5rem;
@@ -26,7 +26,7 @@ textarea {
 	line-height: 1.5rem;
 	font-size: 1rem;
 	outline: none;
-    resize: none;
+	resize: none;
 }
 textarea:focus {
 	border-color: var(--theme-color);
