@@ -20,7 +20,7 @@ function LoginPanel() {
 		})
 			.then((data) => {
 				setLogInfo(data.data)
-				localStorage.setItem('uuid', data.data.uuid)
+				localStorage.setItem('user_uuid', data.data.user_uuid)
 				localStorage.setItem('token', data.data.token)
 				handleClose()
 			})

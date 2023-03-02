@@ -31,7 +31,6 @@ function ResultBoard() {
 	const promptRef = useRef('')
 
 	const handleClose = (ev) => {
-		isListenRef.current = false
 		closeWebsocket()
 		disposeWebsocket()
 		navi('/')
@@ -75,6 +74,7 @@ function ResultBoard() {
 			isListenRef.current = true
 
 			const ws = await startWebsocket(taskInit.subscription)
+			console.log('satrt ws')
 
 			ws.on('AI Assistant', (ev) => {
 				const currentChat = { ...(chatHistoryRef.current[ev.chat_uuid] || {}) }

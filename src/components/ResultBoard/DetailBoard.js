@@ -89,7 +89,7 @@ function DetailBoard() {
 					break
 				default:
 					// console.log(data)
-					setPercent(0)
+					// setPercent(0)
 			}
 		}, 1000)
 		// eslint-disable-next-line
@@ -102,20 +102,22 @@ function DetailBoard() {
 				</div>
 
 				<div className={style.creatorInfoCon}>
-					<div className={style.creatorName}>{taskDetail?.author?.name}</div>
-					<div className={style.creatorInfo}>{taskDetail?.author?.name}</div>
+					<div className={style.creatorName}>{taskDetail?.author?.username}</div>
+					<div className={style.creatorInfo}>{taskDetail?.author?.username}</div>
 				</div>
 			</div>
 			<div className={style.modelView} id='webglcontainer'></div>
-			<div id='info'></div>
-			<div id='preloader' className='preloader'>
-				<div id='preloaderBar' className='vAligned'>
-					Loading...
-					<div className='preloaderBorder'>
-						<div
-							id='preloaderProgress'
-							className='preloaderProgress'
-							style={{ width: '85%' }}></div>
+			<div style={{ position: 'absolute', zIndex: -100 }}>
+				<div id='info'></div>
+				<div id='preloader' className='preloader'>
+					<div id='preloaderBar' className='vAligned'>
+						Loading...
+						<div className='preloaderBorder'>
+							<div
+								id='preloaderProgress'
+								className='preloaderProgress'
+								style={{ width: '85%' }}></div>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -9,7 +9,8 @@ const suffix = isMock ? '.json' : ''
 const login = ({ username, email, password }) =>
 	axios.post(`${BASE_URL}/user/login`, { username, email, password })
 
-const getUserInfo = ({ userId }) => axios.get(`${BASE_URL}/user/${userId}${suffix}`)
+const getUserInfo = ({ user_uuid, username }) =>
+	axios.post(`${BASE_URL}/user/get_info`, { user_uuid, username })
 
 //chat
 const startChat = () => axios.get(`${BASE_URL}/chat${suffix}`)
