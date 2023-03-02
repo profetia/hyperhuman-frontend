@@ -74,9 +74,9 @@ function ResultBoard() {
 			isListenRef.current = true
 
 			const ws = await startWebsocket(taskInit.subscription)
-			console.log('satrt ws')
+			console.log('start ws')
 
-			ws.on('AI Assistant', (ev) => {
+			ws.on('assistant', (ev) => {
 				const currentChat = { ...(chatHistoryRef.current[ev.chat_uuid] || {}) }
 
 				if (ev.content === '[START]') {

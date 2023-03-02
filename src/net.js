@@ -40,7 +40,7 @@ const wsSend = async ({ task_uuid, content }) => {
 	return ws.emit('message', {
 		content,
 		task_uuid,
-		provider: 'User',
+		provider: 'user',
 	})
 }
 

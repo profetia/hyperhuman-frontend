@@ -33,7 +33,7 @@ function ChatBoard() {
 			...chatHistory,
 			[Date.now()]: {
 				chat_uuid: Date.now(),
-				provider: 'User',
+				provider: 'user',
 				content: chatText,
 				timeStamp: Date.now(),
 			},
@@ -65,7 +65,7 @@ function ChatBoard() {
 							<div
 								key={chat.chat_uuid}
 								className={`${style.chatMsgRow} ${
-									chat.provider === 'User' ? style.user : ''
+									chat.provider === 'user' ? style.user : ''
 								}`}>
 								<div className={style.avatar}></div>
 								<div className={style.bubble}>{chat.content}</div>
