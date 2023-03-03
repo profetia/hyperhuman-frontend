@@ -4,15 +4,21 @@
 
 	--font-dark-color: rgb(67, 67, 67);
 	--font-gray-color: #aaa;
-	--font-light-color: #fff;
+	--font-light-color: #cfcfcf;
 
 	--bg-light-color: #fff;
 	--bg-gray0-color: #f8f8f8;
 	--bg-gray1-color: #ececec;
-	--bg-dark-color: #000;
+	--bg-gray2-color: #7c7c7c;
+	--bg-dark-color: #121317;
 
 	--side-gap: 5rem;
 	--radius: 0.5rem;
+	--shadow: -10px 0px 12px 1px rgba(135, 135, 135, 0.16);
+}
+.App * {
+	box-sizing: border-box;
+	transition: all 300ms;
 }
 
 textarea {
@@ -30,4 +36,9 @@ textarea {
 }
 textarea:focus {
 	border-color: var(--theme-color);
+}
+
+img {
+	user-select: none;
+	-webkit-user-drag: none;
 }

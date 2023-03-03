@@ -1,10 +1,19 @@
 .con {
 	width: 100%;
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	margin-top: 15rem;
+	padding-top: 15rem;
+}
+
+.con img {
+	position: absolute;
+	top: 0;
+	left: 20vw;
+	width: 50vw;
+	z-index: -1;
 }
 
 .title {
@@ -12,21 +21,40 @@
 	font-weight: bolder;
 	line-height: 5rem;
 	margin-bottom: 1.5rem;
+	color: white;
 }
 
-.ipt {
+.iptCon {
 	margin-top: 3rem;
-	outline: none;
-	border: none;
-	width: 50rem;
+	margin-bottom: 2rem;
+	width: 35rem;
 	height: 4rem;
 	border-radius: 2rem;
-	padding: 0 2rem;
-	margin-bottom: 2rem;
-    font-size: 1rem;
+	background: var(--bg-light-color);
+
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
-.ipt::placeholder{
-    font-size: 1rem;
+.iptCon img {
+	position: static;
+	height: 2rem;
+	width: 2rem;
+	z-index: 0;
+	margin-right: 1rem;
+}
+.ipt {
+	outline: none;
+	border: none;
+	height: 100%;
+	flex-grow: 1;
+	border-radius: 2rem;
+	padding: 0 2rem;
+	font-size: 1rem;
+	color: var(--font-dark-color);
+}
+.ipt::placeholder {
+	font-size: 1rem;
 }
 .btnCon {
 	display: flex;
@@ -38,7 +66,7 @@
 	height: 3rem;
 	width: 9rem;
 	line-height: 1rem;
-	border: 1px solid #ffffff88;
+	border: 1px solid #8f8f8f;
 	user-select: none;
 	border-radius: 1.5rem;
 	display: flex;
@@ -47,7 +75,14 @@
 	cursor: pointer;
 }
 .btn:last-child {
-	background: linear-gradient(blue, red);
+	background: linear-gradient(#4a00e0, #870000);
 	border: none;
 	margin-left: 3rem;
+}
+
+.btn.disabled {
+	cursor: not-allowed;
+}
+.btn:hover {
+	color: #ffffff;
 }

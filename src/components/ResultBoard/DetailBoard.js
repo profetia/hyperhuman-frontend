@@ -35,7 +35,7 @@ function DetailBoard() {
 			model: getTaskDownload(meshProfile['preview_resource']['model']),
 			diffuse: getTaskDownload(meshProfile['preview_resource']['texture_diff']),
 			normal: getTaskDownload(meshProfile['preview_resource']['texture_norm']),
-			spectular: getTaskDownload(meshProfile['preview_resource']['texture_specd']),
+			spectular: getTaskDownload(meshProfile['preview_resource']['texture_spec']),
 		}
 		;(async (urlP) => ({
 			model: await urlP['model'],

@@ -28,8 +28,8 @@
 }
 .col {
 	position: relative;
-	width: 50%;
-	flex-shrink: 1;
+	width: calc(50% - 0.5rem);
+	flex-shrink: 0;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -63,6 +63,7 @@
 	flex-shrink: 1;
 	padding: 1rem;
 	width: 100%;
+	height: calc(100% - 4rem);
 	border-radius: var(--radius);
 	display: flex;
 	flex-direction: column;
@@ -77,12 +78,18 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	overflow-y: auto;
+	overflow-y: overlay;
 
 	text-align: left;
 }
 .chatMsgCon::-webkit-scrollbar-thumb {
-	border-color: var(--bg-gray0-color);
+	border: none;
+	border-radius: 3px;
+	/* border-color: var(--bg-g
+    ray0-color); */
+}
+.chatMsgCon::-webkit-scrollbar {
+	width: 6px;
 }
 .chatMsgRow {
 	width: 100%;
@@ -100,7 +107,7 @@
 	width: 3rem;
 	border-radius: 1.5rem;
 	overflow: hidden;
-	background: gray;
+	background: var(--bg-gray2-color);
 	margin-right: 1rem;
 	margin-left: 0;
 }
@@ -137,6 +144,7 @@
 	justify-content: flex-start;
 	align-items: flex-end;
 	width: 100%;
+	max-width: 100%;
 	overflow-x: auto;
 	overflow-y: hidden;
 	margin-top: 1rem;
@@ -181,6 +189,8 @@
 	padding: 0.75rem 1rem;
 	max-height: calc(9rem + 2px);
 	border: 1px solid transparent;
+	word-break: break-all;
+	white-space: pre-wrap;
 }
 .ipt {
 	background: var(--bg-light-color);
@@ -198,15 +208,30 @@
 .ipt::-webkit-scrollbar-thumb {
 	border-color: var(--bg-light-color);
 }
-.chatSendBtn {
-	height: 3rem;
-	line-height: 3rem;
-	background: var(--theme-color);
-	color: white;
+.btn {
+	height: calc(3rem - 2px);
+	line-height: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: transparent;
+	color: var(--theme-color);
 	border-radius: 1.5rem;
 	padding: 0 1.5rem;
 	user-select: none;
 	cursor: pointer;
+	font-weight: bold;
+	border: 1px solid var(--theme-color);
+}
+.btn:hover {
+	color: white;
+	background-color: var(--theme-color);
+}
+.con .btn.disabled {
+	cursor: not-allowed;
+	background: var(--bg-gray2-color);
+    border-color: var(--bg-gray2-color);
+	color: var(--font-light-color);
 }
 .iptArea {
 	height: 12rem;
@@ -222,14 +247,6 @@
 }
 .generateBtn {
 	width: 100%;
-	height: 3rem;
-	text-align: center;
-	border-radius: 1.5rem;
-	color: var(--font-light-color);
-	background-color: var(--theme-color);
-	line-height: 3rem;
-	user-select: none;
-	cursor: pointer;
 }
 
 .creatorCon {

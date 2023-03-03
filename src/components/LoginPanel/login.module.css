@@ -6,6 +6,7 @@
 	padding: var(--side-gap);
 	background: black;
 	box-shadow: -5px 0 20px 0 rgba(255, 255, 255, 0.2);
+    z-index: 9;
 }
 .close {
 	user-select: none;

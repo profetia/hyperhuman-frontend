@@ -3,14 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { startChat } from '../../net'
 import { logInfoAtom } from '../Header'
-import { taskInitAtom } from '../ResultBoard'
+import { chatTextAtom, taskInitAtom } from '../ResultBoard'
 import style from './welcome.module.css'
+import bgImg from '../../assets/background.png'
+import aiLogo from '../../assets/ai-logo.png'
 
 function Welcome() {
 	const [description, setDescription] = useState('')
 	const setTaskInit = useSetRecoilState(taskInitAtom)
 	const logInfo = useRecoilValue(logInfoAtom)
 	const navi = useNavigate()
+	const setChatText = useSetRecoilState(chatTextAtom)
 
 	// useEffect(() => {
 	// 	console.log('input description: ', description)
@@ -26,10 +29,14 @@ function Welcome() {
 			console.log('please login')
 			return
 		}
+		setChatText(description)
+		setDescription('')
 		startChat()
 			.then((data) => {
-				const taskInit = data.data
-				setTaskInit(taskInit)
+				if (data) {
+					const taskInit = data.data
+					setTaskInit(taskInit)
+				}
 				navi('/result/generate')
 			})
 			.catch((err) => {
@@ -39,21 +46,28 @@ function Welcome() {
 	}
 	return (
 		<div className={style.con}>
+			<img alt='bg img' src={bgImg} />
 			<div className={style.title}>ChatAvatar</div>
 			<div>
 				Progressive Generation Of Animatable 3D Faces
 				<br />
 				Under Text Guidance
 			</div>
-			<input
-				className={style.ipt}
-				placeholder='Describe the model you want to generate'
-				value={description}
-				onChange={handleInput}
-			/>
+			<div className={style.iptCon}>
+				<input
+					className={style.ipt}
+					placeholder='Describe the model you want to generate'
+					value={description}
+					onChange={handleInput}
+				/>
+				<img alt='ai logo' src={aiLogo} />
+			</div>
+
 			<div className={style.btnCon}>
 				<div className={style.btn}>Search</div>
-				<div className={style.btn} onPointerDown={handleGenerate}>
+				<div
+					className={`${style.btn} ${logInfo ? '' : style.disabled}`}
+					onPointerDown={handleGenerate}>
 					Generate
 				</div>
 			</div>

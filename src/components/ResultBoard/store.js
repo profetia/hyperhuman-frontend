@@ -34,6 +34,26 @@ const showDetailAtom = atom({
 	key: 'showDetailAtom',
 	default: false,
 })
+
+const assistantChatStatusAtom = atom({
+	key: 'assistantChatStatusAtom',
+	default: '',
+})
+const guessChatStatusAtom = atom({
+	key: 'guessChatStatusAtom',
+	default: '',
+})
+
+const isFinishedChatAtom = atom({
+	key: 'isFinishedChatAtom',
+	default: false,
+})
+
+const chatTextAtom = atom({
+	key: 'chatTextAtom',
+	default: '',
+})
+
 export {
 	taskInitAtom,
 	taskDetailAtom,
@@ -42,4 +62,8 @@ export {
 	promptAtom,
 	showDetailAtom,
 	meshProfileAtom,
+	assistantChatStatusAtom,
+	guessChatStatusAtom,
+	isFinishedChatAtom,
+	chatTextAtom,
 }

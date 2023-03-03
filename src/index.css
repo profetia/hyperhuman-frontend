@@ -4,13 +4,9 @@ body {
 		'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background: black;
-	color: white;
+	background: #121317;
+	color: #cfcfcf;
 	box-sizing: border-box;
-}
-* {
-	box-sizing: border-box;
-	transition: all 300ms;
 }
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
@@ -23,6 +19,7 @@ code {
 	background-color: rgba(0, 0, 0, 0.2);
 	border-radius: 8px;
 	border: 5px solid;
+	border-color: #121317;
 }
 ::-webkit-scrollbar-corner {
 	display: none;
