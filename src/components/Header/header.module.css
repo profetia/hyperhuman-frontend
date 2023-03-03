@@ -13,8 +13,20 @@
 	align-items: center;
 	padding: 1rem 0;
 }
+.logoCon {
+	height: 3rem;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
 .logo {
 	height: 3rem;
+	margin-right: 1rem;
+}
+.logoCon > div {
+    line-height: 2rem;
+	font-size: 2rem;
+    margin-top: 5px;
 }
 .avatar {
 	width: 3rem;

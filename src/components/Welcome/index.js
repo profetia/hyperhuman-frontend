@@ -39,7 +39,7 @@ function Welcome() {
 	}
 	return (
 		<div className={style.con}>
-			<div className={style.title}>DreamFace</div>
+			<div className={style.title}>ChatAvatar</div>
 			<div>
 				Progressive Generation Of Animatable 3D Faces
 				<br />

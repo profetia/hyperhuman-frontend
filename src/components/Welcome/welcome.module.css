@@ -23,6 +23,10 @@
 	border-radius: 2rem;
 	padding: 0 2rem;
 	margin-bottom: 2rem;
+    font-size: 1rem;
+}
+.ipt::placeholder{
+    font-size: 1rem;
 }
 .btnCon {
 	display: flex;

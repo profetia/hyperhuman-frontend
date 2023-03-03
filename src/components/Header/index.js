@@ -16,7 +16,10 @@ function Header() {
 	return (
 		<header className={style.con}>
 			<div className={style.header}>
-				<img className={style.logo} src={logo} alt='deemos logo' />
+				<div className={style.logoCon}>
+					<img className={style.logo} src={logo} alt='deemos logo' />
+					<div>HYPERHUMAN</div>
+				</div>
 
 				<div className={style.avatar} onPointerUp={handleAvatarClick}>
 					{logInfo ? <img src={logInfo.avatar_url} alt='avatar' /> : null}
