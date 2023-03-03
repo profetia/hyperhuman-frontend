@@ -32,10 +32,10 @@ function DetailBoard() {
 
 		// console.log(meshProfile)
 		const urlPromise = {
-			model: getTaskDownload(meshProfile['model_uuid']),
-			diffuse: getTaskDownload(meshProfile['texture_diff_low_uuid']),
-			normal: getTaskDownload(meshProfile['texture_norm_low_uuid']),
-			spectular: getTaskDownload(meshProfile['texture_spec_low_uuid']),
+			model: getTaskDownload(meshProfile['preview_resource']['model']),
+			diffuse: getTaskDownload(meshProfile['preview_resource']['texture_diff']),
+			normal: getTaskDownload(meshProfile['preview_resource']['texture_norm']),
+			spectular: getTaskDownload(meshProfile['preview_resource']['texture_specd']),
 		}
 		;(async (urlP) => ({
 			model: await urlP['model'],
