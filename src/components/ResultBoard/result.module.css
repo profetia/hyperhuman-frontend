@@ -127,6 +127,8 @@
 	flex-shrink: 1;
 	background: var(--bg-gray1-color);
 	border-radius: var(--radius);
+	word-break: break-all;
+	white-space: pre-wrap;
 }
 .user .bubble {
 	background: var(--bg-light-color);
@@ -214,8 +216,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: transparent;
-	color: var(--theme-color);
+	color: white;
+	background-color: var(--theme-color);
 	border-radius: 1.5rem;
 	padding: 0 1.5rem;
 	user-select: none;
@@ -224,13 +226,13 @@
 	border: 1px solid var(--theme-color);
 }
 .btn:hover {
-	color: white;
-	background-color: var(--theme-color);
+	background: transparent;
+	color: var(--theme-color);
 }
 .con .btn.disabled {
 	cursor: not-allowed;
 	background: var(--bg-gray2-color);
-    border-color: var(--bg-gray2-color);
+	border-color: var(--bg-gray2-color);
 	color: var(--font-light-color);
 }
 .iptArea {
