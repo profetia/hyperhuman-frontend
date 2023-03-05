@@ -1,69 +1,75 @@
-import { atom } from 'recoil'
+import { atom } from "recoil";
 
 const taskInitAtom = atom({
-	key: 'taskInitAtom',
-	default: false,
-})
+  key: "taskInitAtom",
+  default: false,
+});
 
 const taskDetailAtom = atom({
-	key: 'taskDetailAtom',
-	default: false,
-})
+  key: "taskDetailAtom",
+  default: false,
+});
 
 const meshProfileAtom = atom({
-	key: 'meshProfileAtom',
-	default: false,
-})
+  key: "meshProfileAtom",
+  default: false,
+});
 
 const chatHistoryAtom = atom({
-	key: 'chatHistoryAtom',
-	default: {},
-})
+  key: "chatHistoryAtom",
+  default: {},
+});
 
 const chatGuessAtom = atom({
-	key: 'chatGuessAtom',
-	default: [],
-})
+  key: "chatGuessAtom",
+  default: [],
+});
 
 const promptAtom = atom({
-	key: 'promptAtom',
-	default: '',
-})
+  key: "promptAtom",
+  default: "",
+});
 
 const showDetailAtom = atom({
-	key: 'showDetailAtom',
-	default: false,
-})
+  key: "showDetailAtom",
+  default: false,
+});
 
 const assistantChatStatusAtom = atom({
-	key: 'assistantChatStatusAtom',
-	default: '',
-})
+  key: "assistantChatStatusAtom",
+  default: "",
+});
 const guessChatStatusAtom = atom({
-	key: 'guessChatStatusAtom',
-	default: '',
-})
+  key: "guessChatStatusAtom",
+  default: "",
+});
 
 const isFinishedChatAtom = atom({
-	key: 'isFinishedChatAtom',
-	default: false,
-})
+  key: "isFinishedChatAtom",
+  default: false,
+});
 
 const chatTextAtom = atom({
-	key: 'chatTextAtom',
-	default: '',
-})
+  key: "chatTextAtom",
+  default: "",
+});
+
+const chatLangAtom = atom({
+  key: "chatLangAtom",
+  default: "Chinese",
+});
 
 export {
-	taskInitAtom,
-	taskDetailAtom,
-	chatHistoryAtom,
-	chatGuessAtom,
-	promptAtom,
-	showDetailAtom,
-	meshProfileAtom,
-	assistantChatStatusAtom,
-	guessChatStatusAtom,
-	isFinishedChatAtom,
-	chatTextAtom,
-}
+  taskInitAtom,
+  taskDetailAtom,
+  chatHistoryAtom,
+  chatGuessAtom,
+  promptAtom,
+  showDetailAtom,
+  meshProfileAtom,
+  assistantChatStatusAtom,
+  guessChatStatusAtom,
+  isFinishedChatAtom,
+  chatTextAtom,
+  chatLangAtom,
+};
