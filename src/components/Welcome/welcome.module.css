@@ -17,8 +17,9 @@
 }
 
 .title {
+	font-family: 'Courier New';
 	font-size: 5rem;
-	font-weight: bolder;
+	font-weight: bold;
 	line-height: 5rem;
 	margin-bottom: 1.5rem;
 	color: white;
