@@ -8,12 +8,10 @@ import {
 	chatHistoryAtom,
 	chatTextAtom,
 	guessChatStatusAtom,
-	isFinishedChatAtom,
 	showDetailAtom,
 	taskDetailAtom,
 	taskInitAtom,
 	chatLangAtom,
-	promptAtom,
 	needStartWsAtom,
 } from './store'
 
@@ -28,7 +26,6 @@ function ChatBoard() {
 	const taskDetail = useRecoilValue(taskDetailAtom)
 	const guessChatStatus = useRecoilValue(guessChatStatusAtom)
 	const [assistantChatStatus, setAssistantChatStatus] = useRecoilState(assistantChatStatusAtom)
-	const isFinishedChat = useRecoilValue(isFinishedChatAtom)
 	const [chatLang, setChatLang] = useRecoilState(chatLangAtom)
 	const setNeedStartWs = useSetRecoilState(needStartWsAtom)
 
@@ -113,7 +110,7 @@ function ChatBoard() {
 						.sort((a, b) => a.timeStamp - b.timeStamp)
 						.map(
 							(chat, idx, arr) =>
-								(!isFinishedChat ||
+								(!showDetail ||
 									chat.provider !== 'assistant' ||
 									idx !== arr.length - 1) && (
 									<div

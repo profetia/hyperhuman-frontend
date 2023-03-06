@@ -44,11 +44,6 @@ const guessChatStatusAtom = atom({
 	default: '',
 })
 
-const isFinishedChatAtom = atom({
-	key: 'isFinishedChatAtom',
-	default: false,
-})
-
 const chatTextAtom = atom({
 	key: 'chatTextAtom',
 	default: '',
@@ -80,7 +75,6 @@ export {
 	meshProfileAtom,
 	assistantChatStatusAtom,
 	guessChatStatusAtom,
-	isFinishedChatAtom,
 	chatTextAtom,
 	chatLangAtom,
 	generateProgressAtom,

@@ -19,7 +19,6 @@ import {
 	chatTextAtom,
 	chatLangAtom,
 	needStartWsAtom,
-	isFinishedChatAtom,
 } from './store.js'
 
 function ResultBoard() {
@@ -33,7 +32,6 @@ function ResultBoard() {
 	const setGuessChatStatus = useSetRecoilState(guessChatStatusAtom)
 	const [prompt, setPrompt] = useRecoilState(promptAtom)
 	const [showDetail, setShowDetail] = useRecoilState(showDetailAtom)
-	const setIsFinishedChat = useSetRecoilState(isFinishedChatAtom)
 	const [chatText, setChatText] = useRecoilState(chatTextAtom)
 	const chatLang = useRecoilValue(chatLangAtom)
 	const [needStartWs, setNeedStartWs] = useRecoilState(needStartWsAtom)
@@ -137,7 +135,6 @@ function ResultBoard() {
 		setChatText('')
 		setAssistantChatStatus('')
 		setShowDetail(false)
-		setIsFinishedChat(false)
 
 		isListenRef.current = false
 		chatHistoryRef.current = {}

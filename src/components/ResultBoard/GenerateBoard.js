@@ -6,7 +6,6 @@ import style from './result.module.css'
 import {
 	chatGuessAtom,
 	generateProgressAtom,
-	isFinishedChatAtom,
 	promptAtom,
 	showDetailAtom,
 	taskDetailAtom,
@@ -18,7 +17,6 @@ function GenerateBoard() {
 	const taskInit = useRecoilValue(taskInitAtom)
 	const [taskDetail, setTaskDetail] = useRecoilState(taskDetailAtom)
 	const setChatGuess = useSetRecoilState(chatGuessAtom)
-	const setIsFinishedChat = useSetRecoilState(isFinishedChatAtom)
 	const navi = useNavigate()
 	const intervalRef = useRef(null)
 	const [candidates, setCandidates] = useState([])
@@ -90,7 +88,6 @@ function GenerateBoard() {
 
 		setChatGuess([])
 		setShowDetail(true)
-		setIsFinishedChat(true)
 		// navi('/result/detail')
 		generateDetail({ task_uuid: taskInit.task_uuid, prompt })
 	}
