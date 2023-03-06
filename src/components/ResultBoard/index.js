@@ -20,7 +20,6 @@ import {
 	chatLangAtom,
 	needStartWsAtom,
 	isFinishedChatAtom,
-	isStartCheckAtom,
 } from './store.js'
 
 function ResultBoard() {
@@ -38,7 +37,6 @@ function ResultBoard() {
 	const [chatText, setChatText] = useRecoilState(chatTextAtom)
 	const chatLang = useRecoilValue(chatLangAtom)
 	const [needStartWs, setNeedStartWs] = useRecoilState(needStartWsAtom)
-	const setIsStartCheck = useSetRecoilState(isStartCheckAtom)
 	const isListenRef = useRef(false)
 	const chatHistoryRef = useRef({})
 	const chatGuessRef = useRef('')
@@ -140,7 +138,6 @@ function ResultBoard() {
 		setAssistantChatStatus('')
 		setShowDetail(false)
 		setIsFinishedChat(false)
-		setIsStartCheck(false)
 
 		isListenRef.current = false
 		chatHistoryRef.current = {}

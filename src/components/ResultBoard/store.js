@@ -64,10 +64,7 @@ const generateProgressAtom = atom({
 	default: {},
 })
 
-const isStartCheckAtom = atom({
-	key: 'isStartCheckAtom',
-	default: false,
-})
+
 const needStartWsAtom = atom({
 	key: 'needStartWsAtom',
 	default: false,
@@ -88,5 +85,4 @@ export {
 	chatLangAtom,
 	generateProgressAtom,
 	needStartWsAtom,
-	isStartCheckAtom,
 }

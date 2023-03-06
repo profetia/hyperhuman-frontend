@@ -7,7 +7,6 @@ import {
 	chatGuessAtom,
 	generateProgressAtom,
 	isFinishedChatAtom,
-	isStartCheckAtom,
 	promptAtom,
 	showDetailAtom,
 	taskDetailAtom,
@@ -23,20 +22,10 @@ function GenerateBoard() {
 	const navi = useNavigate()
 	const intervalRef = useRef(null)
 	const [candidates, setCandidates] = useState([])
-	const [isStartCheck, setIsStartCheck] = useRecoilState(isStartCheckAtom)
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	const [showDetail, setShowDetail] = useRecoilState(showDetailAtom)
 
-	const handleGenerate = (ev) => {
-		if (!prompt) return
-
-		setChatGuess([])
-		setShowDetail(true)
-		setIsStartCheck(true)
-		setIsFinishedChat(true)
-		// navi('/result/detail')
-		generateDetail({ task_uuid: taskInit.task_uuid, prompt })
-	}
+	useEffect(() => () => clearInterval(intervalRef.current), [])
 
 	useEffect(() => {
 		// console.log(prompt)
@@ -48,7 +37,7 @@ function GenerateBoard() {
 
 	useEffect(() => {
 		// console.log(taskDetail)
-		if (taskDetail || !isStartCheck) {
+		if (taskDetail || !showDetail) {
 			clearInterval(intervalRef.current)
 			return
 		}
@@ -94,7 +83,17 @@ function GenerateBoard() {
 			}
 		}, 1000)
 		// eslint-disable-next-line
-	}, [taskDetail, isStartCheck])
+	}, [taskDetail, showDetail])
+
+	const handleGenerate = (ev) => {
+		if (!prompt) return
+
+		setChatGuess([])
+		setShowDetail(true)
+		setIsFinishedChat(true)
+		// navi('/result/detail')
+		generateDetail({ task_uuid: taskInit.task_uuid, prompt })
+	}
 
 	const handleIpt = (ev) => {
 		setPrompt(ev.currentTarget.value)
