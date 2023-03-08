@@ -23,7 +23,7 @@ function GenerateBoard() {
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	const [showDetail, setShowDetail] = useRecoilState(showDetailAtom)
 
-	useEffect(() => () => clearInterval(intervalRef.current), [])
+	// useEffect(() => () => clearInterval(intervalRef.current), [])
 
 	useEffect(() => {
 		// console.log(prompt)

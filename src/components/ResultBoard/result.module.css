@@ -42,6 +42,7 @@
 .colTitle {
 	width: 100%;
 	font-size: 1.2rem;
+	line-height: 1.2rem;
 	height: 3rem;
 	font-weight: bold;
 	display: flex;
@@ -49,6 +50,46 @@
 	justify-content: space-between;
 	margin-bottom: 1rem;
 	color: var(--font-gray-color);
+}
+.colTitle > div {
+	margin-bottom: 0.5rem;
+}
+
+.colTitle > div.restart {
+	margin-bottom: 0;
+	margin-left: 1rem;
+	font-weight: 400;
+	font-size: 1rem;
+	user-select: none;
+	cursor: pointer;
+	padding: 0.5rem;
+	border-radius: 5px;
+}
+.restart:hover {
+	color: var(--font-dark-color);
+	background-color: var(--bg-gray0-color);
+}
+.spaceholder {
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+.lang {
+	font-weight: 400;
+	cursor: pointer;
+	user-select: none;
+	margin-right: 1rem;
+}
+.lang.en {
+	width: 4rem;
+	margin-left: 1rem;
+	margin-right: 0;
+}
+.lang:hover {
+	font-weight: bold;
+}
+.lang.selected {
+	color: var(--font-dark-color);
+	font-weight: bold;
 }
 .regene {
 	cursor: pointer;

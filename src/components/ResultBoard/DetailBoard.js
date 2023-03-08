@@ -9,7 +9,7 @@ import {
 	taskDetailAtom,
 	taskInitAtom,
 } from './store'
-import {  getTaskDownload } from '../../net'
+import { getTaskDownload } from '../../net'
 import { global_render_target_injector, startUp } from '../../render/rendering'
 // import { async } from 'q'
 
@@ -40,10 +40,26 @@ function DetailBoard() {
 
 		// console.log(meshProfile)
 		const urlPromise = {
-			model: getTaskDownload(meshProfile['preview_resource']['model']),
-			diffuse: getTaskDownload(meshProfile['preview_resource']['texture_diff']),
-			normal: getTaskDownload(meshProfile['preview_resource']['texture_norm']),
-			spectular: getTaskDownload(meshProfile['preview_resource']['texture_spec']),
+			model: getTaskDownload({
+				type: 'PreviewPack',
+				task_uuid: taskInit.task_uuid,
+				name: 'model',
+			}),
+			diffuse: getTaskDownload({
+				type: 'PreviewPack',
+				task_uuid: taskInit.task_uuid,
+				name: 'texture_diffuse',
+			}),
+			normal: getTaskDownload({
+				type: 'PreviewPack',
+				task_uuid: taskInit.task_uuid,
+				name: 'texture_normal',
+			}),
+			spectular: getTaskDownload({
+				type: 'PreviewPack',
+				task_uuid: taskInit.task_uuid,
+				name: 'texture_specular',
+			}),
 		}
 		;(async (urlP) => ({
 			model: await urlP['model'],
@@ -89,7 +105,7 @@ function DetailBoard() {
 			<div className={style.modelInfoCon}>
 				{taskDetail ? null : (
 					<>
-						<div className={style.progressInfo}>{generateProgress.percent}</div>
+						<div className={style.progressInfo}>{generateProgress.stage}</div>
 						<div className={style.progressTrack}>
 							<div
 								className={style.progressThumb}
