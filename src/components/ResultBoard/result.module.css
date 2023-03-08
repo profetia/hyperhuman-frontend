@@ -298,10 +298,33 @@
 	flex-shrink: 1;
 	overflow-y: overlay;
 
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 10px;
-	grid-auto-rows: minmax(100px, auto);
+	display: flex;
+	position: relative;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	padding: 1rem;
+	background-color: var(--bg-gray0-color);
+	border-radius: var(--radius);
+}
+.candidateCon::-webkit-scrollbar-thumb {
+	border-color: var(--bg-gray0-color);
+}
+
+.candidateCol {
+	position: relative;
+	width: calc((100% - 2rem) / 3);
+	margin-right: 1rem;
+}
+.candidateCol:last-child {
+	margin-right: 0;
+}
+
+.candidateCol img {
+	width: 100%;
+	margin-bottom: 1rem;
+	border-radius: var(--radius);
+	cursor: pointer;
 }
 
 .creatorCon {

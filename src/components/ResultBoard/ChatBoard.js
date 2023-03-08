@@ -87,7 +87,7 @@ function ChatBoard() {
 				<div>Chat</div>
 				{taskDetail ? null : (
 					<div className={style.restart} onPointerDown={handleRestart}>
-						〇 Restart
+						Restart
 					</div>
 				)}
 				<div className={style.spaceholder}></div>

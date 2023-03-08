@@ -11,6 +11,7 @@ import {
 } from './store'
 import { getTaskDownload } from '../../net'
 import { global_render_target_injector, startUp } from '../../render/rendering'
+import { logInfoAtom } from '../Header'
 // import { async } from 'q'
 
 function DetailBoard() {
@@ -19,6 +20,7 @@ function DetailBoard() {
 	const taskInit = useRecoilValue(taskInitAtom)
 	const prompt = useRecoilValue(promptAtom)
 	const [meshProfile, setMeshProfile] = useRecoilState(meshProfileAtom)
+	const logInfo = useRecoilValue(logInfoAtom)
 
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	// const [stage, setStage] = useState('')
@@ -44,21 +46,25 @@ function DetailBoard() {
 				type: 'PreviewPack',
 				task_uuid: taskInit.task_uuid,
 				name: 'model',
+				token: logInfo.token,
 			}),
 			diffuse: getTaskDownload({
 				type: 'PreviewPack',
 				task_uuid: taskInit.task_uuid,
 				name: 'texture_diffuse',
+				token: logInfo.token,
 			}),
 			normal: getTaskDownload({
 				type: 'PreviewPack',
 				task_uuid: taskInit.task_uuid,
 				name: 'texture_normal',
+				token: logInfo.token,
 			}),
 			spectular: getTaskDownload({
 				type: 'PreviewPack',
 				task_uuid: taskInit.task_uuid,
 				name: 'texture_specular',
+				token: logInfo.token,
 			}),
 		}
 		;(async (urlP) => ({

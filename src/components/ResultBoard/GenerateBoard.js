@@ -43,33 +43,29 @@ function GenerateBoard() {
 		clearInterval(intervalRef.current) //TODO 退出再重进请求2x
 		intervalRef.current = setInterval(async () => {
 			const { data } = await getGenerateProgress(taskInit.task_uuid)
-			setGenerateProgress({
-				...generateProgress,
-				stage: data.stage === 'Done' ? 'Waiting' : data.stage,
-			})
 			if (data.candidates) setCandidates(data.candidates)
 
 			switch (data.stage) {
 				case 'Created':
-					setGenerateProgress({ ...generateProgress, percent: 5 })
+					setGenerateProgress({ stage: data.stage, percent: 5 })
 					break
 				case 'ModelStage':
-					setGenerateProgress({ ...generateProgress, percent: 10 })
+					setGenerateProgress({ stage: data.stage, percent: 10 })
 					break
 				case 'AppearanceStage':
-					setGenerateProgress({ ...generateProgress, percent: 20 })
+					setGenerateProgress({ stage: data.stage, percent: 20 })
 					break
 				case 'DetailStage':
-					setGenerateProgress({ ...generateProgress, percent: 30 })
+					setGenerateProgress({ stage: data.stage, percent: 30 })
 					break
 				case 'UpscaleStage':
-					setGenerateProgress({ ...generateProgress, percent: 40 })
+					setGenerateProgress({ stage: data.stage, percent: 40 })
 					break
 				case 'ExportStage':
-					setGenerateProgress({ ...generateProgress, percent: 50 })
+					setGenerateProgress({ stage: data.stage, percent: 50 })
 					break
 				case 'Done':
-					setGenerateProgress({ ...generateProgress, percent: 100 })
+					setGenerateProgress({ stage: 'Waiting', percent: 100 })
 					clearInterval(intervalRef.current)
 					const taskDetail = await getTaskDetail(taskInit.task_uuid)
 					console.log(taskDetail)
@@ -97,6 +93,7 @@ function GenerateBoard() {
 	}
 
 	const handleSelectCandidate = async (candidateIndex) => {
+		// return null
 		await selectCandidate(taskInit.task_uuid, candidateIndex)
 		setCandidates([])
 		navi('/result/detail')
@@ -118,20 +115,43 @@ function GenerateBoard() {
 				Generate
 			</div>
 			<div className={style.candidateCon}>
-				{candidates.map((item, index) => (
-					<img
-						key={index}
-						src={`data:image/png;base64,${item}`}
-						alt={item}
-						onClick={() => handleSelectCandidate(index)}
-						style={{
-							width: 'auto',
-							height: 'auto',
-							maxWidth: '100%',
-							maxHeight: '100%',
-						}}
-					/>
-				))}
+				<div className={style.candidateCol}>
+					{candidates.map((item, index) =>
+						index >= 0 && index < 3 ? (
+							<img
+								key={index}
+								src={`data:image/png;base64,${item}`}
+								alt={item}
+								onClick={() => handleSelectCandidate(index)}
+							/>
+						) : null
+					)}
+				</div>
+				<div className={style.candidateCol}>
+					<div style={{ height: '4rem', marginBottom: '1rem' }}></div>
+					{candidates.map((item, index) =>
+						index >= 3 && index < 6 ? (
+							<img
+								key={index}
+								src={`data:image/png;base64,${item}`}
+								alt={item}
+								onClick={() => handleSelectCandidate(index)}
+							/>
+						) : null
+					)}
+				</div>
+				<div className={style.candidateCol}>
+					{candidates.map((item, index) =>
+						index >= 6 && index < 9 ? (
+							<img
+								key={index}
+								src={`data:image/png;base64,${item}`}
+								alt={item}
+								onClick={() => handleSelectCandidate(index)}
+							/>
+						) : null
+					)}
+				</div>
 			</div>
 		</div>
 	)

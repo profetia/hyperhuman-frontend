@@ -2,12 +2,11 @@
 // import { redirect } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import { login } from '../../net'
-import { logInfoAtom, showLoginAtom } from '../Header'
+import { showLoginAtom } from '../Header'
 import style from './login.module.css'
 
 function LoginPanel() {
 	const setShowLogin = useSetRecoilState(showLoginAtom)
-	const setLogInfo = useSetRecoilState(logInfoAtom)
 
 	const handleClose = (ev) => {
 		setShowLogin(false)
@@ -19,10 +18,11 @@ function LoginPanel() {
 			password: '12345678',
 		})
 			.then((data) => {
-				setLogInfo(data.data)
+				// setLogInfo(data.data)
 				localStorage.setItem('user_uuid', data.data.user_uuid)
 				localStorage.setItem('token', data.data.token)
-				handleClose()
+				window.location.reload(true)
+				// handleClose()
 			})
 			.catch()
 		// .finally(() => {

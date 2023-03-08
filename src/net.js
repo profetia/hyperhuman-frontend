@@ -110,11 +110,21 @@ const getGenerateProgress = (task_uuid) =>
 
 const getTaskDetail = (task_uuid) => axios.post(`${BASE_URL}/task/card/${task_uuid}`)
 
-const getTaskDownload = ({ task_uuid, type, name }) =>
-	axios.post(`${BASE_URL}/task/get_download`, { task_uuid, type, name }).then((data) => {
-		// console.log(file_uuid, data.data.url)
-		return data.data.url
-	})
+const getTaskDownload = ({ task_uuid, type, name, token }) =>
+	axios
+		.post(
+			`${BASE_URL}/task/get_download`,
+			{ task_uuid, type, name },
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		)
+		.then((data) => {
+			// console.log(file_uuid, data.data.url)
+			return data.data.url
+		})
 
 const selectCandidate = (task_uuid, candidateIndex) =>
 	axios.post(`${BASE_URL}/task/select_candidate`, {
