@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { closeWebsocket, disposeWebsocket, startChat, wsSend } from '../../net'
+import { closeWebsocket, disposeWebsocket, reconnectWebsocket, startChat, wsSend } from '../../net'
 import style from './result.module.css'
 import {
 	assistantChatStatusAtom,
@@ -8,11 +9,12 @@ import {
 	chatHistoryAtom,
 	chatTextAtom,
 	guessChatStatusAtom,
-	showDetailAtom,
+	stopChatAtom,
 	taskDetailAtom,
 	taskInitAtom,
 	chatLangAtom,
 	needStartWsAtom,
+	meshProfileAtom,
 } from './store'
 
 function ChatBoard() {
@@ -21,13 +23,16 @@ function ChatBoard() {
 	// const setPrompt = useSetRecoilState(promptAtom)
 	const [showGuess, setShowGuess] = useState(true)
 	const [taskInit, setTaskInit] = useRecoilState(taskInitAtom)
-	const showDetail = useRecoilValue(showDetailAtom)
+	const setTaskDetail = useSetRecoilState(taskDetailAtom)
+	const setMeshProfile = useSetRecoilState(meshProfileAtom)
+	const [stopChat, setStopChat] = useRecoilState(stopChatAtom)
 	const [chatText, setChatText] = useRecoilState(chatTextAtom)
 	const taskDetail = useRecoilValue(taskDetailAtom)
 	const guessChatStatus = useRecoilValue(guessChatStatusAtom)
 	const [assistantChatStatus, setAssistantChatStatus] = useRecoilState(assistantChatStatusAtom)
 	const [chatLang, setChatLang] = useRecoilState(chatLangAtom)
 	const setNeedStartWs = useSetRecoilState(needStartWsAtom)
+	const navi = useNavigate()
 
 	const handleIpt = (ev) => {
 		setChatText(ev.currentTarget.value)
@@ -63,7 +68,7 @@ function ChatBoard() {
 	}
 
 	useEffect(() => {
-		// if (showDetail !== 2) return
+		// if (stopChat !== 2) return
 		if (guessChatStatus === '[START]') setShowGuess(true)
 	}, [guessChatStatus])
 
@@ -79,6 +84,14 @@ function ChatBoard() {
 
 		setTaskInit(response.data)
 		setNeedStartWs(true)
+	}
+
+	const handleRegenerate = () => {
+		navi('/result/generate')
+		setTaskDetail(false)
+		setStopChat(false)
+		setMeshProfile(false)
+		reconnectWebsocket()
 	}
 
 	return (
@@ -112,7 +125,11 @@ function ChatBoard() {
 					</>
 				)}
 
-				{taskDetail ? <div className={style.regene}>Regenerate</div> : null}
+				{taskDetail ? (
+					<div className={style.regene} onPointerDown={handleRegenerate}>
+						Regenerate
+					</div>
+				) : null}
 			</div>
 			<div className={style.chatCon}>
 				<div className={style.chatMsgCon}>
@@ -120,7 +137,7 @@ function ChatBoard() {
 						.sort((a, b) => a.timeStamp - b.timeStamp)
 						.map(
 							(chat, idx, arr) =>
-								(!showDetail ||
+								(!stopChat ||
 									chat.provider !== 'assistant' ||
 									idx !== arr.length - 1) && (
 									<div
@@ -129,12 +146,17 @@ function ChatBoard() {
 											chat.provider === 'user' ? style.user : ''
 										}`}>
 										<div className={style.avatar}></div>
-										<div className={style.bubble}>{chat.content}</div>
+										<div
+											className={`${style.bubble} ${
+												stopChat ? style.unactive : ''
+											}`}>
+											{chat.content}
+										</div>
 									</div>
 								)
 						)}
 				</div>
-				{!showDetail ? (
+				{!stopChat ? (
 					<div className={style.chatIptCon}>
 						<div className={style.chatTipsCon}>
 							{chatGuess

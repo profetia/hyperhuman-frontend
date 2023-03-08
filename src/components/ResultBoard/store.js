@@ -30,8 +30,8 @@ const promptAtom = atom({
 	default: '',
 })
 
-const showDetailAtom = atom({
-	key: 'showDetailAtom',
+const stopChatAtom = atom({
+	key: 'stopChatAtom',
 	default: false,
 })
 
@@ -71,7 +71,7 @@ export {
 	chatHistoryAtom,
 	chatGuessAtom,
 	promptAtom,
-	showDetailAtom,
+	stopChatAtom,
 	meshProfileAtom,
 	assistantChatStatusAtom,
 	guessChatStatusAtom,
