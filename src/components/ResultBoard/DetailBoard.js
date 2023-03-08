@@ -9,8 +9,9 @@ import {
 	taskDetailAtom,
 	taskInitAtom,
 } from './store'
-import {  getTaskDownload } from '../../net'
+import { getTaskDownload } from '../../net'
 import { global_render_target_injector, startUp } from '../../render/rendering'
+import { logInfoAtom } from '../Header'
 // import { async } from 'q'
 
 function DetailBoard() {
@@ -19,6 +20,7 @@ function DetailBoard() {
 	const taskInit = useRecoilValue(taskInitAtom)
 	const prompt = useRecoilValue(promptAtom)
 	const [meshProfile, setMeshProfile] = useRecoilState(meshProfileAtom)
+	const logInfo = useRecoilValue(logInfoAtom)
 
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	// const [stage, setStage] = useState('')
@@ -40,10 +42,30 @@ function DetailBoard() {
 
 		// console.log(meshProfile)
 		const urlPromise = {
-			model: getTaskDownload(meshProfile['preview_resource']['model']),
-			diffuse: getTaskDownload(meshProfile['preview_resource']['texture_diff']),
-			normal: getTaskDownload(meshProfile['preview_resource']['texture_norm']),
-			spectular: getTaskDownload(meshProfile['preview_resource']['texture_spec']),
+			model: getTaskDownload({
+				type: 'PreviewPack',
+				task_uuid: taskInit.task_uuid,
+				name: 'model',
+				token: logInfo.token,
+			}),
+			diffuse: getTaskDownload({
+				type: 'PreviewPack',
+				task_uuid: taskInit.task_uuid,
+				name: 'texture_diffuse',
+				token: logInfo.token,
+			}),
+			normal: getTaskDownload({
+				type: 'PreviewPack',
+				task_uuid: taskInit.task_uuid,
+				name: 'texture_normal',
+				token: logInfo.token,
+			}),
+			spectular: getTaskDownload({
+				type: 'PreviewPack',
+				task_uuid: taskInit.task_uuid,
+				name: 'texture_specular',
+				token: logInfo.token,
+			}),
 		}
 		;(async (urlP) => ({
 			model: await urlP['model'],
@@ -89,7 +111,7 @@ function DetailBoard() {
 			<div className={style.modelInfoCon}>
 				{taskDetail ? null : (
 					<>
-						<div className={style.progressInfo}>{generateProgress.percent}</div>
+						<div className={style.progressInfo}>{generateProgress.stage}</div>
 						<div className={style.progressTrack}>
 							<div
 								className={style.progressThumb}

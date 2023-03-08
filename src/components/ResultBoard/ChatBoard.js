@@ -85,23 +85,33 @@ function ChatBoard() {
 		<div className={style.col}>
 			<div className={style.colTitle}>
 				<div>Chat</div>
-				<button onClick={handleRestart}>Restart</button>
-				<div>
-					<button
-						onClick={() => handleChangeLang('Chinese')}
-						style={{
-							backgroundColor: chatLang === 'Chinese' ? 'red' : '',
-						}}>
-						中文
-					</button>
-					<button
-						onClick={() => handleChangeLang('English')}
-						style={{
-							backgroundColor: chatLang === 'English' ? 'red' : '',
-						}}>
-						English
-					</button>
-				</div>
+				{taskDetail ? null : (
+					<div className={style.restart} onPointerDown={handleRestart}>
+						Restart
+					</div>
+				)}
+				<div className={style.spaceholder}></div>
+
+				{taskDetail ? null : (
+					<>
+						<div
+							onPointerDown={() => handleChangeLang('Chinese')}
+							className={`${style.lang} ${
+								chatLang === 'Chinese' ? style.selected : ''
+							}`}>
+							中文
+						</div>
+						<div>|</div>
+						<div
+							onPointerDown={() => handleChangeLang('English')}
+							className={`${style.lang} ${style.en} ${
+								chatLang === 'English' ? style.selected : ''
+							}`}>
+							English
+						</div>
+					</>
+				)}
+
 				{taskDetail ? <div className={style.regene}>Regenerate</div> : null}
 			</div>
 			<div className={style.chatCon}>

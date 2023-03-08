@@ -21,7 +21,7 @@ function App() {
 			getUserInfo({ user_uuid: localStorage.getItem('user_uuid') })
 				.then((data) => {
 					if (data.data.error) return Promise.reject(data.data.error)
-					setLogInfo(data.data.meta)
+					setLogInfo({ ...data.data.meta, token: localStorage.getItem('token') })
 				})
 				.catch((err) => {
 					localStorage.clear()
