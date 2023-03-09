@@ -5,7 +5,7 @@ import {
 	generateProgressAtom,
 	meshProfileAtom,
 	promptAtom,
-	showDetailAtom,
+	stopChatAtom,
 	taskDetailAtom,
 	taskInitAtom,
 } from './store'
@@ -15,12 +15,13 @@ import { logInfoAtom } from '../Header'
 // import { async } from 'q'
 
 function DetailBoard() {
-	const setShowDetail = useSetRecoilState(showDetailAtom)
+	const setStopChat = useSetRecoilState(stopChatAtom)
 	const [taskDetail, setTaskDetail] = useRecoilState(taskDetailAtom)
 	const taskInit = useRecoilValue(taskInitAtom)
 	const prompt = useRecoilValue(promptAtom)
 	const [meshProfile, setMeshProfile] = useRecoilState(meshProfileAtom)
 	const logInfo = useRecoilValue(logInfoAtom)
+	const [showProgress, setShowProgress] = useState(false)
 
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	// const [stage, setStage] = useState('')
@@ -28,14 +29,25 @@ function DetailBoard() {
 
 	// const
 	useEffect(() => {
-		setShowDetail(true)
+		setStopChat(true)
 
-		return () => {
-			setShowDetail(false)
-			setMeshProfile(false)
-		}
+		// return () => {
+		// 	setStopChat(false)
+		// 	setMeshProfile(false)
+		// }
 		// eslint-disable-next-line
 	}, [])
+
+	useEffect(() => {
+		if (!taskDetail) {
+			setShowProgress(true)
+		} else {
+			setTimeout(() => {
+				console.log('set false')
+				setShowProgress(false)
+			}, 1000)
+		}
+	}, [taskDetail])
 
 	useEffect(() => {
 		if (!meshProfile) return
@@ -85,7 +97,7 @@ function DetailBoard() {
 		<div className={style.col}>
 			<div className={style.creatorCon}>
 				<div className={style.avatar}>
-					{taskDetail ? <img alt='avatar' src={taskDetail?.author?.avatar} /> : null}
+					{taskDetail ? <img alt='avatar' src={taskDetail?.author?.avatar_url} /> : null}
 				</div>
 
 				<div className={style.creatorInfoCon}>
@@ -109,7 +121,7 @@ function DetailBoard() {
 				</div>
 			</div>
 			<div className={style.modelInfoCon}>
-				{taskDetail ? null : (
+				{showProgress ? (
 					<>
 						<div className={style.progressInfo}>{generateProgress.stage}</div>
 						<div className={style.progressTrack}>
@@ -118,7 +130,7 @@ function DetailBoard() {
 								style={{ width: `${generateProgress.percent}%` }}></div>
 						</div>
 					</>
-				)}
+				) : null}
 
 				<div className={style.modelPrompt}>{prompt}</div>
 			</div>

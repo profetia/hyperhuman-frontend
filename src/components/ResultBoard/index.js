@@ -12,7 +12,7 @@ import {
 	chatHistoryAtom,
 	chatGuessAtom,
 	promptAtom,
-	showDetailAtom,
+	stopChatAtom,
 	meshProfileAtom,
 	assistantChatStatusAtom,
 	guessChatStatusAtom,
@@ -31,7 +31,7 @@ function ResultBoard() {
 	const setAssistantChatStatus = useSetRecoilState(assistantChatStatusAtom)
 	const setGuessChatStatus = useSetRecoilState(guessChatStatusAtom)
 	const [prompt, setPrompt] = useRecoilState(promptAtom)
-	const [showDetail, setShowDetail] = useRecoilState(showDetailAtom)
+	const [stopChat, setStopChat] = useRecoilState(stopChatAtom)
 	const [chatText, setChatText] = useRecoilState(chatTextAtom)
 	const chatLang = useRecoilValue(chatLangAtom)
 	const [needStartWs, setNeedStartWs] = useRecoilState(needStartWsAtom)
@@ -72,7 +72,8 @@ function ResultBoard() {
 			if (ev.content === '[START]') {
 				chatGuessRef.current = ''
 			} else if (ev.content !== '[END]') {
-				chatGuessRef.current += ev.content
+                chatGuessRef.current += ev.content
+                // console.log(chatGuessRef.current);
 				setChatGuess(chatGuessRef.current.split('\n'))
 			}
 		})
@@ -100,10 +101,10 @@ function ResultBoard() {
 	}, [prompt])
 
 	useEffect(() => {
-		if (showDetail) {
+		if (stopChat) {
 			closeWebsocket()
 		}
-	}, [showDetail])
+	}, [stopChat])
 
 	useEffect(() => {
 		if (!taskInit && !taskDetail) {
@@ -134,7 +135,7 @@ function ResultBoard() {
 		setChatHistory({})
 		setChatText('')
 		setAssistantChatStatus('')
-		setShowDetail(false)
+		setStopChat(false)
 
 		isListenRef.current = false
 		chatHistoryRef.current = {}
@@ -148,7 +149,8 @@ function ResultBoard() {
 	}, [needStartWs])
 
 	useEffect(() => {
-		if (!taskDetail) return
+        if (!taskDetail) return
+        // console.log(taskDetail);
 		setChatHistory(
 			taskDetail.chat_history.reduce(
 				(res, cur) => ({

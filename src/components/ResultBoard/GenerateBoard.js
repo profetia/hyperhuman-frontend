@@ -7,7 +7,7 @@ import {
 	chatGuessAtom,
 	generateProgressAtom,
 	promptAtom,
-	showDetailAtom,
+	stopChatAtom,
 	taskDetailAtom,
 	taskInitAtom,
 } from './store'
@@ -21,7 +21,7 @@ function GenerateBoard() {
 	const intervalRef = useRef(null)
 	const [candidates, setCandidates] = useState([])
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
-	const [showDetail, setShowDetail] = useRecoilState(showDetailAtom)
+	const [stopChat, setStopChat] = useRecoilState(stopChatAtom)
 
 	// useEffect(() => () => clearInterval(intervalRef.current), [])
 
@@ -35,7 +35,7 @@ function GenerateBoard() {
 
 	useEffect(() => {
 		// console.log(taskDetail)
-		if (taskDetail || !showDetail) {
+		if (taskDetail || !stopChat) {
 			clearInterval(intervalRef.current)
 			return
 		}
@@ -45,45 +45,28 @@ function GenerateBoard() {
 			const { data } = await getGenerateProgress(taskInit.task_uuid)
 			if (data.candidates) setCandidates(data.candidates)
 
-			switch (data.stage) {
-				case 'Created':
-					setGenerateProgress({ stage: data.stage, percent: 5 })
-					break
-				case 'ModelStage':
-					setGenerateProgress({ stage: data.stage, percent: 10 })
-					break
-				case 'AppearanceStage':
-					setGenerateProgress({ stage: data.stage, percent: 20 })
-					break
-				case 'DetailStage':
-					setGenerateProgress({ stage: data.stage, percent: 30 })
-					break
-				case 'UpscaleStage':
-					setGenerateProgress({ stage: data.stage, percent: 40 })
-					break
-				case 'ExportStage':
-					setGenerateProgress({ stage: data.stage, percent: 50 })
-					break
-				case 'Done':
-					setGenerateProgress({ stage: 'Waiting', percent: 100 })
-					clearInterval(intervalRef.current)
-					const taskDetail = await getTaskDetail(taskInit.task_uuid)
-					console.log(taskDetail)
-					setTaskDetail(taskDetail.data)
-					break
-				default:
-				// console.log(data)
-				// setGenerateProgress({ ...generateProgress, percent:0})
+			if (data.stage === 'Done') {
+				setGenerateProgress({ stage: 'Downloading', percent: 100, payload: data })
+				clearInterval(intervalRef.current)
+				const response = await getTaskDetail(taskInit.task_uuid)
+				// console.log(taskDetail)
+				setTaskDetail(response.data)
+			} else {
+				setGenerateProgress({
+					stage: data.stage,
+					percent: data.percentage || 0,
+					payload: data,
+				})
 			}
 		}, 1000)
 		// eslint-disable-next-line
-	}, [taskDetail, showDetail])
+	}, [taskDetail, stopChat])
 
 	const handleGenerate = (ev) => {
 		if (!prompt) return
 
-		setChatGuess([])
-		setShowDetail(true)
+		// setChatGuess([])
+		setStopChat(true)
 		// navi('/result/detail')
 		generateDetail({ task_uuid: taskInit.task_uuid, prompt })
 	}
@@ -109,7 +92,7 @@ function GenerateBoard() {
 			/>
 			<div
 				className={`${style.btn} ${style.generateBtn} ${
-					!prompt || showDetail ? style.disabled : ''
+					!prompt || stopChat ? style.disabled : ''
 				}`}
 				onPointerDown={handleGenerate}>
 				Generate
@@ -153,6 +136,15 @@ function GenerateBoard() {
 					)}
 				</div>
 			</div>
+			{stopChat ? (
+				<div className={style.modelInfoCon}>
+					{generateProgress.stage === 'Waiting' ? (
+						<div className={style.progressInfo}>
+							Waiting in queue, {generateProgress.payload.waiting_num} tasks remain...
+						</div>
+					) : null}
+				</div>
+			) : null}
 		</div>
 	)
 }

@@ -85,12 +85,19 @@ const startWebsocket = async (subscription, task_uuid, language) => {
 // 	return ws
 // }
 
+const reconnectWebsocket = () => {
+	if (ws && ws.disconnected) {
+		ws.connect()
+	}
+}
+
 const getWs = () => ws
 
 const closeWebsocket = () => {
 	if (ws && ws.connected) {
 		console.log('close ws')
 		ws.close()
+		console.log(ws)
 	}
 }
 
@@ -142,7 +149,7 @@ export {
 	startWebsocket,
 	getWs,
 	wsSend,
-	// restartWebsocket,
+	reconnectWebsocket,
 	closeWebsocket,
 	disposeWebsocket,
 	generateDetail,
