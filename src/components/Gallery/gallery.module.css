@@ -1,0 +1,5 @@
+.con{
+    width: 100%;
+    margin-top: var(--side-gap);
+    padding: 0 var(--side-gap);
+}

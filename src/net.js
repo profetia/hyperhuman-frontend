@@ -115,6 +115,7 @@ const generateDetail = ({ task_uuid, prompt }) =>
 const getGenerateProgress = (task_uuid) =>
 	axios.post(`${BASE_URL}/task/check_progress/${task_uuid}`)
 
+const getCards = (type) => axios.post(`${BASE_URL}/task/cards`, { type })
 const getTaskDetail = (task_uuid) => axios.post(`${BASE_URL}/task/card/${task_uuid}`)
 
 const getTaskDownload = ({ task_uuid, type, name, token }) =>
@@ -155,6 +156,7 @@ export {
 	generateDetail,
 	getGenerateProgress,
 	getTaskDetail,
+	getCards,
 	getTaskDownload,
 	selectCandidate,
 }
