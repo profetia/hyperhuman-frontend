@@ -20,6 +20,7 @@ import {
 	chatLangAtom,
 	needStartWsAtom,
 } from './store.js'
+import { exportToImage } from "./utils";
 
 function ResultBoard() {
 	const navi = useNavigate()
@@ -166,9 +167,21 @@ function ResultBoard() {
 		// eslint-disable-next-line
 	}, [taskDetail])
 
+	const dialogRef = useRef(null);
+
+	const exportDialog = async () => {
+	  await exportToImage(dialogRef.current, "dialog");
+	};
+  
+	window.exportDialog = exportDialog;	
+
 	return (
 		<div className={style.con} onPointerDown={handleClose}>
-			<div className={style.board} onPointerDown={(ev) => ev.stopPropagation()}>
+			<div
+				className={style.board}
+				onPointerDown={(ev) => ev.stopPropagation()}
+				ref={dialogRef}
+			>
 				<Outlet />
 				<ChatBoard />
 			</div>

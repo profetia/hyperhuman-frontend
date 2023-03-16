@@ -12,6 +12,7 @@ import {
 import { getTaskDownload } from '../../net'
 import { global_render_target_injector, startUp } from '../../render/rendering'
 import { logInfoAtom } from '../Header'
+import { exportToImage } from "./utils";
 // import { async } from 'q'
 
 function DetailBoard() {
@@ -93,6 +94,18 @@ function DetailBoard() {
 			global_render_target_injector.enabled = false
 		})
 	}, [meshProfile])
+
+	const modelRef = useRef(null);
+	const promptRef = useRef(null);
+  
+	window.exportModelView = async () => {
+	  await exportToImage(modelRef.current, "model");
+	};
+  
+	window.exportPrompt = async () => {
+	  await exportToImage(promptRef.current, "prompt");
+	};
+
 	return (
 		<div className={style.col}>
 			<div className={style.creatorCon}>
@@ -105,7 +118,7 @@ function DetailBoard() {
 					<div className={style.creatorInfo}>{taskDetail?.author?.username}</div>
 				</div>
 			</div>
-			<div className={style.modelView} id='webglcontainer'></div>
+			<div className={style.modelView} id="webglcontainer" ref={modelRef}></div>
 			<div style={{ position: 'absolute', zIndex: -100 }}>
 				<div id='info'></div>
 				<div id='preloader' className='preloader'>
@@ -132,7 +145,9 @@ function DetailBoard() {
 					</>
 				) : null}
 
-				<div className={style.modelPrompt}>{prompt}</div>
+				<div className={style.modelPrompt} ref={promptRef}>
+					{prompt}
+				</div>
 			</div>
 		</div>
 	)
