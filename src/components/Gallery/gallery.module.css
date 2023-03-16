@@ -1,9 +1,10 @@
 .con {
 	width: 100%;
+	/* max-width: calc(1600px + 26rem); */
 	margin-top: var(--side-gap);
 	padding: 0 var(--side-gap);
 	display: flex;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: flex-start;
 }
 .menuCon {
@@ -39,6 +40,7 @@
 .cardsCon {
 	flex-grow: 1;
 	flex-shrink: 1;
+	max-width: calc(1600px + 9rem);
 	max-height: 100vh;
 	display: flex;
 	flex-wrap: wrap;
@@ -64,16 +66,22 @@
 }
 .prompt {
 	position: absolute;
-	bottom: 3rem;
+	bottom: 1rem;
 	left: 1rem;
 	right: 1rem;
 	text-align: left;
-	padding: 0.5rem;
+	padding: 0 0.5rem;
 	color: var(--font-dark-color);
 	border-radius: var(--radius);
 	background-color: #f8f8f880;
 	word-break: break-all;
 	white-space: pre-wrap;
+	overflow: hidden;
+	height: 0;
+}
+.prompt.show {
+	height: fit-content;
+    padding: .5rem;
 }
 .infoCon {
 	position: absolute;
@@ -83,6 +91,7 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+    color: var(--font-dark-color);
 }
 .avatar,
 .avatar img {

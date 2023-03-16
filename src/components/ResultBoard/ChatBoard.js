@@ -125,7 +125,7 @@ function ChatBoard() {
 					</>
 				)}
 
-				{taskDetail ? (
+				{taskDetail && taskInit ? (
 					<div className={style.regene} onPointerDown={handleRegenerate}>
 						Regenerate
 					</div>

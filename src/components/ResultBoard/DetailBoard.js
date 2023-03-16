@@ -41,12 +41,13 @@ function DetailBoard() {
 	useEffect(() => {
 		if (!taskDetail) {
 			setShowProgress(true)
-		} else {
-			setTimeout(() => {
-				console.log('set false')
-				setShowProgress(false)
-			}, 1000) //TODO when download finished, then set false
-		}
+        }
+        // else {
+		// 	setTimeout(() => {
+		// 		console.log('set false')
+		// 		setShowProgress(false)
+		// 	}, 1000) //TODO when download finished, then set false
+		// }
 	}, [taskDetail])
 
 	useEffect(() => {
@@ -56,25 +57,25 @@ function DetailBoard() {
 		const urlPromise = {
 			model: getTaskDownload({
 				type: 'PreviewPack',
-				task_uuid: taskInit.task_uuid,
+				task_uuid: meshProfile.task_uuid,
 				name: 'model',
 				token: logInfo.token,
 			}),
 			diffuse: getTaskDownload({
 				type: 'PreviewPack',
-				task_uuid: taskInit.task_uuid,
+				task_uuid: meshProfile.task_uuid,
 				name: 'texture_diffuse',
 				token: logInfo.token,
 			}),
 			normal: getTaskDownload({
 				type: 'PreviewPack',
-				task_uuid: taskInit.task_uuid,
+				task_uuid: meshProfile.task_uuid,
 				name: 'texture_normal',
 				token: logInfo.token,
 			}),
 			spectular: getTaskDownload({
 				type: 'PreviewPack',
-				task_uuid: taskInit.task_uuid,
+				task_uuid: meshProfile.task_uuid,
 				name: 'texture_specular',
 				token: logInfo.token,
 			}),
@@ -89,6 +90,7 @@ function DetailBoard() {
 			env_specular: '/assets/env/lapa_4k_panorama_specular.hdr',
 		}))(urlPromise).then((urls) => {
 			// console.log(urls)
+            setShowProgress(false)
 			startUp(urls)
 			global_render_target_injector.enabled = false
 		})

@@ -46,8 +46,8 @@ function App() {
 			{showLogin ? <LoginPanel /> : null}
 			{showUser ? <UserPanel /> : null}
 			<Welcome />
-			{logInfo ? <Outlet /> : null}
 			<Gallery />
+			{logInfo ? <Outlet /> : null}
 		</div>
 	)
 }

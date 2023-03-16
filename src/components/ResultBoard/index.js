@@ -161,7 +161,7 @@ function ResultBoard() {
 			)
 		)
 		setPrompt(taskDetail.prompt)
-		setMeshProfile(taskDetail.resources)
+		setMeshProfile({...taskDetail.resources, task_uuid: taskDetail.task_uuid})
 		navi('/result/detail')
 		// eslint-disable-next-line
 	}, [taskDetail])
