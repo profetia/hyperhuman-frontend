@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import style from './gallery.module.css'
 import { logInfoAtom } from '../Header'
@@ -18,9 +18,16 @@ function Gallery() {
 	const [cardsType, setCardsType] = useState(cardsTypeConst.Recent)
 	const [cards, setCards] = useState([])
 	const [hoverCard, setHoverCard] = useState(null)
+	const pageRef = useRef(0)
+	const timeStampRef = useRef(0)
+	const scrollTopRef = useRef(0)
+	const elRef = useRef(null)
 
 	useEffect(() => {
-		getCards({ type: cardsType, page_num: 0 }).then((data) => {
+		pageRef.current = 0
+		timeStampRef.current = 0
+		scrollTopRef.current = 0
+		getCards({ type: cardsType, page_num: pageRef.current }).then((data) => {
 			setCards(data.data)
 		})
 	}, [cardsType])
@@ -29,10 +36,25 @@ function Gallery() {
 		// console.log(task_uuid)
 		try {
 			const rep = await getTaskDetail(task_uuid)
-			console.log(rep.data)
+			// console.log(rep.data)
 			setTaskDetail(rep.data)
 			navi('/result/detail')
 		} catch (e) {}
+	}
+
+	const handleWheel = async (ev) => {
+		if (ev.deltaY <= 0) return
+		const el = elRef.current
+		if (el.scrollTop === scrollTopRef.current) {
+			if (Date.now() - timeStampRef.current >= 1000) {
+				timeStampRef.current = Date.now()
+				const rep = await getCards({ type: cardsType, page_num: pageRef.current + 1 })
+				pageRef.current += 1
+				setCards([...cards, ...rep.data])
+			}
+		} else {
+			scrollTopRef.current = el.scrollTop
+		}
 	}
 
 	return (
@@ -64,7 +86,7 @@ function Gallery() {
 				</div>
 			</div>
 
-			<div className={style.cardsCon}>
+			<div className={style.cardsCon} ref={elRef} onWheel={handleWheel}>
 				{cards.map((card) => (
 					<div
 						className={`${style.card}`}

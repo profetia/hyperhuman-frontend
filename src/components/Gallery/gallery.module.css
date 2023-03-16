@@ -1,6 +1,5 @@
 .con {
 	width: 100%;
-	/* max-width: calc(1600px + 26rem); */
 	margin-top: var(--side-gap);
 	padding: 0 var(--side-gap);
 	display: flex;
@@ -46,6 +45,13 @@
 	flex-wrap: wrap;
 	justify-content: flex-start;
 	align-items: flex-start;
+	overflow-y: auto;
+}
+.cardsCon::-webkit-scrollbar-thumb {
+	background-color: rgba(255, 255, 255, 0.2);
+	border-radius: 8px;
+	border: 5px solid;
+	border-color: #121317;
 }
 .card {
 	position: relative;
@@ -81,7 +87,7 @@
 }
 .prompt.show {
 	height: fit-content;
-    padding: .5rem;
+	padding: 0.5rem;
 }
 .infoCon {
 	position: absolute;
@@ -91,7 +97,7 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
-    color: var(--font-dark-color);
+	color: var(--font-dark-color);
 }
 .avatar,
 .avatar img {
