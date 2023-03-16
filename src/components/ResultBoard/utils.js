@@ -4,6 +4,8 @@ export async function exportToImage(element, filenameNoExt) {
   let canvas = await html2canvas(element, {
     allowTaint: true,
     useCORS: true,
+    windowWidth: 1160,
+    windowHeight: 746,
   });
   let data = canvas.toDataURL("image/jpg");
   let link = document.createElement("a");
