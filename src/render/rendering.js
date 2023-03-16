@@ -472,7 +472,9 @@ function onAssetsLoaded(e) {
 	window.mainProject = mainProject
 	try {
 		if (
-			(mainProject.init(debugMode, e),
+			(mainProject.init(debugMode, e, {
+        preserveDrawingBuffer: true,
+      }),
 			verifyExtension(mainProject, 'OES_texture_float_linear'))
 		) {
 			var r = document.getElementById('info')
