@@ -46,7 +46,7 @@ function DetailBoard() {
 			setTimeout(() => {
 				console.log('set false')
 				setShowProgress(false)
-			}, 1000)
+			}, 1000) //TODO when download finished, then set false
 		}
 	}, [taskDetail])
 
