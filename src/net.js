@@ -6,8 +6,12 @@ const isMock = false
 const suffix = isMock ? '.json' : ''
 
 //user
-const login = ({ username, email, password }) =>
-	axios.post(`${BASE_URL}/user/login`, { username, email, password })
+const login = (payload) => axios.post(`${BASE_URL}/user/login`, payload)
+
+const sendCode = (payload) =>
+	axios.post(`${BASE_URL}/user/send_email_verification_code`, { ...payload, type: 'Register' })
+
+const signUp = (payload) => axios.post(`${BASE_URL}/user/register`, payload)
 
 const register = ({ username, email, emailVerificationCode, invitationCode, password }) =>
 	axios.post(`${BASE_URL}/user/register`, {
@@ -28,8 +32,7 @@ const reset_password = ({ email, emailVerificationCode, newPassword }) =>
 const send_email_verification_code = ({ email, type }) =>
 	axios.post(`${BASE_URL}/user/send_email_verification_code`, { email, type })
 
-const getUserInfo = ({ user_uuid, username }) =>
-	axios.post(`${BASE_URL}/user/get_info`, { user_uuid, username })
+const getUserInfo = (payload) => axios.post(`${BASE_URL}/user/get_info`, payload)
 
 //chat
 let ws
@@ -136,6 +139,8 @@ const selectCandidate = (task_uuid, candidateIndex) =>
 
 export {
 	login,
+	sendCode,
+	signUp,
 	register,
 	reset_password,
 	send_email_verification_code,
