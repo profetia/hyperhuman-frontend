@@ -52,6 +52,7 @@ function LoginPanel() {
 			} else {
 				localStorage.setItem('user_uuid', res.data.user_uuid)
 				localStorage.setItem('token', res.data.token)
+				if (!isRemember) localStorage.setItem('remember', 1)
 				window.location.reload(true)
 			}
 		} catch (e) {
@@ -117,6 +118,7 @@ function LoginPanel() {
 			} else {
 				localStorage.setItem('user_uuid', res.data.user_uuid)
 				localStorage.setItem('token', res.data.token)
+				if (!isRemember) localStorage.setItem('remember', 1)
 				window.location.reload(true)
 			}
 		} catch (e) {

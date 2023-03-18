@@ -24,6 +24,8 @@ function App() {
 					if (data.data.error) return Promise.reject(data.data.error)
 					setLogInfo({ ...data.data.meta, token: localStorage.getItem('token') })
 					initNet(localStorage.getItem('token'))
+
+					if (localStorage.getItem('remember')) localStorage.clear()
 				})
 				.catch((err) => {
 					localStorage.clear()
