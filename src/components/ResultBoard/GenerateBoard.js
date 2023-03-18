@@ -45,7 +45,7 @@ function GenerateBoard() {
 			const { data } = await getGenerateProgress(taskInit.task_uuid)
 			if (data.candidates) setCandidates(data.candidates)
 
-			if (data.stage === 'Done') {
+			if (data.stage === 'Done' || data.stage === 'Preview') {
 				setGenerateProgress({ stage: 'Downloading', percent: 100, payload: data })
 				clearInterval(intervalRef.current)
 				const response = await getTaskDetail(taskInit.task_uuid)
