@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import './App.css'
+import { Gallery } from './components/Gallery'
 import { Header, logInfoAtom, showLoginAtom, showUserAtom } from './components/Header'
 import { LoginPanel } from './components/LoginPanel'
 import { UserPanel } from './components/UserPanel'
@@ -45,6 +46,7 @@ function App() {
 			{showLogin ? <LoginPanel /> : null}
 			{showUser ? <UserPanel /> : null}
 			<Welcome />
+			<Gallery />
 			{logInfo ? <Outlet /> : null}
 		</div>
 	)

@@ -5,12 +5,12 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	padding-top: 15rem;
+	padding-top: calc(50vh - 16rem);
 }
 
 .con img {
 	position: absolute;
-	top: 0;
+	top: calc(50vh - 30rem);
 	left: 20vw;
 	width: 50vw;
 	z-index: -1;

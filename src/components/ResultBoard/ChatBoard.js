@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { closeWebsocket, disposeWebsocket, reconnectWebsocket, startChat, wsSend } from '../../net'
@@ -16,6 +16,7 @@ import {
 	needStartWsAtom,
 	meshProfileAtom,
 } from './store'
+import { exportToImage } from "./utils";
 
 function ChatBoard() {
 	const [chatHistory, setChatHistory] = useRecoilState(chatHistoryAtom)
@@ -94,6 +95,11 @@ function ChatBoard() {
 		reconnectWebsocket()
 	}
 
+	const chatRef = useRef();
+	window.exportChat = async () => {
+	  	await exportToImage(chatRef.current, "chat");
+	};
+
 	return (
 		<div className={style.col}>
 			<div className={style.colTitle}>
@@ -125,13 +131,13 @@ function ChatBoard() {
 					</>
 				)}
 
-				{taskDetail ? (
+				{taskDetail && taskInit ? (
 					<div className={style.regene} onPointerDown={handleRegenerate}>
 						Regenerate
 					</div>
 				) : null}
 			</div>
-			<div className={style.chatCon}>
+			<div className={style.chatCon} ref={chatRef}>
 				<div className={style.chatMsgCon}>
 					{Object.values(chatHistory)
 						.sort((a, b) => a.timeStamp - b.timeStamp)

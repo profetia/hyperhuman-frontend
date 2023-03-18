@@ -77,14 +77,6 @@ const startWebsocket = async (subscription, task_uuid, language) => {
 	return ws
 }
 
-// const restartWebsocket = async (subscription) => {
-// 	if (ws) {
-// 		closeWebsocket()
-// 	}
-// 	ws = await startWebsocket(subscription)
-// 	return ws
-// }
-
 const reconnectWebsocket = () => {
 	if (ws && ws.disconnected) {
 		ws.connect()
@@ -115,6 +107,7 @@ const generateDetail = ({ task_uuid, prompt }) =>
 const getGenerateProgress = (task_uuid) =>
 	axios.post(`${BASE_URL}/task/check_progress/${task_uuid}`)
 
+const getCards = ({ type, page_num }) => axios.post(`${BASE_URL}/task/cards`, { type, page_num })
 const getTaskDetail = (task_uuid) => axios.post(`${BASE_URL}/task/card/${task_uuid}`)
 
 const getTaskDownload = ({ task_uuid, type, name, token }) =>
@@ -155,6 +148,7 @@ export {
 	generateDetail,
 	getGenerateProgress,
 	getTaskDetail,
+	getCards,
 	getTaskDownload,
 	selectCandidate,
 }
