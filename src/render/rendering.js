@@ -473,8 +473,8 @@ function onAssetsLoaded(e) {
 	try {
 		if (
 			(mainProject.init(debugMode, e, {
-        preserveDrawingBuffer: true,
-      }),
+				// preserveDrawingBuffer: true,
+			}),
 			verifyExtension(mainProject, 'OES_texture_float_linear'))
 		) {
 			var r = document.getElementById('info')
