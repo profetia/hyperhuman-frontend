@@ -65,10 +65,37 @@
 	font-size: 0.75rem;
 	cursor: pointer;
 }
+.more{
+    width: 100%;
+    cursor: pointer;
+    height: 3rem;
+    line-height: 3rem;
+}
+.more:hover{
+    background-color: var(--bg-gray3-color);
+}
+
 .coverImg,
 .coverImg img {
 	width: 100%;
 	height: 100%;
+}
+.likeCon{
+    position: absolute;
+	top: 1rem;
+	right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: var(--radius);
+    background-color: #ffffff80;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.likeCon.like{
+    background-color: #FA2D5380;
+    color: #FA2D53;
 }
 .prompt {
 	position: absolute;

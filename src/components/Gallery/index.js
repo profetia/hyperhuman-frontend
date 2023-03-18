@@ -1,33 +1,34 @@
 import { useEffect, useRef, useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import style from './gallery.module.css'
 import { logInfoAtom } from '../Header'
 import { getCards, getTaskDetail } from '../../net'
 import { taskDetailAtom } from '../ResultBoard/store'
 import { useNavigate } from 'react-router-dom'
+import { cardsAtom, cardsTypeAtom, cardsTypeConst } from './store'
 
-const cardsTypeConst = {
-	Recent: 'Recent',
-	Featured: 'Featured',
-	Mine: 'Mine',
-}
 function Gallery() {
 	const navi = useNavigate()
 	const logInfo = useRecoilValue(logInfoAtom)
 	const setTaskDetail = useSetRecoilState(taskDetailAtom)
-	const [cardsType, setCardsType] = useState(cardsTypeConst.Recent)
-	const [cards, setCards] = useState([])
+	const [cardsType, setCardsType] = useRecoilState(cardsTypeAtom)
+	const [cards, setCards] = useRecoilState(cardsAtom)
 	const [hoverCard, setHoverCard] = useState(null)
+	const [canMore, setCanMore] = useState(false)
 	const pageRef = useRef(0)
 	const timeStampRef = useRef(0)
-	const scrollTopRef = useRef(0)
 	const elRef = useRef(null)
 
 	useEffect(() => {
 		pageRef.current = 0
 		timeStampRef.current = 0
-		scrollTopRef.current = 0
 		getCards({ type: cardsType, page_num: pageRef.current }).then((data) => {
+			if (data.data.length >= 8) {
+				setCanMore(true)
+			} else {
+				setCanMore(false)
+			}
+			// console.log(data.data);
 			setCards(data.data)
 		})
 	}, [cardsType])
@@ -36,30 +37,32 @@ function Gallery() {
 		// console.log(task_uuid)
 		try {
 			const rep = await getTaskDetail(task_uuid)
-			// console.log(rep.data)
+			console.log(rep.data)
 			setTaskDetail(rep.data)
 			navi('/result/detail')
 		} catch (e) {}
 	}
 
-	const handleWheel = async (ev) => {
-		if (ev.deltaY <= 0) return
-		const el = elRef.current
-		if (el.scrollTop === scrollTopRef.current) {
-			if (Date.now() - timeStampRef.current >= 1000) {
-				timeStampRef.current = Date.now()
-				const rep = await getCards({ type: cardsType, page_num: pageRef.current + 1 })
-				pageRef.current += 1
-				setCards([...cards, ...rep.data])
+	const loadMore = async (ev) => {
+		if (Date.now() - timeStampRef.current >= 1000) {
+			timeStampRef.current = Date.now()
+			const rep = await getCards({ type: cardsType, page_num: pageRef.current + 1 })
+			pageRef.current += 1
+			setCards([...cards, ...rep.data])
+			if (rep.data.length >= 8) {
+				setCanMore(true)
+			} else {
+				setCanMore(false)
 			}
-		} else {
-			scrollTopRef.current = el.scrollTop
 		}
 	}
 
 	return (
 		<div className={style.con}>
 			<div className={style.menuCon}>
+				{cardsType === cardsTypeConst.Search ? (
+					<div className={`${style.menu} ${style.selected}`}>{cardsTypeConst.Search}</div>
+				) : null}
 				{logInfo ? (
 					<div
 						onPointerDown={(ev) => setCardsType(cardsTypeConst.Mine)}
@@ -86,7 +89,7 @@ function Gallery() {
 				</div>
 			</div>
 
-			<div className={style.cardsCon} ref={elRef} onWheel={handleWheel}>
+			<div className={style.cardsCon} ref={elRef}>
 				{cards.map((card) => (
 					<div
 						className={`${style.card}`}
@@ -96,8 +99,14 @@ function Gallery() {
 						onMouseLeave={(ev) => setHoverCard(false)}>
 						{/* <div></div> */}
 						<div className={style.coverImg}>
-							<img alt='cover' src={card.image_url} />
+							{hoverCard === card.task_uuid ? (
+								<img alt='cover' src={card.video_url} />
+							) : (
+								<img alt='cover' src={card.image_url} />
+							)}
 						</div>
+
+						<div className={`${style.likeCon} ${card.isLike ? style.like : ''}`}>❤</div>
 
 						{hoverCard === card.task_uuid ? null : (
 							<div className={style.infoCon}>
@@ -117,6 +126,13 @@ function Gallery() {
 						</div>
 					</div>
 				))}
+				{canMore && cardsType !== cardsTypeConst.Search ? (
+					<div className={style.more} onPointerDown={loadMore}>
+						More
+					</div>
+				) : (
+					<div className={style.more}>That's all</div>
+				)}
 			</div>
 			{/* {cardsType === cardsTypeConst.Featured ? (
 				<div className={style.cardsCon}>2</div>
@@ -128,4 +144,4 @@ function Gallery() {
 	)
 }
 
-export { Gallery }
+export { Gallery, cardsAtom, cardsTypeAtom, cardsTypeConst }

@@ -1,12 +1,13 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { startChat } from '../../net'
+import { search, startChat } from '../../net'
 import { logInfoAtom } from '../Header'
 import { chatTextAtom, taskInitAtom } from '../ResultBoard'
 import style from './welcome.module.css'
 import bgImg from '../../assets/background.png'
 import aiLogo from '../../assets/ai-logo.png'
+import { cardsAtom, cardsTypeAtom, cardsTypeConst } from '../Gallery'
 
 function Welcome() {
 	const [description, setDescription] = useState('')
@@ -14,6 +15,9 @@ function Welcome() {
 	const logInfo = useRecoilValue(logInfoAtom)
 	const navi = useNavigate()
 	const setChatText = useSetRecoilState(chatTextAtom)
+	const setCards = useSetRecoilState(cardsAtom)
+	const setCardsType = useSetRecoilState(cardsTypeAtom)
+	const timeStampRef = useRef(0)
 
 	// useEffect(() => {
 	// 	console.log('input description: ', description)
@@ -44,6 +48,15 @@ function Welcome() {
 			})
 			.finally()
 	}
+
+	const handleSearch = async (ev) => {
+		if (Date.now() - timeStampRef.current >= 1000) {
+			timeStampRef.current = Date.now()
+			const rep = await search({ type: cardsTypeConst.Search })
+			setCards(rep.data)
+			setCardsType(cardsTypeConst.Search)
+		}
+	}
 	return (
 		<div className={style.con}>
 			<img alt='bg img' src={bgImg} />
@@ -64,7 +77,9 @@ function Welcome() {
 			</div>
 
 			<div className={style.btnCon}>
-				<div className={style.btn}>Search</div>
+				<div className={style.btn} onPointerDown={handleSearch}>
+					Search
+				</div>
 				<div
 					className={`${style.btn} ${logInfo ? '' : style.disabled}`}
 					onPointerDown={handleGenerate}>

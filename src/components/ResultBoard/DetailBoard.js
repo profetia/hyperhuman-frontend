@@ -9,10 +9,10 @@ import {
 	taskDetailAtom,
 	taskInitAtom,
 } from './store'
-import { getTaskDownload } from '../../net'
+import { getTaskDownload, likeCard } from '../../net'
 import { global_render_target_injector, startUp } from '../../render/rendering'
 import { logInfoAtom } from '../Header'
-import { exportToImage } from "./utils";
+import { exportToImage } from './utils'
 // import { async } from 'q'
 
 function DetailBoard() {
@@ -28,7 +28,25 @@ function DetailBoard() {
 	// const [stage, setStage] = useState('')
 	// const [percent, setPercent] = useState(0)
 
-	// const
+	const modelRef = useRef(null)
+	const promptRef = useRef(null)
+
+	window.exportModelView = async () => {
+		await exportToImage(modelRef.current, 'model')
+	}
+
+	window.exportPrompt = async () => {
+		await exportToImage(promptRef.current, 'prompt')
+	}
+
+    const handleLike = async (ev) => {
+        if (taskDetail.isLike) return
+        
+		try {
+			await likeCard()
+			setTaskDetail({ ...taskDetail, isLike: true })
+		} catch {}
+	}
 	useEffect(() => {
 		setStopChat(true)
 
@@ -42,13 +60,7 @@ function DetailBoard() {
 	useEffect(() => {
 		if (!taskDetail) {
 			setShowProgress(true)
-        }
-        // else {
-		// 	setTimeout(() => {
-		// 		console.log('set false')
-		// 		setShowProgress(false)
-		// 	}, 1000) //TODO when download finished, then set false
-		// }
+		}
 	}, [taskDetail])
 
 	useEffect(() => {
@@ -91,22 +103,11 @@ function DetailBoard() {
 			env_specular: '/assets/env/lapa_4k_panorama_specular.hdr',
 		}))(urlPromise).then((urls) => {
 			// console.log(urls)
-            setShowProgress(false)
+			setShowProgress(false)
 			startUp(urls)
 			global_render_target_injector.enabled = false
 		})
 	}, [meshProfile])
-
-	const modelRef = useRef(null);
-	const promptRef = useRef(null);
-  
-	window.exportModelView = async () => {
-	  await exportToImage(modelRef.current, "model");
-	};
-  
-	window.exportPrompt = async () => {
-	  await exportToImage(promptRef.current, "prompt");
-	};
 
 	return (
 		<div className={style.col}>
@@ -119,8 +120,15 @@ function DetailBoard() {
 					<div className={style.creatorName}>{taskDetail?.author?.username}</div>
 					<div className={style.creatorInfo}>{taskDetail?.author?.username}</div>
 				</div>
+				<div className={style.spaceholder}></div>
+				{/* <div className={style.shareCon}>Share</div> */}
+				<div
+					className={`${style.likeCon} ${taskDetail?.isLike ? style.like : ''}`}
+					onPointerDown={handleLike}>
+					❤
+				</div>
 			</div>
-			<div className={style.modelView} id="webglcontainer" ref={modelRef}></div>
+			<div className={style.modelView} id='webglcontainer' ref={modelRef}></div>
 			<div style={{ position: 'absolute', zIndex: -100 }}>
 				<div id='info'></div>
 				<div id='preloader' className='preloader'>

@@ -351,6 +351,24 @@
 	font-size: 1rem;
 	color: var(--font-gray-color);
 }
+.likeCon{
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius);
+    background-color: var(--bg-gray0-color);
+    color: var(--bg-gray1-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    font-size: 1.2rem;
+}
+.likeCon.like{
+    background-color: #FA2D5380;
+    color: #FA2D53;
+}
+
 .modelView {
 	flex-shrink: 1;
 	flex-grow: 1;
