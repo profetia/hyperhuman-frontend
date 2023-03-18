@@ -14,7 +14,7 @@ function LoginPanel() {
 	const [password, setPassword] = useState('')
 	const [code, setCode] = useState('')
 	const [invitation, setInvitation] = useState('')
-	const [isRemember, setIsRemember] = useState(false)
+	const [isRemember, setIsRemember] = useState(true)
 	const [tips, setTips] = useState('')
 
 	const handleClose = (ev) => {
@@ -24,7 +24,7 @@ function LoginPanel() {
 	const handleSwitch = (stage) => (ev) => {
 		setTips('')
 		setPassword('')
-		setIsRemember('')
+		setIsRemember(true)
 		setLoginStage(stage)
 	}
 
