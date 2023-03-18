@@ -39,9 +39,9 @@ function DetailBoard() {
 		await exportToImage(promptRef.current, 'prompt')
 	}
 
-    const handleLike = async (ev) => {
-        if (taskDetail.isLike) return
-        
+	const handleLike = async (ev) => {
+		if (taskDetail.isLike) return
+
 		try {
 			await likeCard()
 			setTaskDetail({ ...taskDetail, isLike: true })
@@ -72,25 +72,21 @@ function DetailBoard() {
 				type: 'PreviewPack',
 				task_uuid: meshProfile.task_uuid,
 				name: 'model',
-				token: logInfo.token,
 			}),
 			diffuse: getTaskDownload({
 				type: 'PreviewPack',
 				task_uuid: meshProfile.task_uuid,
 				name: 'texture_diffuse',
-				token: logInfo.token,
 			}),
 			normal: getTaskDownload({
 				type: 'PreviewPack',
 				task_uuid: meshProfile.task_uuid,
 				name: 'texture_normal',
-				token: logInfo.token,
 			}),
 			spectular: getTaskDownload({
 				type: 'PreviewPack',
 				task_uuid: meshProfile.task_uuid,
 				name: 'texture_specular',
-				token: logInfo.token,
 			}),
 		}
 		;(async (urlP) => ({

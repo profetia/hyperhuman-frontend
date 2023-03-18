@@ -7,7 +7,7 @@ import { Header, logInfoAtom, showLoginAtom, showUserAtom } from './components/H
 import { LoginPanel } from './components/LoginPanel'
 import { UserPanel } from './components/UserPanel'
 import { Welcome } from './components/Welcome'
-import { getUserInfo } from './net'
+import { getUserInfo, initNet } from './net'
 
 function App() {
 	const showLogin = useRecoilValue(showLoginAtom)
@@ -23,6 +23,7 @@ function App() {
 				.then((data) => {
 					if (data.data.error) return Promise.reject(data.data.error)
 					setLogInfo({ ...data.data.meta, token: localStorage.getItem('token') })
+					initNet(localStorage.getItem('token'))
 				})
 				.catch((err) => {
 					localStorage.clear()

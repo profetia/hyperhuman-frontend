@@ -5,16 +5,30 @@ const BASE_URL = 'http://10.19.93.33:3000'
 const isMock = false
 const suffix = isMock ? '.json' : ''
 
+let axiosClient = axios
+
+const initNet = (token) => {
+	if (token)
+		axiosClient = axios.create({
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+}
+
 //user
-const login = (payload) => axios.post(`${BASE_URL}/user/login`, payload)
+const login = (payload) => axiosClient.post(`${BASE_URL}/user/login`, payload)
 
 const sendCode = (payload) =>
-	axios.post(`${BASE_URL}/user/send_email_verification_code`, { ...payload, type: 'Register' })
+	axiosClient.post(`${BASE_URL}/user/send_email_verification_code`, {
+		...payload,
+		type: 'Register',
+	})
 
-const signUp = (payload) => axios.post(`${BASE_URL}/user/register`, payload)
+const signUp = (payload) => axiosClient.post(`${BASE_URL}/user/register`, payload)
 
 const register = ({ username, email, emailVerificationCode, invitationCode, password }) =>
-	axios.post(`${BASE_URL}/user/register`, {
+	axiosClient.post(`${BASE_URL}/user/register`, {
 		username,
 		email,
 		email_verification_code: emailVerificationCode,
@@ -23,23 +37,23 @@ const register = ({ username, email, emailVerificationCode, invitationCode, pass
 	})
 
 const reset_password = ({ email, emailVerificationCode, newPassword }) =>
-	axios.post(`${BASE_URL}/user/reset_password`, {
+	axiosClient.post(`${BASE_URL}/user/reset_password`, {
 		email,
 		email_verification_code: emailVerificationCode,
 		new_password: newPassword,
 	})
 
 const send_email_verification_code = ({ email, type }) =>
-	axios.post(`${BASE_URL}/user/send_email_verification_code`, { email, type })
+	axiosClient.post(`${BASE_URL}/user/send_email_verification_code`, { email, type })
 
-const getUserInfo = (payload) => axios.post(`${BASE_URL}/user/get_info`, payload)
+const getUserInfo = (payload) => axiosClient.post(`${BASE_URL}/user/get_info`, payload)
 
 //chat
 let ws
 const startChat = async () => {
 	if (ws) return false
 	console.log('start chat')
-	return axios.get(`${BASE_URL}/chat${suffix}`)
+	return axiosClient.get(`${BASE_URL}/chat${suffix}`)
 }
 
 const wsSend = async ({ task_uuid, content, language }) => {
@@ -105,39 +119,31 @@ const disposeWebsocket = () => {
 
 //task
 const generateDetail = ({ task_uuid, prompt }) =>
-	axios.post(`${BASE_URL}/task/generate`, { task_uuid, prompt })
+	axiosClient.post(`${BASE_URL}/task/generate`, { task_uuid, prompt })
 
 const getGenerateProgress = (task_uuid) =>
-	axios.post(`${BASE_URL}/task/check_progress/${task_uuid}`)
+	axiosClient.post(`${BASE_URL}/task/check_progress/${task_uuid}`)
 
-const getCards = ({ type, page_num }) => axios.post(`${BASE_URL}/task/cards`, { type, page_num })
-const search = ({ type }) => axios.post(`${BASE_URL}/task/search`, { type })
-const getTaskDetail = (task_uuid) => axios.post(`${BASE_URL}/task/card/${task_uuid}`)
+const getCards = ({ type, page_num }) =>
+	axiosClient.post(`${BASE_URL}/task/cards`, { type, page_num })
+const search = ({ type }) => axiosClient.post(`${BASE_URL}/task/search`, { type })
+const getTaskDetail = (task_uuid) => axiosClient.post(`${BASE_URL}/task/card/${task_uuid}`)
 const likeCard = () => Promise.resolve()
 
-const getTaskDownload = ({ task_uuid, type, name, token }) =>
-	axios
-		.post(
-			`${BASE_URL}/task/get_download`,
-			{ task_uuid, type, name },
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		)
-		.then((data) => {
-			// console.log(file_uuid, data.data.url)
-			return data.data.url
-		})
+const getTaskDownload = ({ task_uuid, type, name }) =>
+	axiosClient.post(`${BASE_URL}/task/get_download`, { task_uuid, type, name }).then((data) => {
+		// console.log(file_uuid, data.data.url)
+		return data.data.url
+	})
 
 const selectCandidate = (task_uuid, candidateIndex) =>
-	axios.post(`${BASE_URL}/task/select_candidate`, {
+	axiosClient.post(`${BASE_URL}/task/select_candidate`, {
 		uuid: task_uuid,
 		selected_id: candidateIndex,
 	})
 
 export {
+	initNet,
 	login,
 	sendCode,
 	signUp,
