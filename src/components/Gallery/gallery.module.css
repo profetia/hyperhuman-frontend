@@ -72,7 +72,7 @@
     line-height: 3rem;
 }
 .more:hover{
-    background-color: var(--bg-gray3-color);
+    background-color: #00000050;
 }
 
 .coverImg,
