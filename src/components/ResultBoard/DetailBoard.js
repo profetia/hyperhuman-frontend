@@ -30,12 +30,12 @@ function DetailBoard() {
 
 	// const
 	useEffect(() => {
-		setStopChat(true)
+		// setStopChat(true)
 
-		// return () => {
-		// 	setStopChat(false)
-		// 	setMeshProfile(false)
-		// }
+		return () => {
+			setStopChat(false)
+			setMeshProfile(false)
+		}
 		// eslint-disable-next-line
 	}, [])
 
@@ -111,13 +111,8 @@ function DetailBoard() {
 	return (
 		<div className={style.col}>
 			<div className={style.creatorCon}>
-				<div className={style.avatar}>
-					{taskDetail ? <img alt='avatar' src={taskDetail?.author?.avatar_url} /> : null}
-				</div>
-
-				<div className={style.creatorInfoCon}>
-					<div className={style.creatorName}>{taskDetail?.author?.username}</div>
-					<div className={style.creatorInfo}>{taskDetail?.author?.username}</div>
+				<div>
+					Model
 				</div>
 			</div>
 			<div className={style.modelView} id="webglcontainer" ref={modelRef}></div>
@@ -137,6 +132,7 @@ function DetailBoard() {
 			</div>
 			<div className={style.modelInfoCon}>
 				{showProgress ? (
+					generateProgress.stage ?
 					<>
 						<div className={style.progressInfo}>{generateProgress.stage}</div>
 						<div className={style.progressTrack}>
@@ -144,12 +140,8 @@ function DetailBoard() {
 								className={style.progressThumb}
 								style={{ width: `${generateProgress.percent}%` }}></div>
 						</div>
-					</>
+					</> : <div>{'Click "Generate" to generate the model'}</div>
 				) : null}
-
-				<div className={style.modelPrompt} ref={promptRef}>
-					{prompt}
-				</div>
 			</div>
 		</div>
 	)

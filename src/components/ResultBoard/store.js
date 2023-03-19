@@ -65,6 +65,16 @@ const needStartWsAtom = atom({
 	default: false,
 })
 
+const chatDialogStartAtom = atom({
+	key: 'chatDialogStartAtom',
+	default: false,
+})
+
+const generateStageAtom = atom({
+	key: 'generateStageAtom',
+	default: 'generate',
+})
+
 export {
 	taskInitAtom,
 	taskDetailAtom,
@@ -79,4 +89,6 @@ export {
 	chatLangAtom,
 	generateProgressAtom,
 	needStartWsAtom,
+	chatDialogStartAtom,
+	generateStageAtom
 }

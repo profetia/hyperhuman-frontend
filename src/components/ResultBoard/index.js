@@ -19,6 +19,8 @@ import {
 	chatTextAtom,
 	chatLangAtom,
 	needStartWsAtom,
+	chatDialogStartAtom,
+	generateStageAtom,
 } from './store.js'
 import { exportToImage } from "./utils";
 
@@ -36,21 +38,25 @@ function ResultBoard() {
 	const [chatText, setChatText] = useRecoilState(chatTextAtom)
 	const chatLang = useRecoilValue(chatLangAtom)
 	const [needStartWs, setNeedStartWs] = useRecoilState(needStartWsAtom)
+	const setChatDialogStart = useSetRecoilState(chatDialogStartAtom)
 	const isListenRef = useRef(false)
 	const chatHistoryRef = useRef({})
 	const chatGuessRef = useRef('')
 	const promptRef = useRef('')
+	const [generateStage, setGenerateStage] = useRecoilState(generateStageAtom)
 
 	const handleClose = (ev) => {
 		// closeWebsocket()
 		// disposeWebsocket()
-		navi('/')
+		// setChatDialogStart(false)
+		// navi('/')
 	}
 
 	const bindWsListeners = (ws) => {
 		setNeedStartWs(false)
 
 		ws.on('assistant', (ev) => {
+			console.log('assistant', ev)
 			const currentChat = { ...(chatHistoryRef.current[ev.chat_uuid] || {}) }
 			setAssistantChatStatus(ev.content)
 
@@ -69,6 +75,7 @@ function ResultBoard() {
 		})
 
 		ws.on('guess', (ev) => {
+			console.log('guess', ev)
 			setGuessChatStatus(ev.content)
 			if (ev.content === '[START]') {
 				chatGuessRef.current = ''
@@ -79,6 +86,7 @@ function ResultBoard() {
 			}
 		})
 		ws.on('summary', (ev) => {
+			console.log('summary', ev)
 			if (ev.content === '[START]') {
 				promptRef.current = ''
 			} else if (ev.content !== '[END]') {
@@ -109,43 +117,45 @@ function ResultBoard() {
 
 	useEffect(() => {
 		if (!taskInit && !taskDetail) {
-			navi('/', { replace: true })
+			// navi('/', { replace: true })
 		}
 		// eslint-disable-next-line
 	}, [taskInit, taskDetail])
 
 	useEffect(() => {
-		if (!taskInit) return
-		;(async () => {
-			// console.log(isListenRef.current);
-			if (isListenRef.current) return
-			isListenRef.current = true
+		// console.log('taskInit', taskInit)
+		// if (!taskInit) return
+		// ;(async () => {
+		// 	// console.log(isListenRef.current);
+		// 	if (isListenRef.current) return
+		// 	isListenRef.current = true
 
-			const ws = await startWebsocket(taskInit.subscription, taskInit.task_uuid, chatLang)
+		// 	const ws = await startWebsocket(taskInit.subscription, taskInit.task_uuid, chatLang)
 
-			bindWsListeners(ws)
-		})()
+		// 	bindWsListeners(ws)
+		// })()
 		// eslint-disable-next-line
 	}, [taskInit])
 
 	useEffect(() => {
-		if (!needStartWs) return
+		// console.log("needStartWs", needStartWs)
+		// if (!needStartWs) return
 
-		setChatGuess([])
-		setPrompt('')
-		setChatHistory({})
-		setChatText('')
-		setAssistantChatStatus('')
-		setStopChat(false)
+		// setChatGuess([])
+		// setPrompt('')
+		// setChatHistory({})
+		// setChatText('')
+		// setAssistantChatStatus('')
+		// setStopChat(false)
 
-		isListenRef.current = false
-		chatHistoryRef.current = {}
-		chatGuessRef.current = ''
-		promptRef.current = ''
+		// isListenRef.current = false
+		// chatHistoryRef.current = {}
+		// chatGuessRef.current = ''
+		// promptRef.current = ''
 
-		startWebsocket(taskInit.subscription, taskInit.task_uuid, chatLang).then((ws) => {
-			bindWsListeners(ws)
-		})
+		// startWebsocket(taskInit.subscription, taskInit.task_uuid, chatLang).then((ws) => {
+		// 	bindWsListeners(ws)
+		// })
 		// eslint-disable-next-line
 	}, [needStartWs])
 
@@ -163,7 +173,8 @@ function ResultBoard() {
 		)
 		setPrompt(taskDetail.prompt)
 		setMeshProfile({...taskDetail.resources, task_uuid: taskDetail.task_uuid})
-		navi('/result/detail')
+		// navi('/result/detail')
+		setGenerateStage('detail')
 		// eslint-disable-next-line
 	}, [taskDetail])
 
@@ -182,11 +193,20 @@ function ResultBoard() {
 				onPointerDown={(ev) => ev.stopPropagation()}
 				ref={dialogRef}
 			>
-				<Outlet />
-				<ChatBoard />
+				<GenerateBoard />
+				<DetailBoard />
 			</div>
 		</div>
 	)
 }
 
-export { ResultBoard, GenerateBoard, DetailBoard, taskInitAtom, taskDetailAtom, chatTextAtom }
+export { 
+	ResultBoard, 
+	GenerateBoard, 
+	DetailBoard, 
+	taskInitAtom, 
+	taskDetailAtom, 
+	chatTextAtom, 
+	chatDialogStartAtom,
+	generateStageAtom
+}

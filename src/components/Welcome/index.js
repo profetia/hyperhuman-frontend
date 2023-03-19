@@ -1,19 +1,20 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { startChat } from '../../net'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+
 import { logInfoAtom } from '../Header'
-import { chatTextAtom, taskInitAtom } from '../ResultBoard'
+import { chatTextAtom, taskInitAtom, chatDialogStartAtom, ResultBoard } from '../ResultBoard'
 import style from './welcome.module.css'
 import bgImg from '../../assets/background.png'
 import aiLogo from '../../assets/ai-logo.png'
 
 function Welcome() {
 	const [description, setDescription] = useState('')
-	const setTaskInit = useSetRecoilState(taskInitAtom)
+
 	const logInfo = useRecoilValue(logInfoAtom)
 	const navi = useNavigate()
 	const setChatText = useSetRecoilState(chatTextAtom)
+	const [chatDialogStart, setChatDialogStart] = useRecoilState(chatDialogStartAtom)
 
 	// useEffect(() => {
 	// 	console.log('input description: ', description)
@@ -25,52 +26,48 @@ function Welcome() {
 	}
 
 	const handleGenerate = (ev) => {
-		if (!logInfo) {
-			console.log('please login')
-			return
-		}
+		// if (!logInfo) {
+		// 	console.log('please login')
+		// 	return
+		// }
 		setChatText(description)
 		setDescription('')
-		startChat()
-			.then((data) => {
-				if (data) {
-					const taskInit = data.data
-					setTaskInit(taskInit)
-				}
-				navi('/result/generate')
-			})
-			.catch((err) => {
-				console.log(err.message)
-			})
-			.finally()
+		setChatDialogStart(true)
 	}
 	return (
 		<div className={style.con}>
-			<img alt='bg img' src={bgImg} />
-			<div className={style.title}>ChatAvatar</div>
-			<div>
-				Progressive Generation Of Animatable 3D Faces
-				<br />
-				Under Text Guidance
-			</div>
-			<div className={style.iptCon}>
-				<input
-					className={style.ipt}
-					placeholder='Describe the model you want to generate'
-					value={description}
-					onChange={handleInput}
-				/>
-				<img alt='ai logo' src={aiLogo} />
-			</div>
-
-			<div className={style.btnCon}>
-				<div className={style.btn}>Search</div>
-				<div
-					className={`${style.btn} ${logInfo ? '' : style.disabled}`}
-					onPointerDown={handleGenerate}>
-					Generate
+			{
+				!chatDialogStart ? <>
+					<img alt='bg img' src={bgImg} />
+					<div className={!chatDialogStart ? style.mainCon : ''}></div>					
+				</> : <ResultBoard />
+			}
+			<div className={!chatDialogStart ? style.mainCon : ''}>
+				<div className={style.title}>ChatAvatar</div>
+				<div>
+					Progressive Generation Of Animatable 3D Faces
+					<br />
+					Under Text Guidance
 				</div>
 			</div>
+			<div className={style.ioCon}>				
+				<div className={style.iptCon}>
+					<input
+						className={style.ipt}
+						placeholder='Describe the model you want to generate'
+						value={description}
+						onChange={handleInput}
+					/>
+					<img alt='ai logo' src={aiLogo} />
+				</div>
+				<div className={style.btnCon}>
+					<div
+						className={`${style.btn}`}
+						onPointerDown={handleGenerate}>
+						Generate
+					</div>
+				</div>					
+			</div>		
 		</div>
 	)
 }

@@ -15,6 +15,7 @@ import {
 	chatLangAtom,
 	needStartWsAtom,
 	meshProfileAtom,
+	generateStageAtom
 } from './store'
 import { exportToImage } from "./utils";
 
@@ -34,6 +35,7 @@ function ChatBoard() {
 	const [chatLang, setChatLang] = useRecoilState(chatLangAtom)
 	const setNeedStartWs = useSetRecoilState(needStartWsAtom)
 	const navi = useNavigate()
+	const [generateStage, setGenerateStage] = useRecoilState(generateStageAtom)
 
 	const handleIpt = (ev) => {
 		setChatText(ev.currentTarget.value)
@@ -88,7 +90,9 @@ function ChatBoard() {
 	}
 
 	const handleRegenerate = () => {
-		navi('/result/generate')
+		// navi('/result/generate')
+		setGenerateStage("generate")
+		
 		setTaskDetail(false)
 		setStopChat(false)
 		setMeshProfile(false)

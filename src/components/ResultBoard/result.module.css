@@ -336,6 +336,12 @@
 	align-items: flex-end;
 	margin-bottom: 1rem;
 	width: 100%;
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+	height: 3rem;
+	font-weight: bold;
+	display: flex;
+	color: var(--font-gray-color);
 }
 .creatorInfoCon {
 	text-align: left;

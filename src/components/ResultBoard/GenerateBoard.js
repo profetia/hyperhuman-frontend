@@ -10,7 +10,10 @@ import {
 	stopChatAtom,
 	taskDetailAtom,
 	taskInitAtom,
+	generateStageAtom,
+	chatDialogStartAtom,
 } from './store'
+import { startChat } from '../../net'
 
 function GenerateBoard() {
 	const [prompt, setPrompt] = useRecoilState(promptAtom)
@@ -22,13 +25,23 @@ function GenerateBoard() {
 	const [candidates, setCandidates] = useState([])
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	const [stopChat, setStopChat] = useRecoilState(stopChatAtom)
+	const [generateStage, setGenerateStage] = useRecoilState(generateStageAtom)
+	const setChatDialogStart = useSetRecoilState(chatDialogStartAtom)
+	const setTaskInit = useSetRecoilState(taskInitAtom)
 
 	// useEffect(() => () => clearInterval(intervalRef.current), [])
 
 	useEffect(() => {
 		// console.log(prompt)
 		if (!taskInit) {
-			navi('/', { replace: true })
+			// setChatDialogStart(false)
+			// navi('/', { replace: true })
+		} else {
+			// setChatGuess([])
+			setStopChat(true)
+			// navi('/result/detail')
+			// setGenerateStage('detail')
+			generateDetail({ task_uuid: taskInit.task_uuid, prompt })	
 		}
 		// eslint-disable-next-line
 	}, [taskInit])
@@ -65,10 +78,18 @@ function GenerateBoard() {
 	const handleGenerate = (ev) => {
 		if (!prompt) return
 
-		// setChatGuess([])
-		setStopChat(true)
-		// navi('/result/detail')
-		generateDetail({ task_uuid: taskInit.task_uuid, prompt })
+		startChat()
+			.then((data) => {
+				if (data) {
+					const taskInit = data.data
+					setTaskInit(taskInit)
+				}
+				// navi('/result/generate')			
+			})
+			.catch((err) => {
+				console.log(err.message)
+			})
+			.finally()
 	}
 
 	const handleIpt = (ev) => {
@@ -79,7 +100,9 @@ function GenerateBoard() {
 		// return null
 		await selectCandidate(taskInit.task_uuid, candidateIndex)
 		setCandidates([])
-		navi('/result/detail')
+
+		// navi('/result/detail')
+		setGenerateStage('detail')
 	}
 	return (
 		<div className={style.col}>

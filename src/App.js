@@ -42,11 +42,9 @@ function App() {
 
 	return (
 		<div className='App'>
-			<Header />
 			{showLogin ? <LoginPanel /> : null}
 			{showUser ? <UserPanel /> : null}
 			<Welcome />
-			<Gallery />
 			{logInfo ? <Outlet /> : null}
 		</div>
 	)

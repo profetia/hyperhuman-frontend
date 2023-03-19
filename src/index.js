@@ -20,7 +20,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 function Outter() {
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "*",
       element: <App />,
       errorElement: <ErrorPage />,
       children: [
@@ -65,11 +65,15 @@ function Outter() {
 }
 
 root.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <Outter />
-    </RecoilRoot>
-  </React.StrictMode>
+  <div className="root">
+    <div className="container">
+      <React.StrictMode>
+        <RecoilRoot>
+          <Outter />
+        </RecoilRoot>
+      </React.StrictMode>
+    </div>
+  </div>
 );
 
 // If you want to start measuring performance in your app, pass a function
