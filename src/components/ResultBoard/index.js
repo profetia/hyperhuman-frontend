@@ -208,5 +208,6 @@ export {
 	taskDetailAtom, 
 	chatTextAtom, 
 	chatDialogStartAtom,
-	generateStageAtom
+	generateStageAtom,
+	promptAtom
 }

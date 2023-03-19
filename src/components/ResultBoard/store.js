@@ -75,6 +75,11 @@ const generateStageAtom = atom({
 	default: 'generate',
 })
 
+const taskCandidateAtom = atom({
+	key: 'taskCandidateAtom',
+	default: [],
+})
+
 export {
 	taskInitAtom,
 	taskDetailAtom,
@@ -90,5 +95,6 @@ export {
 	generateProgressAtom,
 	needStartWsAtom,
 	chatDialogStartAtom,
-	generateStageAtom
+	generateStageAtom,
+	taskCandidateAtom
 }

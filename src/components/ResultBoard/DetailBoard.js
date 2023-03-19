@@ -8,11 +8,14 @@ import {
 	stopChatAtom,
 	taskDetailAtom,
 	taskInitAtom,
+	taskCandidateAtom,
+	generateStageAtom
 } from './store'
-import { getTaskDownload } from '../../net'
+import { getTaskDownload, selectCandidate } from '../../net'
 import { global_render_target_injector, startUp } from '../../render/rendering'
 import { logInfoAtom } from '../Header'
 import { exportToImage } from "./utils";
+
 // import { async } from 'q'
 
 function DetailBoard() {
@@ -23,7 +26,8 @@ function DetailBoard() {
 	const [meshProfile, setMeshProfile] = useRecoilState(meshProfileAtom)
 	const logInfo = useRecoilValue(logInfoAtom)
 	const [showProgress, setShowProgress] = useState(false)
-
+	const [taskCandidates, setTaskCandidates] = useRecoilState(taskCandidateAtom)
+	const [generateStage, setGenerateStage] = useRecoilState(generateStageAtom)
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	// const [stage, setStage] = useState('')
 	// const [percent, setPercent] = useState(0)
@@ -52,7 +56,14 @@ function DetailBoard() {
 	}, [taskDetail])
 
 	useEffect(() => {
-		if (!meshProfile) return
+		if (!meshProfile) {
+			if (document.getElementById('webglcontainer')) {
+				if (document.getElementById('webglcontainer').getElementsByTagName('canvas').length > 0) {
+					document.getElementById('webglcontainer').getElementsByTagName('canvas')[0].remove()
+				}
+			}
+			return
+		}
 
 		// console.log(meshProfile)
 		const urlPromise = {
@@ -97,6 +108,15 @@ function DetailBoard() {
 		})
 	}, [meshProfile])
 
+	const handleSelectCandidate = async (candidateIndex) => {
+		// return null
+		await selectCandidate(taskInit.task_uuid, candidateIndex)
+		setTaskCandidates([])
+
+		// navi('/result/detail')
+		setGenerateStage('detail')
+	}	
+
 	const modelRef = useRef(null);
 	const promptRef = useRef(null);
   
@@ -115,6 +135,50 @@ function DetailBoard() {
 					Model
 				</div>
 			</div>
+			{
+				taskCandidates.length ?
+				<>
+					<div className={style.candidateCon}>
+						<div className={style.candidateCol}>
+							{taskCandidates.map((item, index) =>
+								index >= 0 && index < 3 ? (
+									<img
+										key={index}
+										src={`data:image/png;base64,${item}`}
+										alt={item}
+										onClick={() => handleSelectCandidate(index)}
+									/>
+								) : null
+							)}
+						</div>
+						<div className={style.candidateCol}>
+							<div style={{ height: '4rem', marginBottom: '1rem' }}></div>
+							{taskCandidates.map((item, index) =>
+								index >= 3 && index < 6 ? (
+									<img
+										key={index}
+										src={`data:image/png;base64,${item}`}
+										alt={item}
+										onClick={() => handleSelectCandidate(index)}
+									/>
+								) : null
+							)}
+						</div>
+						<div className={style.candidateCol}>
+							{taskCandidates.map((item, index) =>
+								index >= 6 && index < 9 ? (
+									<img
+										key={index}
+										src={`data:image/png;base64,${item}`}
+										alt={item}
+										onClick={() => handleSelectCandidate(index)}
+									/>
+								) : null
+							)}
+						</div>
+					</div>	
+				</> : null
+			}		
 			<div className={style.modelView} id="webglcontainer" ref={modelRef}></div>
 			<div style={{ position: 'absolute', zIndex: -100 }}>
 				<div id='info'></div>

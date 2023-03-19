@@ -12,6 +12,8 @@ import {
 	taskInitAtom,
 	generateStageAtom,
 	chatDialogStartAtom,
+	taskCandidateAtom,
+	meshProfileAtom
 } from './store'
 import { startChat } from '../../net'
 
@@ -22,12 +24,13 @@ function GenerateBoard() {
 	const setChatGuess = useSetRecoilState(chatGuessAtom)
 	const navi = useNavigate()
 	const intervalRef = useRef(null)
-	const [candidates, setCandidates] = useState([])
+	const [taskCandidates, setTaskCandidates] = useRecoilState(taskCandidateAtom)
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	const [stopChat, setStopChat] = useRecoilState(stopChatAtom)
 	const [generateStage, setGenerateStage] = useRecoilState(generateStageAtom)
 	const setChatDialogStart = useSetRecoilState(chatDialogStartAtom)
 	const setTaskInit = useSetRecoilState(taskInitAtom)
+	const setMeshProfile = useSetRecoilState(meshProfileAtom)
 
 	// useEffect(() => () => clearInterval(intervalRef.current), [])
 
@@ -50,17 +53,20 @@ function GenerateBoard() {
 		// console.log(taskDetail)
 		if (taskDetail || !stopChat) {
 			clearInterval(intervalRef.current)
+			intervalRef.current = null
 			return
 		}
 
 		clearInterval(intervalRef.current) //TODO 退出再重进请求2x
 		intervalRef.current = setInterval(async () => {
 			const { data } = await getGenerateProgress(taskInit.task_uuid)
-			if (data.candidates) setCandidates(data.candidates)
+			if (data.candidates) setTaskCandidates(data.candidates)
 
 			if (data.stage === 'Done') {
 				setGenerateProgress({ stage: 'Downloading', percent: 100, payload: data })
+				setTaskCandidates([])
 				clearInterval(intervalRef.current)
+				intervalRef.current = null
 				const response = await getTaskDetail(taskInit.task_uuid)
 				// console.log(taskDetail)
 				setTaskDetail(response.data)
@@ -77,6 +83,11 @@ function GenerateBoard() {
 
 	const handleGenerate = (ev) => {
 		if (!prompt) return
+
+		setTaskDetail(false)
+		setStopChat(false)
+		setMeshProfile(false)
+		setGenerateStage('generate')
 
 		startChat()
 			.then((data) => {
@@ -96,14 +107,7 @@ function GenerateBoard() {
 		setPrompt(ev.currentTarget.value)
 	}
 
-	const handleSelectCandidate = async (candidateIndex) => {
-		// return null
-		await selectCandidate(taskInit.task_uuid, candidateIndex)
-		setCandidates([])
 
-		// navi('/result/detail')
-		setGenerateStage('detail')
-	}
 	return (
 		<div className={style.col}>
 			<div className={style.colTitle}>Prompt</div>
@@ -115,49 +119,10 @@ function GenerateBoard() {
 			/>
 			<div
 				className={`${style.btn} ${style.generateBtn} ${
-					!prompt || stopChat ? style.disabled : ''
+					!prompt || intervalRef.current ? style.disabled : ''
 				}`}
 				onPointerDown={handleGenerate}>
 				Generate
-			</div>
-			<div className={style.candidateCon}>
-				<div className={style.candidateCol}>
-					{candidates.map((item, index) =>
-						index >= 0 && index < 3 ? (
-							<img
-								key={index}
-								src={`data:image/png;base64,${item}`}
-								alt={item}
-								onClick={() => handleSelectCandidate(index)}
-							/>
-						) : null
-					)}
-				</div>
-				<div className={style.candidateCol}>
-					<div style={{ height: '4rem', marginBottom: '1rem' }}></div>
-					{candidates.map((item, index) =>
-						index >= 3 && index < 6 ? (
-							<img
-								key={index}
-								src={`data:image/png;base64,${item}`}
-								alt={item}
-								onClick={() => handleSelectCandidate(index)}
-							/>
-						) : null
-					)}
-				</div>
-				<div className={style.candidateCol}>
-					{candidates.map((item, index) =>
-						index >= 6 && index < 9 ? (
-							<img
-								key={index}
-								src={`data:image/png;base64,${item}`}
-								alt={item}
-								onClick={() => handleSelectCandidate(index)}
-							/>
-						) : null
-					)}
-				</div>
 			</div>
 			{stopChat ? (
 				<div className={style.modelInfoCon}>

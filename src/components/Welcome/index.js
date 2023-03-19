@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 
 import { logInfoAtom } from '../Header'
-import { chatTextAtom, taskInitAtom, chatDialogStartAtom, ResultBoard } from '../ResultBoard'
+import { chatTextAtom, taskInitAtom, chatDialogStartAtom, ResultBoard, promptAtom } from '../ResultBoard'
 import style from './welcome.module.css'
 import bgImg from '../../assets/background.png'
 import aiLogo from '../../assets/ai-logo.png'
@@ -15,6 +15,7 @@ function Welcome() {
 	const navi = useNavigate()
 	const setChatText = useSetRecoilState(chatTextAtom)
 	const [chatDialogStart, setChatDialogStart] = useRecoilState(chatDialogStartAtom)
+	const [prompt, setPrompt] = useRecoilState(promptAtom)
 
 	// useEffect(() => {
 	// 	console.log('input description: ', description)
@@ -30,7 +31,8 @@ function Welcome() {
 		// 	console.log('please login')
 		// 	return
 		// }
-		setChatText(description)
+		// setChatText(description)
+		setPrompt(description)
 		setDescription('')
 		setChatDialogStart(true)
 	}
