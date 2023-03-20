@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import style from './gallery.module.css'
-import { logInfoAtom } from '../Header'
+import { logInfoAtom, showLoginAtom } from '../Header'
 import { getCards, getTaskDetail, search } from '../../net'
 import { taskDetailAtom } from '../ResultBoard/store'
 import { useNavigate } from 'react-router-dom'
@@ -19,6 +19,7 @@ function Gallery() {
 	const [showSearch, setShowSearch] = useState(false)
 	const pageRef = useRef(0)
 	const timeStampRef = useRef(0)
+	const setShowLogin = useSetRecoilState(showLoginAtom)
 	const elRef = useRef(null)
 
 	useEffect(() => {
@@ -47,12 +48,15 @@ function Gallery() {
 
 	const handleClickCard = (task_uuid) => async (ev) => {
 		// console.log(task_uuid)
+		if (!logInfo) setShowLogin(true)
 		try {
 			const rep = await getTaskDetail(task_uuid)
 			// console.log(rep.data)
 			setTaskDetail(rep.data)
 			navi('/result/detail')
-		} catch (e) {}
+		} catch (e) {
+			console.log(e)
+		}
 	}
 
 	const handleCloseSearch = (ev) => {

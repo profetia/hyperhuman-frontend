@@ -97,7 +97,7 @@ function ChatBoard() {
 
 	const chatRef = useRef();
 	window.exportChat = async () => {
-	  	await exportToImage(chatRef.current, "chat");
+		await exportToImage(chatRef.current, "chat");
 	};
 
 	return (
@@ -115,17 +115,15 @@ function ChatBoard() {
 					<>
 						<div
 							onPointerDown={() => handleChangeLang('Chinese')}
-							className={`${style.lang} ${
-								chatLang === 'Chinese' ? style.selected : ''
-							}`}>
+							className={`${style.lang} ${chatLang === 'Chinese' ? style.selected : ''
+								}`}>
 							中文
 						</div>
 						<div>|</div>
 						<div
 							onPointerDown={() => handleChangeLang('English')}
-							className={`${style.lang} ${style.en} ${
-								chatLang === 'English' ? style.selected : ''
-							}`}>
+							className={`${style.lang} ${style.en} ${chatLang === 'English' ? style.selected : ''
+								}`}>
 							English
 						</div>
 					</>
@@ -146,22 +144,31 @@ function ChatBoard() {
 								(!stopChat ||
 									chat.provider !== 'assistant' ||
 									idx !== arr.length - 1) && (
+									
 									<div
 										key={chat.chat_uuid}
-										className={`${style.chatMsgRow} ${
-											chat.provider === 'user' ? style.user : ''
-										}`}>
+										className={`${style.chatMsgRow} ${chat.provider === 'user' ? style.user : ''
+											}`}>
 										{/* <div className={style.avatar}></div> */}
 										<div
-											className={`${style.bubble} ${
-												stopChat ? style.unactive : ''
-											}`}>
+											className={`${style.bubble} ${stopChat ? style.unactive : ''
+												}`}>
 											{chat.content}
 										</div>
 									</div>
 								)
 						)}
+						{stopChat && (
+						<div className={`${style.chatMsgRow} ${style.assistant}`}>
+							<div className={`${style.bubble} ${style.unactive}`}>
+							{Object.keys(chatHistory).length <= 1
+								? "Seems like we don't have any conversations here"
+								: "End of the conversation"}
+							</div>
+						</div>
+						)}
 				</div>
+
 				{!stopChat ? (
 					<div className={style.chatIptCon}>
 						<div className={style.chatTipsCon}>
@@ -191,11 +198,10 @@ function ChatBoard() {
 							</div>
 
 							<div
-								className={`${style.btn} ${
-									!chatText || assistantChatStatus !== '[END]'
+								className={`${style.btn} ${!chatText || assistantChatStatus !== '[END]'
 										? style.disabled
 										: ''
-								}`}
+									}`}
 								onPointerDown={handleSend}>
 								Send
 							</div>

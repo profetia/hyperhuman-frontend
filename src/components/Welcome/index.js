@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { search, startChat } from '../../net'
-import { logInfoAtom } from '../Header'
+import { logInfoAtom, showLoginAtom } from '../Header'
 import { chatTextAtom, taskInitAtom } from '../ResultBoard'
 import style from './welcome.module.css'
 import bgImg from '../../assets/background.png'
@@ -18,6 +18,7 @@ function Welcome() {
 	const setCards = useSetRecoilState(cardsAtom)
 	const setCardsType = useSetRecoilState(cardsTypeAtom)
 	const setSearchKeyWord = useSetRecoilState(searchKeyWordAtom)
+	const setShowLogin = useSetRecoilState(showLoginAtom)
 	const timeStampRef = useRef(0)
 
 	// useEffect(() => {
@@ -31,7 +32,7 @@ function Welcome() {
 
 	const handleGenerate = (ev) => {
 		if (!logInfo) {
-			console.log('please login')
+			setShowLogin(true)
 			return
 		}
 		setChatText(description)
