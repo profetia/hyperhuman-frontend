@@ -30,8 +30,8 @@ function LoginPanel() {
 
 	const handleLogin = async (ev) => {
 		setTips('')
-		if (!username && !email) {
-			setTips('Enter username or email')
+		if (!username) {
+			setTips('Enter username')
 			return
 		}
 
@@ -44,7 +44,6 @@ function LoginPanel() {
 			const res = await login({
 				password,
 				...(username ? { username } : null),
-				...(email ? { email } : null),
 			})
 
 			if (res.data.error) {
@@ -142,26 +141,28 @@ function LoginPanel() {
 				{loginStage !== 1 ? (
 					<>
 						<div className={style.label}>
-							User name {loginStage === 0 ? '(Optional)' : ''}
+							Username or Email
 						</div>
 						<input
 							className={style.ipt}
-							placeholder='Enter a user name'
+							placeholder='Enter username or email'
 							value={username}
 							onChange={(ev) => setUsername(ev.currentTarget.value)}
 						/>
 					</>
 				) : null}
 
-				<>
-					<div className={style.label}>Email {loginStage === 0 ? '(Optional)' : ''}</div>
-					<input
-						className={style.ipt}
-						placeholder='Enter email'
-						value={email}
-						onChange={(ev) => setEmail(ev.currentTarget.value)}
-					/>
-				</>
+				{loginStage === 1 ? (
+					<>
+						<div className={style.label}>Email {loginStage === 0 ? '(Optional)' : ''}</div>
+						<input
+							className={style.ipt}
+							placeholder='Enter email'
+							value={email}
+							onChange={(ev) => setEmail(ev.currentTarget.value)}
+						/>
+					</>
+				) : null}
 
 				{loginStage !== 1 ? (
 					<>
