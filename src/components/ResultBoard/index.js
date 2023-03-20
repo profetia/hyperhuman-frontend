@@ -20,7 +20,7 @@ import {
 	chatLangAtom,
 	needStartWsAtom,
 } from './store.js'
-import { exportToImage } from "./utils";
+import { exportToImage } from './utils'
 
 function ResultBoard() {
 	const navi = useNavigate()
@@ -57,7 +57,7 @@ function ResultBoard() {
 			if (ev.content === '[START]') {
 				currentChat.chat_uuid = ev.chat_uuid
 				currentChat.provider = ev.provider
-				currentChat.timeStamp = new Date(ev.submit_time).getTime()
+				currentChat.timeStamp = Date.now()
 				currentChat.content = ''
 			} else if (ev.content !== '[END]') {
 				currentChat.content += ev.content
@@ -73,8 +73,8 @@ function ResultBoard() {
 			if (ev.content === '[START]') {
 				chatGuessRef.current = ''
 			} else if (ev.content !== '[END]') {
-                chatGuessRef.current += ev.content
-                // console.log(chatGuessRef.current);
+				chatGuessRef.current += ev.content
+				// console.log(chatGuessRef.current);
 				setChatGuess(chatGuessRef.current.split('\n'))
 			}
 		})
@@ -150,8 +150,8 @@ function ResultBoard() {
 	}, [needStartWs])
 
 	useEffect(() => {
-        if (!taskDetail) return
-        // console.log(taskDetail);
+		if (!taskDetail) return
+		// console.log(taskDetail);
 		setChatHistory(
 			taskDetail.chat_history.reduce(
 				(res, cur) => ({
@@ -162,26 +162,25 @@ function ResultBoard() {
 			)
 		)
 		setPrompt(taskDetail.prompt)
-		setMeshProfile({...taskDetail.resources, task_uuid: taskDetail.task_uuid})
+		setMeshProfile({ ...taskDetail.resources, task_uuid: taskDetail.task_uuid })
 		navi('/result/detail')
 		// eslint-disable-next-line
 	}, [taskDetail])
 
-	const dialogRef = useRef(null);
+	const dialogRef = useRef(null)
 
 	const exportDialog = async () => {
-	  await exportToImage(dialogRef.current, "dialog");
-	};
-  
-	window.exportDialog = exportDialog;	
+		await exportToImage(dialogRef.current, 'dialog')
+	}
+
+	window.exportDialog = exportDialog
 
 	return (
 		<div className={style.con} onPointerDown={handleClose}>
 			<div
 				className={style.board}
 				onPointerDown={(ev) => ev.stopPropagation()}
-				ref={dialogRef}
-			>
+				ref={dialogRef}>
 				<Outlet />
 				<ChatBoard />
 			</div>
