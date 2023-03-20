@@ -159,7 +159,7 @@ function ChatBoard() {
 								)
 						)}
 						{stopChat && (
-						<div className={`${style.chatMsgRow} ${style.assistant}`}>
+						<div className={`${style.assistant}`}>
 							<div className={`${style.bubble} ${style.unactive}`}>
 							{Object.keys(chatHistory).length <= 1
 								? "Seems like we don't have any conversations here"

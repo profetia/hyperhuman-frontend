@@ -1,9 +1,10 @@
 // import { useEffect } from 'react'
 // import { redirect } from 'react-router-dom'
 import { useState } from 'react'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { login, sendCode, signUp } from '../../net'
 import { showLoginAtom } from '../Header'
+import { CSSTransition } from 'react-transition-group'
 import style from './login.module.css'
 
 function LoginPanel() {
@@ -16,6 +17,7 @@ function LoginPanel() {
 	const [invitation, setInvitation] = useState('')
 	const [isRemember, setIsRemember] = useState(true)
 	const [tips, setTips] = useState('')
+	const showLogin = useRecoilValue(showLoginAtom)
 
 	const handleClose = (ev) => {
 		setShowLogin(false)
@@ -126,132 +128,179 @@ function LoginPanel() {
 		}
 	}
 
+	const renderCSSTransition = (condition, children) => (
+		<CSSTransition
+			in={condition}
+			timeout={300}
+			classNames={{
+				enter: style.fadeInFadeOutEnter,
+				enterActive: style.fadeInFadeOutEnterActive,
+				exit: style.fadeInFadeOutExit,
+				exitActive: style.fadeInFadeOutExitActive,
+			}}
+			unmountOnExit
+		>
+			{children}
+		</CSSTransition>
+	)
+
 	return (
+		//Sidebar整体Transition动效代码不Work，不确定原因，需要进一步排查。
 		<div className={style.con}>
 			<div className={style.mask} onPointerDown={handleClose}></div>
+			<CSSTransition
+				in={showLogin}
+				timeout={100}
+				classNames={{
+					enter: style.loginConTransitionEnter,
+					enterActive: style.loginConTransitionEnterActive,
+					exit: style.loginConTransitionExit,
+					exitActive: style.loginConTransitionExitActive,
+				}}
+				unmountOnExit
+			>
 
-			<div className={style.loginCon}>
-				<div className={style.title}>ChatAvatar</div>
-				<div className={`${style.btn} ${style.google}`}>Sign in With Google</div>
-				<div className={style.splitCon}>
-					<div className={style.split}></div>
-					<div className={style.text}>OR</div>
-				</div>
-
-				{loginStage !== 1 ? (
+				<div className={style.loginCon}>
+					<div className={style.title}>ChatAvatar</div>
 					<>
-						<div className={style.label}>
-							Username or Email
+						<div className={`${style.btn} ${style.google}`}>Sign in With Google</div>
+						<div className={style.splitCon}>
+							<div className={style.split}></div>
+							<div className={style.text}>OR</div>
 						</div>
-						<input
-							className={style.ipt}
-							placeholder='Enter username or email'
-							value={username}
-							onChange={(ev) => setUsername(ev.currentTarget.value)}
-						/>
 					</>
-				) : null}
 
-				{loginStage === 1 ? (
-					<>
-						<div className={style.label}>Email {loginStage === 0 ? '(Optional)' : ''}</div>
-						<input
-							className={style.ipt}
-							placeholder='Enter email'
-							value={email}
-							onChange={(ev) => setEmail(ev.currentTarget.value)}
-						/>
-					</>
-				) : null}
+					{renderCSSTransition(loginStage === 2, (
+						<>
+							<div className={style.label}>
+								Username
+							</div>
+							<input
+								className={style.ipt}
+								placeholder='Enter username'
+								value={username}
+								onChange={(ev) => setUsername(ev.currentTarget.value)}
+							/>
+						</>
+					))}
 
-				{loginStage !== 1 ? (
-					<>
-						<div className={style.label}>Password</div>
-						<input
-							className={style.ipt}
-							placeholder='Enter a password'
-							type='password'
-							value={password}
-							onChange={(ev) => setPassword(ev.currentTarget.value)}
-						/>
-					</>
-				) : null}
+					{renderCSSTransition(loginStage === 0, (
+						<>
+							<div className={style.label}>
+								Username or Email Address
+							</div>
+							<input
+								className={style.ipt}
+								placeholder='Enter username or email address'
+								value={username}
+								onChange={(ev) => setUsername(ev.currentTarget.value)}
+							/>
+						</>
+					))}
 
-				{loginStage === 2 ? (
-					<>
-						<div className={style.label}>Vetification Code</div>
-						<input
-							className={style.ipt}
-							placeholder='Enter vetification code'
-							value={code}
-							onChange={(ev) => setCode(ev.currentTarget.value)}
-						/>
-					</>
-				) : null}
+					{renderCSSTransition(loginStage !== 1, (
+						<>
+							<div className={style.label}>Password</div>
+							<input
+								className={style.ipt}
+								placeholder='Enter a password'
+								type='password'
+								value={password}
+								onChange={(ev) => setPassword(ev.currentTarget.value)}
+							/>
+						</>
+					))}
 
-				{loginStage === 2 ? (
-					<>
-						<div className={style.label}>Invitation Code(optional)</div>
-						<input
-							className={style.ipt}
-							placeholder='Enter invitation code'
-							value={invitation}
-							onChange={(ev) => setInvitation(ev.currentTarget.value)}
-						/>
-					</>
-				) : null}
+					{renderCSSTransition(loginStage === 2, (
+						<>
+							<div className={style.label}>Vetification Code</div>
+							<input
+								className={style.ipt}
+								placeholder='Enter vetification code'
+								value={code}
+								onChange={(ev) => setCode(ev.currentTarget.value)}
+							/>
+						</>
+					))}
 
-				{loginStage !== 1 ? (
-					<div className={style.remCon}>
-						<input
-							type='checkbox'
-							checked={isRemember}
-							onPointerDown={(ev) => setIsRemember(!isRemember)}
-						/>
-						<span onPointerDown={(ev) => setIsRemember(!isRemember)}>Remember me</span>
-						<span className={style.spaceholder}></span>
-						<span>Forget password?</span>
-					</div>
-				) : null}
+					{renderCSSTransition(loginStage === 2, (
+						<>
+							<div className={style.label}>Invitation Code(optional)</div>
+							<input
+								className={style.ipt}
+								placeholder='Enter invitation code'
+								value={invitation}
+								onChange={(ev) => setInvitation(ev.currentTarget.value)}
+							/>
+						</>
+					))}
 
-				{loginStage === 0 ? (
-					<div className={`${style.btn} ${style.sign}`} onPointerDown={handleLogin}>
-						Sign In
-					</div>
-				) : null}
+					{renderCSSTransition(loginStage === 1, (
+						<>
+							<div className={style.label}>Email</div>
+							<input
+								className={style.ipt}
+								placeholder='Enter email'
+								value={email}
+								onChange={(ev) => setEmail(ev.currentTarget.value)}
+							/>
+						</>
+					))}
 
-				{loginStage === 1 ? (
-					<div className={`${style.btn} ${style.sign}`} onPointerDown={handleSendCode}>
-						Send Code
-					</div>
-				) : null}
+					{loginStage !== 1 ? (
+						<div className={style.remCon}>
+							<input
+								type='checkbox'
+								checked={isRemember}
+								onPointerDown={(ev) => setIsRemember(!isRemember)}
+							/>
+							<span onPointerDown={(ev) => setIsRemember(!isRemember)}>Remember me</span>
+							<span className={style.spaceholder}></span>
+							<span>Forget password?</span>
+						</div>
+					) : null}
 
-				{loginStage === 2 ? (
-					<div className={`${style.btn} ${style.sign}`} onPointerDown={handleSignup}>
-						Sign Up
-					</div>
-				) : null}
+					{renderCSSTransition(loginStage === 0, (
+						<div className={`${style.btn} ${style.sign}`} onPointerDown={handleLogin}>
+							Sign In
+						</div>
+					))}
 
-				{tips ? <div className={style.tips}>{tips}</div> : null}
+					{renderCSSTransition(loginStage === 1, (
+						<div className={`${style.btn} ${style.sign}`} onPointerDown={handleSendCode}>
+							Send Code
+						</div>
+					))}
 
-				<div className={style.spaceholder}></div>
-
-				{loginStage === 0 ? (
-					<div className={style.foot}>
-						<span onPointerDown={handleSwitch(1)} style={{ fontWeight: 'bold' }}>
+					{renderCSSTransition(loginStage === 2, (
+						<div className={`${style.btn} ${style.sign}`} onPointerDown={handleSignup}>
 							Sign Up
-						</span>{' '}
-						to create a new account!
-					</div>
-				) : (
-					<div className={style.foot}>
-						Already have an account?{' '}
-						<span onPointerDown={handleSwitch(0)} style={{ fontWeight: 'bold' }}>
-							Sign In!
-						</span>
-					</div>
-				)}
-			</div>
+						</div>
+					))}
+
+					{tips ? <div className={style.tips}>{tips}</div> : null}
+
+					<div className={style.spaceholder}></div>
+
+					{renderCSSTransition(loginStage === 0, (
+						<div className={style.foot}>
+							<span onPointerDown={handleSwitch(1)} style={{ fontWeight: 'bold' }}>
+								Sign Up
+							</span>{' '}
+							to create a new account!
+						</div>
+					))}
+
+					{renderCSSTransition(loginStage !== 0, (
+						<div className={style.foot}>
+							Already have an account?{' '}
+							<span onPointerDown={handleSwitch(0)} style={{ fontWeight: 'bold' }}>
+								Sign In!
+							</span>
+						</div>
+					))}
+				</div>
+			</CSSTransition>
 		</div>
 	)
 }

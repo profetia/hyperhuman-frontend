@@ -27,6 +27,9 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
+
+	transition: transform 0.3s ease-in-out;
+	transform-origin: right center;
 }
 
 .title {
@@ -40,7 +43,7 @@
 .btn {
 	width: 100%;
 	height: 3rem;
-	line-height: 1rem;
+	line-height: 3rem; /* 注意这里的修改 */
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -49,40 +52,46 @@
 	cursor: pointer;
 	user-select: none;
 	margin-bottom: 1rem;
-    margin-top: 1rem;
-}
-.google.btn {
+	margin-top: 1rem;
+  }
+  
+  .google.btn {
 	border-color: #707070;
 	background-color: #ffffff05;
-}
-.google.btn:hover {
+  }
+  
+  .google.btn:hover {
 	background-color: #ffffff20;
-}
-
-.splitCon{
-    position: relative;
-    margin-bottom: 1rem;
-    width: 100%;
-    height: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.split{
-    width: 100%;
-    border: none;
-    border-top: 1px solid var(--bg-gray4-color);
-}
-.splitCon .text{
-    background-color: var(--bg-dark-color);
-    position: absolute;
-    top: 0;
-    left: 50%;
-    line-height: 1rem;
-    margin-left: -1.5rem;
-    user-select: none;
-    padding: 0 .5rem;
-}
+  }
+  
+  .splitCon{
+	position: relative;
+	margin-bottom: 1rem;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0.5rem 0rem;
+  }
+  
+  .split{
+	width: 100%;
+	border: none;
+	border-top: 1px solid var(--bg-gray4-color);
+	height: 0;
+  }
+  
+  .splitCon .text{
+	background-color: var(--bg-dark-color);
+	position: absolute;
+	top: 0;
+	left: 50%;
+	line-height: 1rem;
+	margin-left: -1.5rem;
+	user-select: none;
+	padding: 0 .5rem;
+  }
+  
 
 .label {
 	padding-left: 1rem;
@@ -90,7 +99,9 @@
 	text-align: left;
 	margin-bottom: 0.5rem;
 	margin-top: 1rem;
+	
 }
+
 .ipt {
 	width: 100%;
 	height: 3rem;
@@ -148,11 +159,54 @@
     text-align: left;
 }
 
-.foot{
-    width: 100%;
-    margin-bottom: 5rem;
-    text-align: left;
-}
+.foot {
+	width: 100%;
+	height: 2rem; 
+	margin-bottom: 5rem;
+	text-align: left;
+  }
+  
 .foot span{
     cursor: pointer;
 }
+
+.loginConTransition-enter {
+	transform: translateX(100%);
+  }
+  
+.loginConTransition-enter-active {
+transform: translateX(0%);
+transition: transform 300ms;
+}
+
+.loginConTransition-exit {
+transform: translateX(0%);
+}
+
+.loginConTransition-exit-active {
+transform: translateX(100%);
+transition: transform 300ms;
+}
+
+.fadeInFadeOutEnter {
+	opacity: 0;
+  }
+  
+.fadeInFadeOutEnterActive {
+opacity: 1;
+transition: opacity 300ms;
+}
+
+.fadeInFadeOutExit {
+opacity: 1;
+}
+
+.fadeInFadeOutExitActive {
+opacity: 0;
+transition: opacity 300ms;
+}
+
+.fadeComponent {
+	opacity: 0;
+  }
+  
