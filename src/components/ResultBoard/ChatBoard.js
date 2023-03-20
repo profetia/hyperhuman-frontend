@@ -41,7 +41,7 @@ function ChatBoard() {
 
 	const handleSend = (ev) => {
 		if (!chatText || assistantChatStatus !== '[END]') return
-
+		console.log("?" + assistantChatStatus)
 		// if()
 		wsSend({
 			task_uuid: taskInit.task_uuid,
@@ -167,6 +167,17 @@ function ChatBoard() {
 							</div>
 						</div>
 						)}
+
+						{!assistantChatStatus && (
+						<div className={`${style.chatMsgRow} ${style.assistant}`}>
+							<div className={`${style.bubble}`}>
+							<span className={style.dot} style={{ animationDelay: "0s" }}>.</span>
+							<span className={style.dot} style={{ animationDelay: "0.33s" }}>.</span>
+							<span className={style.dot} style={{ animationDelay: "0.66s" }}>.</span>
+							</div>
+						</div>
+						)}
+
 				</div>
 
 				{!stopChat ? (

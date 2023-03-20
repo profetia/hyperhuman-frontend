@@ -49,11 +49,10 @@ function ResultBoard() {
 
 	const bindWsListeners = (ws) => {
 		setNeedStartWs(false)
-
 		ws.on('assistant', (ev) => {
 			const currentChat = { ...(chatHistoryRef.current[ev.chat_uuid] || {}) }
 			setAssistantChatStatus(ev.content)
-
+			console.log(ev.content)
 			if (ev.content === '[START]') {
 				currentChat.chat_uuid = ev.chat_uuid
 				currentChat.provider = ev.provider
