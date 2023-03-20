@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import style from './gallery.module.css'
 import { logInfoAtom } from '../Header'
-import { getCards, getTaskDetail } from '../../net'
+import { getCards, getTaskDetail, search } from '../../net'
 import { taskDetailAtom } from '../ResultBoard/store'
 import { useNavigate } from 'react-router-dom'
-import { cardsAtom, cardsTypeAtom, cardsTypeConst } from './store'
+import { cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom } from './store'
 
 function Gallery() {
 	const navi = useNavigate()
@@ -15,26 +15,35 @@ function Gallery() {
 	const [cards, setCards] = useRecoilState(cardsAtom)
 	const [hoverCard, setHoverCard] = useState(null)
 	const [canMore, setCanMore] = useState(false)
+	const searchKeyWord = useRecoilValue(searchKeyWordAtom)
+	const [showSearch, setShowSearch] = useState(false)
 	const pageRef = useRef(0)
 	const timeStampRef = useRef(0)
 	const elRef = useRef(null)
 
 	useEffect(() => {
-		if (cardsType === cardsTypeConst.Search) return
-
 		pageRef.current = 0
 		timeStampRef.current = 0
-        getCards({ type: cardsType, page_num: pageRef.current }).then((data) => {
-            // console.log(data.data);
-			if (data.data.length >= 8) {
-				setCanMore(true)
-			} else {
-				setCanMore(false)
-			}
-			// console.log(data.data);
-			setCards(data.data)
-		})
+
+		if (cardsType === cardsTypeConst.Search) {
+			setShowSearch(true)
+			search({ keyword: searchKeyWord, page_num: pageRef.current }).then((data) => {
+				setCards(data.data)
+			})
+		} else {
+			getCards({ type: cardsType, page_num: pageRef.current }).then((data) => {
+				setCards(data.data)
+			})
+		}
 	}, [cardsType])
+
+	useEffect(() => {
+		if (cards.length >= 24) {
+			setCanMore(true)
+		} else {
+			setCanMore(false)
+		}
+	}, [cards])
 
 	const handleClickCard = (task_uuid) => async (ev) => {
 		// console.log(task_uuid)
@@ -46,36 +55,42 @@ function Gallery() {
 		} catch (e) {}
 	}
 
+	const handleCloseSearch = (ev) => {
+		ev.stopPropagation()
+		setShowSearch(false)
+		setCardsType(cardsTypeConst.Recent)
+	}
+
 	const loadMore = async (ev) => {
 		if (Date.now() - timeStampRef.current >= 1000) {
 			timeStampRef.current = Date.now()
-			let length = 0,
-				i = 0,
-				waitCards = []
 
-			do {
-				const rep = await getCards({ type: cardsType, page_num: pageRef.current + 1 })
-				pageRef.current += 1
-				waitCards.push(...rep.data)
-				// setCards([...cards, ...rep.data])
-				++i
-				length = rep.data.length
-			} while (length >= 8 && i < 5)
-
-			setCards([...cards, ...waitCards])
-			if (length >= 8) {
-				setCanMore(true)
+			let rep
+			if (cardsType === cardsTypeConst.Search) {
+				rep = await search({ keyword: searchKeyWord, page_num: pageRef.current + 1 })
 			} else {
-				setCanMore(false)
+				rep = await getCards({ type: cardsType, page_num: pageRef.current + 1 })
 			}
+			pageRef.current += 1
+
+			setCards([...cards, ...rep.data])
 		}
 	}
 
 	return (
 		<div className={style.con}>
 			<div className={style.menuCon}>
-				{cardsType === cardsTypeConst.Search ? (
-					<div className={`${style.menu} ${style.selected}`}>{cardsTypeConst.Search}</div>
+				{showSearch ? (
+					<div
+						onPointerDown={(ev) => setCardsType(cardsTypeConst.Search)}
+						className={`${style.menu} ${
+							cardsType === cardsTypeConst.Search ? style.selected : ''
+						}`}>
+						{cardsTypeConst.Search}
+						<div className={style.close} onPointerDown={handleCloseSearch}>
+							X
+						</div>
+					</div>
 				) : null}
 				{logInfo ? (
 					<div
@@ -120,7 +135,9 @@ function Gallery() {
 							)}
 						</div>
 
-						<div className={`${style.likeCon} ${card.is_like ? style.like : ''}`}>❤</div>
+						<div className={`${style.likeCon} ${card.is_like ? style.like : ''}`}>
+							❤
+						</div>
 
 						{hoverCard === card.task_uuid ? null : (
 							<div className={style.infoCon}>
@@ -158,4 +175,4 @@ function Gallery() {
 	)
 }
 
-export { Gallery, cardsAtom, cardsTypeAtom, cardsTypeConst }
+export { Gallery, cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom }

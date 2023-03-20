@@ -16,4 +16,9 @@ const cardsTypeAtom = atom({
 	default: cardsTypeConst.Recent,
 	key: 'cardsTypeAtom',
 })
-export { cardsAtom, cardsTypeAtom, cardsTypeConst }
+
+const searchKeyWordAtom = atom({
+	default: '',
+	key: 'searchKeyWordAtom',
+})
+export { cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom }

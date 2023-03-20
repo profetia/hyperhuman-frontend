@@ -7,7 +7,7 @@ import { chatTextAtom, taskInitAtom } from '../ResultBoard'
 import style from './welcome.module.css'
 import bgImg from '../../assets/background.png'
 import aiLogo from '../../assets/ai-logo.png'
-import { cardsAtom, cardsTypeAtom, cardsTypeConst } from '../Gallery'
+import { cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom } from '../Gallery'
 
 function Welcome() {
 	const [description, setDescription] = useState('')
@@ -17,6 +17,7 @@ function Welcome() {
 	const setChatText = useSetRecoilState(chatTextAtom)
 	const setCards = useSetRecoilState(cardsAtom)
 	const setCardsType = useSetRecoilState(cardsTypeAtom)
+	const setSearchKeyWord = useSetRecoilState(searchKeyWordAtom)
 	const timeStampRef = useRef(0)
 
 	// useEffect(() => {
@@ -51,10 +52,11 @@ function Welcome() {
 
 	const handleSearch = async (ev) => {
 		if (Date.now() - timeStampRef.current >= 1000) {
-			timeStampRef.current = Date.now()
-			const rep = await search({ keyword: description })
-			setCards(rep.data)
+			// timeStampRef.current = Date.now()
+			// const rep = await search({ keyword: description })
+			// setCards(rep.data)
 			setCardsType(cardsTypeConst.Search)
+			setSearchKeyWord(description)
 		}
 	}
 	return (

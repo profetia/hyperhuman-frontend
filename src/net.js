@@ -126,7 +126,9 @@ const getGenerateProgress = (task_uuid) =>
 
 const getCards = ({ type, page_num }) =>
 	axiosClient.post(`${BASE_URL}/task/cards`, { type, page_num })
-const search = ({ keyword }) => axiosClient.post(`${BASE_URL}/task/search`, { keyword })
+const search = ({ keyword, page_num }) =>
+	axiosClient.post(`${BASE_URL}/task/search`, { keyword, page_num })
+
 const getTaskDetail = (task_uuid) => axiosClient.post(`${BASE_URL}/task/card/${task_uuid}`)
 const likeCard = (task_uuid) => axiosClient.post(`${BASE_URL}/like/${task_uuid}`)
 
