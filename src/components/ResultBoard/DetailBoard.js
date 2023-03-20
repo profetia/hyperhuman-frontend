@@ -13,6 +13,7 @@ import { getTaskDownload, likeCard } from '../../net'
 import { global_render_target_injector, startUp } from '../../render/rendering'
 import { logInfoAtom } from '../Header'
 import { exportToImage } from './utils'
+import { cardsAtom } from '../Gallery'
 // import { async } from 'q'
 
 function DetailBoard() {
@@ -23,6 +24,8 @@ function DetailBoard() {
 	const [meshProfile, setMeshProfile] = useRecoilState(meshProfileAtom)
 	const logInfo = useRecoilValue(logInfoAtom)
 	const [showProgress, setShowProgress] = useState(false)
+	const [isLike, setIsLike] = useState(false)
+	const [cards, setCards] = useRecoilState(cardsAtom)
 
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	// const [stage, setStage] = useState('')
@@ -40,11 +43,20 @@ function DetailBoard() {
 	}
 
 	const handleLike = async (ev) => {
-		if (taskDetail.isLike) return
+		// console.log(logInfo)
+		if (!logInfo) return
+
+		// if (taskDetail.isLike) return
 
 		try {
-			await likeCard()
-			setTaskDetail({ ...taskDetail, isLike: true })
+			const res = await likeCard(taskDetail.task_uuid)
+			if (res.data.message === 'SUCCESS_LIKE') {
+				setIsLike(true)
+			} else if (res.data.message === 'SUCCESS_DELIKE') {
+				setIsLike(false)
+			} else {
+				throw new Error(res.data.message)
+			}
 		} catch {}
 	}
 	useEffect(() => {
@@ -58,8 +70,24 @@ function DetailBoard() {
 	}, [])
 
 	useEffect(() => {
+		if (!taskDetail) return
+
+		const tempCards = cards.map((card) => {
+			if (card.task_uuid === taskDetail.task_uuid) {
+				return { ...card, is_like: isLike }
+			} else {
+				return card
+			}
+		})
+
+		setCards(tempCards)
+	}, [isLike])
+
+	useEffect(() => {
 		if (!taskDetail) {
 			setShowProgress(true)
+		} else {
+			setIsLike(taskDetail.is_like)
 		}
 	}, [taskDetail])
 
@@ -119,7 +147,7 @@ function DetailBoard() {
 				<div className={style.spaceholder}></div>
 				{/* <div className={style.shareCon}>Share</div> */}
 				<div
-					className={`${style.likeCon} ${taskDetail?.isLike ? style.like : ''}`}
+					className={`${style.likeCon} ${isLike ? style.like : ''}`}
 					onPointerDown={handleLike}>
 					❤
 				</div>

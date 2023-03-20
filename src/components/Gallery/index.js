@@ -24,7 +24,8 @@ function Gallery() {
 
 		pageRef.current = 0
 		timeStampRef.current = 0
-		getCards({ type: cardsType, page_num: pageRef.current }).then((data) => {
+        getCards({ type: cardsType, page_num: pageRef.current }).then((data) => {
+            // console.log(data.data);
 			if (data.data.length >= 8) {
 				setCanMore(true)
 			} else {
@@ -39,7 +40,7 @@ function Gallery() {
 		// console.log(task_uuid)
 		try {
 			const rep = await getTaskDetail(task_uuid)
-			console.log(rep.data)
+			// console.log(rep.data)
 			setTaskDetail(rep.data)
 			navi('/result/detail')
 		} catch (e) {}
@@ -119,7 +120,7 @@ function Gallery() {
 							)}
 						</div>
 
-						<div className={`${style.likeCon} ${card.isLike ? style.like : ''}`}>❤</div>
+						<div className={`${style.likeCon} ${card.is_like ? style.like : ''}`}>❤</div>
 
 						{hoverCard === card.task_uuid ? null : (
 							<div className={style.infoCon}>

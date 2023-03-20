@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useRecoilValue, useRecoilState } from 'recoil'
 import './App.css'
@@ -13,6 +13,7 @@ function App() {
 	const showLogin = useRecoilValue(showLoginAtom)
 	const showUser = useRecoilValue(showUserAtom)
 	const [logInfo, setLogInfo] = useRecoilState(logInfoAtom)
+	const [showGallery, setShowGallery] = useState(false)
 	const navi = useNavigate()
 
 	useEffect(() => {
@@ -31,6 +32,11 @@ function App() {
 					localStorage.clear()
 					setLogInfo(false)
 				})
+				.finally(() => {
+					setShowGallery(true)
+				})
+		} else {
+			setShowGallery(true)
 		}
 		// eslint-disable-next-line
 	}, [])
@@ -49,7 +55,7 @@ function App() {
 			{showLogin ? <LoginPanel /> : null}
 			{showUser ? <UserPanel /> : null}
 			<Welcome />
-			<Gallery />
+			{showGallery ? <Gallery /> : null}
 			{logInfo ? <Outlet /> : null}
 		</div>
 	)

@@ -128,7 +128,7 @@ const getCards = ({ type, page_num }) =>
 	axiosClient.post(`${BASE_URL}/task/cards`, { type, page_num })
 const search = ({ keyword }) => axiosClient.post(`${BASE_URL}/task/search`, { keyword })
 const getTaskDetail = (task_uuid) => axiosClient.post(`${BASE_URL}/task/card/${task_uuid}`)
-const likeCard = () => Promise.resolve()
+const likeCard = (task_uuid) => axiosClient.post(`${BASE_URL}/like/${task_uuid}`)
 
 const getTaskDownload = ({ task_uuid, type, name }) =>
 	axiosClient.post(`${BASE_URL}/task/get_download`, { task_uuid, type, name }).then((data) => {
