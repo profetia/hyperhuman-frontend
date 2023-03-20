@@ -30,13 +30,11 @@
     font-weight: bold;
 }
 .avatar {
-	width: 3rem;
-	height: 3rem;
-	background: var(--bg-gray2-color);
-	border-radius: 50%;
-	overflow: hidden;
+	user-select: none;
+    cursor: pointer;
 }
 .avatar img {
 	width: 3rem;
 	height: 3rem;
+    border-radius: 50%;
 }

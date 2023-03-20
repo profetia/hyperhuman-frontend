@@ -52,7 +52,7 @@ function Welcome() {
 	const handleSearch = async (ev) => {
 		if (Date.now() - timeStampRef.current >= 1000) {
 			timeStampRef.current = Date.now()
-			const rep = await search({ type: cardsTypeConst.Search })
+			const rep = await search({ keyword: description })
 			setCards(rep.data)
 			setCardsType(cardsTypeConst.Search)
 		}
@@ -73,7 +73,7 @@ function Welcome() {
 					value={description}
 					onChange={handleInput}
 				/>
-				<img alt='ai logo' src={aiLogo} />
+				<img onPointerDown={handleGenerate} alt='ai logo' src={aiLogo} />
 			</div>
 
 			<div className={style.btnCon}>

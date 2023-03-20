@@ -43,6 +43,13 @@
 	width: 2rem;
 	z-index: 0;
 	margin-right: 1rem;
+    filter: brightness(0);
+    cursor: pointer;
+    opacity: 0.5;
+}
+.iptCon img:hover{
+    filter: none;
+    opacity: 1;
 }
 .ipt {
 	outline: none;

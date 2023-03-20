@@ -22,7 +22,7 @@ function Header() {
 				</div>
 
 				<div className={style.avatar} onPointerUp={handleAvatarClick}>
-					{logInfo ? <img src={logInfo.avatar_url} alt='avatar' /> : null}
+					{logInfo ? <img src={logInfo.avatar_url} alt='avatar' /> : <div>Login/Register</div>}
 				</div>
 			</div>
 		</header>

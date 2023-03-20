@@ -148,7 +148,7 @@
 	width: 3rem;
 	border-radius: 1.5rem;
 	overflow: hidden;
-	background: var(--bg-gray2-color);
+	/* background: var(--bg-gray2-color); */
 	margin-right: 1rem;
 	margin-left: 0;
 }
@@ -170,12 +170,15 @@
 	border-radius: var(--radius);
 	word-break: break-all;
 	white-space: pre-wrap;
+    margin-right: 1rem;
 }
 .bubble.unactive {
 	background: var(--bg-gray1-color);
 }
 .user .bubble {
 	background: var(--bg-light-color);
+    margin-right: 0;
+    margin-left: 1rem;
 }
 .chatIptCon {
 	width: 100%;

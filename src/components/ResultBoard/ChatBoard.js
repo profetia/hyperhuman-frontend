@@ -151,7 +151,7 @@ function ChatBoard() {
 										className={`${style.chatMsgRow} ${
 											chat.provider === 'user' ? style.user : ''
 										}`}>
-										<div className={style.avatar}></div>
+										{/* <div className={style.avatar}></div> */}
 										<div
 											className={`${style.bubble} ${
 												stopChat ? style.unactive : ''

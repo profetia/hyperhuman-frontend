@@ -20,6 +20,8 @@ function Gallery() {
 	const elRef = useRef(null)
 
 	useEffect(() => {
+		if (cardsType === cardsTypeConst.Search) return
+
 		pageRef.current = 0
 		timeStampRef.current = 0
 		getCards({ type: cardsType, page_num: pageRef.current }).then((data) => {
@@ -46,10 +48,21 @@ function Gallery() {
 	const loadMore = async (ev) => {
 		if (Date.now() - timeStampRef.current >= 1000) {
 			timeStampRef.current = Date.now()
-			const rep = await getCards({ type: cardsType, page_num: pageRef.current + 1 })
-			pageRef.current += 1
-			setCards([...cards, ...rep.data])
-			if (rep.data.length >= 8) {
+			let length = 0,
+				i = 0,
+				waitCards = []
+
+			do {
+				const rep = await getCards({ type: cardsType, page_num: pageRef.current + 1 })
+				pageRef.current += 1
+				waitCards.push(...rep.data)
+				// setCards([...cards, ...rep.data])
+				++i
+				length = rep.data.length
+			} while (length >= 8 && i < 5)
+
+			setCards([...cards, ...waitCards])
+			if (length >= 8) {
 				setCanMore(true)
 			} else {
 				setCanMore(false)

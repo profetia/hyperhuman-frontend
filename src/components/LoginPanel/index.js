@@ -205,9 +205,9 @@ function LoginPanel() {
 						<input
 							type='checkbox'
 							checked={isRemember}
-							onChange={(ev) => setIsRemember(!isRemember)}
+							onPointerDown={(ev) => setIsRemember(!isRemember)}
 						/>
-						<span>Remember me</span>
+						<span onPointerDown={(ev) => setIsRemember(!isRemember)}>Remember me</span>
 						<span className={style.spaceholder}></span>
 						<span>Forget password?</span>
 					</div>
@@ -236,13 +236,18 @@ function LoginPanel() {
 				<div className={style.spaceholder}></div>
 
 				{loginStage === 0 ? (
-					<div onPointerDown={handleSwitch(1)} className={style.foot}>
-						<span style={{ fontWeight: 'bold' }}>Sign Up</span> to create a new account!
+					<div className={style.foot}>
+						<span onPointerDown={handleSwitch(1)} style={{ fontWeight: 'bold' }}>
+							Sign Up
+						</span>{' '}
+						to create a new account!
 					</div>
 				) : (
-					<div onPointerDown={handleSwitch(0)} className={style.foot}>
+					<div className={style.foot}>
 						Already have an account?{' '}
-						<span style={{ fontWeight: 'bold' }}>Sign In!</span>
+						<span onPointerDown={handleSwitch(0)} style={{ fontWeight: 'bold' }}>
+							Sign In!
+						</span>
 					</div>
 				)}
 			</div>
