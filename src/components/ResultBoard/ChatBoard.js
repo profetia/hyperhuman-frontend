@@ -16,7 +16,7 @@ import {
 	needStartWsAtom,
 	meshProfileAtom,
 } from './store'
-import { exportToImage } from "./utils";
+import { exportToImage } from './utils'
 
 function ChatBoard() {
 	const [chatHistory, setChatHistory] = useRecoilState(chatHistoryAtom)
@@ -41,7 +41,7 @@ function ChatBoard() {
 
 	const handleSend = (ev) => {
 		if (!chatText || assistantChatStatus !== '[END]') return
-		console.log("?" + assistantChatStatus)
+		console.log('?' + assistantChatStatus)
 		// if()
 		wsSend({
 			task_uuid: taskInit.task_uuid,
@@ -83,8 +83,8 @@ function ChatBoard() {
 		disposeWebsocket()
 		const response = await startChat()
 
-		setTaskInit(response.data)
 		setNeedStartWs(true)
+		setTaskInit(response.data)
 	}
 
 	const handleRegenerate = () => {
@@ -95,10 +95,10 @@ function ChatBoard() {
 		reconnectWebsocket()
 	}
 
-	const chatRef = useRef();
+	const chatRef = useRef()
 	window.exportChat = async () => {
-		await exportToImage(chatRef.current, "chat");
-	};
+		await exportToImage(chatRef.current, 'chat')
+	}
 
 	return (
 		<div className={style.col}>
@@ -115,15 +115,17 @@ function ChatBoard() {
 					<>
 						<div
 							onPointerDown={() => handleChangeLang('Chinese')}
-							className={`${style.lang} ${chatLang === 'Chinese' ? style.selected : ''
-								}`}>
+							className={`${style.lang} ${
+								chatLang === 'Chinese' ? style.selected : ''
+							}`}>
 							中文
 						</div>
 						<div>|</div>
 						<div
 							onPointerDown={() => handleChangeLang('English')}
-							className={`${style.lang} ${style.en} ${chatLang === 'English' ? style.selected : ''
-								}`}>
+							className={`${style.lang} ${style.en} ${
+								chatLang === 'English' ? style.selected : ''
+							}`}>
 							English
 						</div>
 					</>
@@ -144,40 +146,46 @@ function ChatBoard() {
 								(!stopChat ||
 									chat.provider !== 'assistant' ||
 									idx !== arr.length - 1) && (
-									
 									<div
 										key={chat.chat_uuid}
-										className={`${style.chatMsgRow} ${chat.provider === 'user' ? style.user : ''
-											}`}>
+										className={`${style.chatMsgRow} ${
+											chat.provider === 'user' ? style.user : ''
+										}`}>
 										{/* <div className={style.avatar}></div> */}
 										<div
-											className={`${style.bubble} ${stopChat ? style.unactive : ''
-												}`}>
+											className={`${style.bubble} ${
+												stopChat ? style.unactive : ''
+											}`}>
 											{chat.content}
 										</div>
 									</div>
 								)
 						)}
-						{stopChat && (
+					{stopChat && (
 						<div className={`${style.assistant}`}>
 							<div className={`${style.bubble} ${style.unactive}`}>
-							{Object.keys(chatHistory).length <= 1
-								? "Seems like we don't have any conversations here"
-								: "End of the conversation"}
+								{Object.keys(chatHistory).length <= 1
+									? "Seems like we don't have any conversations here"
+									: 'End of the conversation'}
 							</div>
 						</div>
-						)}
+					)}
 
-						{!assistantChatStatus && !stopChat && (
+					{!assistantChatStatus && !stopChat && (
 						<div className={`${style.chatMsgRow} ${style.assistant}`}>
 							<div className={`${style.bubble}`}>
-							<span className={style.dot} style={{ animationDelay: "0s" }}>.</span>
-							<span className={style.dot} style={{ animationDelay: "0.33s" }}>.</span>
-							<span className={style.dot} style={{ animationDelay: "0.66s" }}>.</span>
+								<span className={style.dot} style={{ animationDelay: '0s' }}>
+									.
+								</span>
+								<span className={style.dot} style={{ animationDelay: '0.33s' }}>
+									.
+								</span>
+								<span className={style.dot} style={{ animationDelay: '0.66s' }}>
+									.
+								</span>
 							</div>
 						</div>
-						)}
-
+					)}
 				</div>
 
 				{!stopChat ? (
@@ -209,10 +217,11 @@ function ChatBoard() {
 							</div>
 
 							<div
-								className={`${style.btn} ${!chatText || assistantChatStatus !== '[END]'
+								className={`${style.btn} ${
+									!chatText || assistantChatStatus !== '[END]'
 										? style.disabled
 										: ''
-									}`}
+								}`}
 								onPointerDown={handleSend}>
 								Send
 							</div>

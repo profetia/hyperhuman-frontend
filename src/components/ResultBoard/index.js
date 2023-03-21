@@ -49,10 +49,14 @@ function ResultBoard() {
 
 	const bindWsListeners = (ws) => {
 		setNeedStartWs(false)
+
+		// ws.off()
+
+		console.log('bind')
 		ws.on('assistant', (ev) => {
 			const currentChat = { ...(chatHistoryRef.current[ev.chat_uuid] || {}) }
 			setAssistantChatStatus(ev.content)
-			console.log(ev.content)
+			// console.log(ev.content)
 			if (ev.content === '[START]') {
 				currentChat.chat_uuid = ev.chat_uuid
 				currentChat.provider = ev.provider
@@ -114,20 +118,6 @@ function ResultBoard() {
 	}, [taskInit, taskDetail])
 
 	useEffect(() => {
-		if (!taskInit) return
-		;(async () => {
-			// console.log(isListenRef.current);
-			if (isListenRef.current) return
-			isListenRef.current = true
-
-			const ws = await startWebsocket(taskInit.subscription, taskInit.task_uuid, chatLang)
-
-			bindWsListeners(ws)
-		})()
-		// eslint-disable-next-line
-	}, [taskInit])
-
-	useEffect(() => {
 		if (!needStartWs) return
 
 		setChatGuess([])
@@ -142,11 +132,24 @@ function ResultBoard() {
 		chatGuessRef.current = ''
 		promptRef.current = ''
 
-		startWebsocket(taskInit.subscription, taskInit.task_uuid, chatLang).then((ws) => {
-			bindWsListeners(ws)
-		})
+		// startWebsocket(taskInit.subscription, taskInit.task_uuid, chatLang).then((ws) => {
+		// 	bindWsListeners(ws)
+		// })
 		// eslint-disable-next-line
 	}, [needStartWs])
+
+	useEffect(() => {
+		if (!taskInit) return
+		;(async () => {
+			if (isListenRef.current) return
+			isListenRef.current = true
+
+			const ws = await startWebsocket(taskInit.subscription, taskInit.task_uuid, chatLang)
+
+			bindWsListeners(ws)
+		})()
+		// eslint-disable-next-line
+	}, [taskInit])
 
 	useEffect(() => {
 		if (!taskDetail) return

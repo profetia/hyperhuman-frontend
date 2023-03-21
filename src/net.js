@@ -107,7 +107,7 @@ const closeWebsocket = () => {
 	if (ws && ws.connected) {
 		console.log('close ws')
 		ws.close()
-		console.log(ws)
+		// console.log(ws)
 	}
 }
 
