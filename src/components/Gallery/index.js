@@ -83,7 +83,7 @@ function Gallery() {
 	}
 
 	const handleLikeClick = async (event, task_uuid) => {
-		event.stopPropagation();
+		if (!logInfo) setShowLogin(true)
 		console.log("uuid" + task_uuid);
 	  
 		try {
@@ -105,6 +105,7 @@ function Gallery() {
 		  }
 		} catch (error) {
 		  console.error('Error in handleLikeClick:', error.message);
+
 		}
 	};
 	  
