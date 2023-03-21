@@ -29,7 +29,7 @@ function ResultBoard() {
 	const [chatHistory, setChatHistory] = useRecoilState(chatHistoryAtom)
 	const setChatGuess = useSetRecoilState(chatGuessAtom)
 	const setMeshProfile = useSetRecoilState(meshProfileAtom)
-	const setAssistantChatStatus = useSetRecoilState(assistantChatStatusAtom)
+	const [assistantChatStatus, setAssistantChatStatus] = useRecoilState(assistantChatStatusAtom)
 	const setGuessChatStatus = useSetRecoilState(guessChatStatusAtom)
 	const [prompt, setPrompt] = useRecoilState(promptAtom)
 	const [stopChat, setStopChat] = useRecoilState(stopChatAtom)
@@ -42,9 +42,8 @@ function ResultBoard() {
 	const promptRef = useRef('')
 
 	const handleClose = (ev) => {
-		// closeWebsocket()
-		// disposeWebsocket()
-		navi('/')
+		if (assistantChatStatus !== '[END]') return;
+		navi('/');
 	}
 
 	const bindWsListeners = (ws) => {
