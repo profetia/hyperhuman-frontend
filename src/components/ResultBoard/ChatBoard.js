@@ -41,7 +41,7 @@ function ChatBoard() {
 
 	const handleSend = (ev) => {
 		if (!chatText || assistantChatStatus !== '[END]') return
-		console.log('?' + assistantChatStatus)
+		// console.log('?' + assistantChatStatus)
 		// if()
 		wsSend({
 			task_uuid: taskInit.task_uuid,

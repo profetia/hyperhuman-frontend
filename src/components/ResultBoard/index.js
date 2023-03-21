@@ -50,7 +50,9 @@ function ResultBoard() {
 	const bindWsListeners = (ws) => {
 		setNeedStartWs(false)
 
-		// ws.off()
+        ws.off('assistant')
+        ws.off('guess')
+        ws.off('summary')
 
 		console.log('bind')
 		ws.on('assistant', (ev) => {
