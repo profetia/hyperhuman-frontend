@@ -8,6 +8,9 @@ import style from './welcome.module.css'
 import bgImg from '../../assets/background.png'
 import aiLogo from '../../assets/ai-logo.png'
 import { cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom } from '../Gallery'
+import { AiOutlineSearch } from 'react-icons/ai'
+import { HiOutlineCursorArrowRays } from 'react-icons/hi2'
+
 
 
 function Welcome({ scrollPercentage }) {
@@ -92,11 +95,14 @@ function Welcome({ scrollPercentage }) {
 
 			<div className={style.btnCon}>
 				<div className={style.btn} onPointerDown={handleSearch}>
+					<AiOutlineSearch size="1.2em" />&nbsp;
 					Search
 				</div>
 				<div
 					className={`${style.btn} ${logInfo ? '' : style.disabled}`}
-					onPointerDown={handleGenerate}>
+					onPointerDown={handleGenerate}
+				>
+					<HiOutlineCursorArrowRays size="1.2em" />&nbsp;
 					Generate
 				</div>
 			</div>
