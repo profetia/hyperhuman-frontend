@@ -104,9 +104,15 @@
 
 .coverImg,
 .coverImg img {
+    transition: transform 0.3s ease-in-out;
 	width: 100%;
 	height: 100%;
 }
+
+.card:hover .coverImg img {
+    transform: scale(1.1);
+}
+
 .likeCon {
 	position: absolute;
 	top: 1rem;
@@ -140,6 +146,8 @@
 	height: 0;
 	max-height: 5rem;
 	overflow-y: overlay;
+	opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 .prompt::-webkit-scrollbar {
 	width: 6px;
@@ -153,6 +161,9 @@
 .prompt.show {
 	height: fit-content;
 	padding: 0.5rem;
+}
+.card:hover .prompt {
+    opacity: 1;
 }
 .infoCon {
 	position: absolute;
