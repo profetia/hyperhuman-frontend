@@ -150,7 +150,7 @@ function LoginPanel() {
 			<div className={style.mask} onPointerDown={handleClose}></div>
 			<CSSTransition
 				in={showLogin}
-				timeout={100}
+				timeout={300}
 				classNames={{
 					enter: style.loginConTransitionEnter,
 					enterActive: style.loginConTransitionEnterActive,
