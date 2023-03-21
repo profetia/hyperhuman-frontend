@@ -442,3 +442,7 @@
 	}
   }
   
+  .highlight {
+    border: 1px solid var(--theme-color);
+    box-sizing: border-box;
+}

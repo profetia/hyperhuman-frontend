@@ -81,6 +81,14 @@ function GenerateBoard() {
 		setCandidates([])
 		navi('/result/detail')
 	}
+
+	const handleMouseEnter = (event) => {
+		event.currentTarget.classList.add(style.highlight);
+	};
+
+	const handleMouseLeave = (event) => {
+		event.currentTarget.classList.remove(style.highlight);
+	};
 	return (
 		<div className={style.col}>
 			<div className={style.colTitle}>Prompt</div>
@@ -91,9 +99,8 @@ function GenerateBoard() {
 				onChange={handleIpt}
 			/>
 			<div
-				className={`${style.btn} ${style.generateBtn} ${
-					!prompt || stopChat ? style.disabled : ''
-				}`}
+				className={`${style.btn} ${style.generateBtn} ${!prompt || stopChat ? style.disabled : ''
+					}`}
 				onPointerDown={handleGenerate}>
 				Generate
 			</div>
@@ -106,6 +113,8 @@ function GenerateBoard() {
 								src={`data:image/png;base64,${item}`}
 								alt={item}
 								onClick={() => handleSelectCandidate(index)}
+								onMouseEnter={handleMouseEnter}
+								onMouseLeave={handleMouseLeave}
 							/>
 						) : null
 					)}
@@ -119,6 +128,8 @@ function GenerateBoard() {
 								src={`data:image/png;base64,${item}`}
 								alt={item}
 								onClick={() => handleSelectCandidate(index)}
+								onMouseEnter={handleMouseEnter}
+								onMouseLeave={handleMouseLeave}
 							/>
 						) : null
 					)}
@@ -131,6 +142,8 @@ function GenerateBoard() {
 								src={`data:image/png;base64,${item}`}
 								alt={item}
 								onClick={() => handleSelectCandidate(index)}
+								onMouseEnter={handleMouseEnter}
+								onMouseLeave={handleMouseLeave}
 							/>
 						) : null
 					)}
