@@ -177,7 +177,7 @@ class SimpleThreeProject {
 		this.scene = new THREE.Scene()
 		this.camera = new THREE.PerspectiveCamera(
 			46.4,
-			this.container.clientWidth / this.container.clientWidth,
+			this.container.clientWidth / this.container.clientHeight,
 			1,
 			10000
 		)

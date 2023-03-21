@@ -11,7 +11,7 @@ import { ColorCorrectionShader } from 'three/addons/shaders/ColorCorrectionShade
 import Stats from 'three/addons/libs/stats.module.js';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 
-import { FloatTex, Skybox, OrbitController, Entity, verifyExtension, SceneDepthRenderer, VSMShadowRenderer, SSSProfile, SSSRenderer, DepthOfFieldPass, isPlatformMobile, QueryString, debugMode, global_render_target_injector, RenderTargetInjector, key_dispose, highPerformance, HairMaterial, global_material_overrider } from "./utils.js"
+import { FloatTex, Skybox, OrbitController, Entity, verifyExtension, SceneDepthRenderer, VSMShadowRenderer, SSSProfile, SSSRenderer, DepthOfFieldPass, isPlatformMobile, QueryString, debugMode, global_render_target_injector, RenderTargetInjector, key_dispose, highPerformance, HairMaterial, global_material_overrider } from "./utils_new.js"
 import { FXAAToneMapShader } from "./shader_parameters_new.js"
 
 function hello() {
