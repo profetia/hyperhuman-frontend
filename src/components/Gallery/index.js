@@ -164,12 +164,12 @@ function Gallery() {
 							)}
 						</div>
 
-						<btn
+						<div
 							className={`${style.likeCon} ${card.is_like ? style.like : ''}`}
 							onClick={(event) => handleLikeClick(event, card.task_uuid)}
 						>
 							❤
-						</btn>
+						</div>
 
 
 						{hoverCard === card.task_uuid ? null : (
