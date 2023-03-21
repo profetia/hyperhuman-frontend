@@ -27,7 +27,6 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-
 	transition: transform 0.3s ease-in-out;
 	transform-origin: right center;
 }
