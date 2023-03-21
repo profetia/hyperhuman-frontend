@@ -9,11 +9,12 @@ import bgImg from '../../assets/background.png'
 import aiLogo from '../../assets/ai-logo.png'
 import { cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom } from '../Gallery'
 
-function Welcome() {
+
+function Welcome({ scrollPercentage }) {
 	const [description, setDescription] = useState('')
 	const [taskInit, setTaskInit] = useRecoilState(taskInitAtom)
-    const setTaskDetail = useSetRecoilState(taskDetailAtom)
-    const setNeedStartWs = useSetRecoilState(needStartWsAtom)
+	const setTaskDetail = useSetRecoilState(taskDetailAtom)
+	const setNeedStartWs = useSetRecoilState(needStartWsAtom)
 	const logInfo = useRecoilValue(logInfoAtom)
 	const navi = useNavigate()
 	const setChatText = useSetRecoilState(chatTextAtom)
@@ -39,8 +40,8 @@ function Welcome() {
 		}
 
 		if (!taskInit) {
-            setTaskDetail(false)
-            setNeedStartWs(true)
+			setTaskDetail(false)
+			setNeedStartWs(true)
 		}
 
 		startChat()
@@ -66,15 +67,20 @@ function Welcome() {
 		}
 	}
 	return (
-		<div className={style.con}>
+		<div className={`${style.con}`}>
 			<img alt='bg img' src={bgImg} />
 			<div className={style.title}>ChatAvatar</div>
-			<div>
+			<div
+				style={{
+					transform: `translateY(${scrollPercentage * -100}px)`,
+					opacity: 1 - scrollPercentage
+				}}
+			>
 				Progressive Generation Of Animatable 3D Faces
 				<br />
 				Under Text Guidance
 			</div>
-			<div className={style.iptCon}>
+			<div className={style.iptCon} style={{ marginTop: `${3 - scrollPercentage * 6}rem` }}>
 				<input
 					className={style.ipt}
 					placeholder='Describe the model you want to generate'

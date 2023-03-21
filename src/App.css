@@ -50,3 +50,10 @@ img {
 	user-select: none;
 	-webkit-user-drag: none;
 }
+
+.welcome-fixed {
+    position: fixed;
+    top: calc(50vh - 16rem);
+    transition: top 0.5s ease;
+}
+

@@ -15,6 +15,7 @@ function App() {
 	const [logInfo, setLogInfo] = useRecoilState(logInfoAtom)
 	const [showGallery, setShowGallery] = useState(false)
 	const navi = useNavigate()
+	const [isFixed, setIsFixed] = useState(false);
 
 	useEffect(() => {
 		//页面加载完成，检查缓存，设置各种状态的初始值
@@ -49,12 +50,27 @@ function App() {
 		// eslint-disable-next-line
 	}, [logInfo])
 
+	useEffect(() => {
+		const handleScroll = () => {
+			const maxScrollDistance = 300; // 请根据您的需求设置最大滚动距离
+			const scrollPercentage = Math.min(window.scrollY / maxScrollDistance, 1);
+			setIsFixed(scrollPercentage);
+		};
+	
+		window.addEventListener("scroll", handleScroll);
+	
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, []);
+	
+
 	return (
 		<div className='App'>
 			<Header />
 			{showLogin ? <LoginPanel /> : null}
 			{showUser ? <UserPanel /> : null}
-			<Welcome />
+			<Welcome scrollPercentage={isFixed} />
 			{showGallery ? <Gallery /> : null}
 			{logInfo ? <Outlet /> : null}
 		</div>
