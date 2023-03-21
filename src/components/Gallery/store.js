@@ -4,7 +4,7 @@ const cardsTypeConst = {
 	Recent: 'Recent',
 	Featured: 'Featured',
 	Mine: 'Mine',
-	Search: 'Search',
+	Search: 'Search  ',
 }
 
 const cardsAtom = atom({
