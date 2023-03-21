@@ -6,6 +6,7 @@ import { getCards, getTaskDetail, search } from '../../net'
 import { taskDetailAtom } from '../ResultBoard/store'
 import { useNavigate } from 'react-router-dom'
 import { cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom } from './store'
+import { likeCard } from '../../net'
 
 function Gallery() {
 	const navi = useNavigate()
@@ -81,15 +82,41 @@ function Gallery() {
 		}
 	}
 
+	const handleLikeClick = async (event, task_uuid) => {
+		event.stopPropagation();
+		console.log("uuid" + task_uuid);
+	  
+		try {
+		  const res = await likeCard(task_uuid);
+		  if (res.data.message === 'SUCCESS_LIKE' || res.data.message === 'SUCCESS_DELIKE') {
+			setCards((prevCards) => {
+			  return prevCards.map((card) => {
+				if (card.task_uuid === task_uuid) {
+				  return {
+					...card,
+					is_like: res.data.message === 'SUCCESS_LIKE',
+				  };
+				}
+				return card;
+			  });
+			});
+		  } else {
+			throw new Error(res.data.message);
+		  }
+		} catch (error) {
+		  console.error('Error in handleLikeClick:', error.message);
+		}
+	};
+	  
+
 	return (
 		<div className={style.con}>
 			<div className={style.menuCon}>
 				{showSearch ? (
 					<div
 						onPointerDown={(ev) => setCardsType(cardsTypeConst.Search)}
-						className={`${style.menu} ${
-							cardsType === cardsTypeConst.Search ? style.selected : ''
-						}`}>
+						className={`${style.menu} ${cardsType === cardsTypeConst.Search ? style.selected : ''
+							}`}>
 						{cardsTypeConst.Search}
 						<div className={style.close} onPointerDown={handleCloseSearch}>
 							X
@@ -99,25 +126,22 @@ function Gallery() {
 				{logInfo ? (
 					<div
 						onPointerDown={(ev) => setCardsType(cardsTypeConst.Mine)}
-						className={`${style.menu} ${
-							cardsType === cardsTypeConst.Mine ? style.selected : ''
-						}`}>
+						className={`${style.menu} ${cardsType === cardsTypeConst.Mine ? style.selected : ''
+							}`}>
 						{cardsTypeConst.Mine}
 					</div>
 				) : null}
 
 				<div
 					onPointerDown={(ev) => setCardsType(cardsTypeConst.Featured)}
-					className={`${style.menu} ${
-						cardsType === cardsTypeConst.Featured ? style.selected : ''
-					}`}>
+					className={`${style.menu} ${cardsType === cardsTypeConst.Featured ? style.selected : ''
+						}`}>
 					{cardsTypeConst.Featured}
 				</div>
 				<div
 					onPointerDown={(ev) => setCardsType(cardsTypeConst.Recent)}
-					className={`${style.menu} ${
-						cardsType === cardsTypeConst.Recent ? style.selected : ''
-					}`}>
+					className={`${style.menu} ${cardsType === cardsTypeConst.Recent ? style.selected : ''
+						}`}>
 					{cardsTypeConst.Recent}
 				</div>
 			</div>
@@ -127,21 +151,25 @@ function Gallery() {
 					<div
 						className={`${style.card}`}
 						key={card.task_uuid}
-						onPointerDown={handleClickCard(card.task_uuid)}
+						//onPointerDown={handleClickCard(card.task_uuid)}
 						onMouseEnter={() => setHoverCard(card.task_uuid)}
 						onMouseLeave={(ev) => setHoverCard(false)}>
 						{/* <div></div> */}
-						<div className={style.coverImg}>
+						<div className={style.coverImg} onPointerDown={handleClickCard(card.task_uuid)}>
 							{hoverCard === card.task_uuid ? (
 								<img alt='cover' src={card.video_url} />
 							) : (
 								<img alt='cover' src={card.image_url} />
 							)}
 						</div>
-
-						<div className={`${style.likeCon} ${card.is_like ? style.like : ''}`}>
+						
+						<btn
+							className={`${style.likeCon} ${card.is_like ? style.like : ''}`}
+							onClick={(event) => handleLikeClick(event, card.task_uuid)}
+						>
 							❤
-						</div>
+						</btn>
+
 
 						{hoverCard === card.task_uuid ? null : (
 							<div className={style.infoCon}>
@@ -150,13 +178,12 @@ function Gallery() {
 								</div>
 								<div>{card.author.username}</div>
 								<div className={style.spaceholder}></div>
-								<div>{card.num_like}likes</div>
+								<div>{card.num_like} likes</div>
 							</div>
 						)}
 						<div
-							className={`${style.prompt} ${
-								hoverCard === card.task_uuid ? style.show : ''
-							}`}>
+							className={`${style.prompt} ${hoverCard === card.task_uuid ? style.show : ''
+								}`}>
 							{card.prompt}
 						</div>
 					</div>
