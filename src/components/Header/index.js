@@ -2,6 +2,7 @@ import style from './header.module.css'
 import logo from '../../assets/deemos.png'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import { logInfoAtom, showLoginAtom, showUserAtom } from './store'
+import { AiOutlineUser } from 'react-icons/ai'
 
 function Header() {
 	const logInfo = useRecoilValue(logInfoAtom)
@@ -22,7 +23,13 @@ function Header() {
 				</div>
 
 				<div className={style.avatar} onPointerUp={handleAvatarClick}>
-					{logInfo ? <img src={logInfo.avatar_url} alt='avatar' /> : <div>Login / Register</div>}
+					{logInfo ? (
+						<img src={logInfo.avatar_url} alt="avatar" />
+					) : (
+							<div><AiOutlineUser size="1em" /> &nbsp;
+							Login</div>
+							
+					)}
 				</div>
 			</div>
 		</header>

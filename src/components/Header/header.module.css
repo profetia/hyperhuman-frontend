@@ -1,40 +1,65 @@
 .con {
-	width: 100vw;
-	padding: 0 var(--side-gap);
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    width: 100vw;
+    padding: 0 var(--side-gap);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .header {
-	width: 100%;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 1rem 0;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
 }
 .logoCon {
-	height: 3rem;
-	display: flex;
-	justify-content: center;
-	align-items: flex-start;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 .logo {
-	height: 3rem;
-	margin-right: 1rem;
+    height: 3rem;
+    margin-right: 1rem;
+    transition: transform 0.5s;
+}
+.logoCon:hover .logo {
+    transform: scale(1.05);
 }
 .logoCon > div {
     line-height: 2rem;
-	font-size: 2rem;
+    font-size: 2rem;
     margin-top: 5px;
     font-weight: bold;
+    transition: color 0.5s;
+}
+.logoCon:hover > div {
+    color: #ffffff;
 }
 .avatar {
-	user-select: none;
+    user-select: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    line-height: 1.5rem;
 }
 .avatar img {
-	width: 3rem;
-	height: 3rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
+}
+.avatar div {
+    display: flex;
+    align-items: center;
+    line-height: 1.5rem;
+    margin-right: 10px;
+}
+.avatar .text {
+    line-height: 5rem;
+}
+
+.avatarContainer {
+    display: inline-flex;
+    align-items: center;
 }
