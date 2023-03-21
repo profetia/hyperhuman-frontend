@@ -260,23 +260,23 @@ function LoginPanel() {
 						</div>
 					) : null}
 
-					{renderCSSTransition(loginStage === 0, (
+					{loginStage === 0 ? (
 						<div className={`${style.btn} ${style.sign}`} onPointerDown={handleLogin}>
 							Sign In
 						</div>
-					))}
+					) : null}
 
-					{renderCSSTransition(loginStage === 1, (
+					{loginStage === 1 ? (
 						<div className={`${style.btn} ${style.sign}`} onPointerDown={handleSendCode}>
 							Send Code
 						</div>
-					))}
+					) : null}
 
-					{renderCSSTransition(loginStage === 2, (
+					{loginStage === 2 ? (
 						<div className={`${style.btn} ${style.sign}`} onPointerDown={handleSignup}>
 							Sign Up
 						</div>
-					))}
+					) : null}
 
 					{tips ? <div className={style.tips}>{tips}</div> : null}
 
@@ -290,6 +290,7 @@ function LoginPanel() {
 							to create a new account!
 						</div>
 					))}
+
 
 					{renderCSSTransition(loginStage !== 0, (
 						<div className={style.foot}>

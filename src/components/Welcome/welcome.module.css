@@ -94,3 +94,10 @@
 .btn:hover {
 	color: #ffffff;
 }
+
+.animated-bg {
+    animation: fadeAndMove 10s linear infinite;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
