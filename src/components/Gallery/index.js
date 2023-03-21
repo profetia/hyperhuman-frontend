@@ -37,7 +37,7 @@ function Gallery() {
 				setCards(data.data)
 			})
 		}
-	}, [cardsType])
+	}, [cardsType, searchKeyWord])
 
 	useEffect(() => {
 		if (cards.length >= 24) {
@@ -83,31 +83,32 @@ function Gallery() {
 	}
 
 	const handleLikeClick = async (event, task_uuid) => {
-		event.stopPropagation();
+		if (!logInfo) setShowLogin(true)
 		console.log("uuid" + task_uuid);
-	  
+
 		try {
-		  const res = await likeCard(task_uuid);
-		  if (res.data.message === 'SUCCESS_LIKE' || res.data.message === 'SUCCESS_DELIKE') {
-			setCards((prevCards) => {
-			  return prevCards.map((card) => {
-				if (card.task_uuid === task_uuid) {
-				  return {
-					...card,
-					is_like: res.data.message === 'SUCCESS_LIKE',
-				  };
-				}
-				return card;
-			  });
-			});
-		  } else {
-			throw new Error(res.data.message);
-		  }
+			const res = await likeCard(task_uuid);
+			if (res.data.message === 'SUCCESS_LIKE' || res.data.message === 'SUCCESS_DELIKE') {
+				setCards((prevCards) => {
+					return prevCards.map((card) => {
+						if (card.task_uuid === task_uuid) {
+							return {
+								...card,
+								is_like: res.data.message === 'SUCCESS_LIKE',
+							};
+						}
+						return card;
+					});
+				});
+			} else {
+				throw new Error(res.data.message);
+			}
 		} catch (error) {
-		  console.error('Error in handleLikeClick:', error.message);
+			console.error('Error in handleLikeClick:', error.message);
+
 		}
 	};
-	  
+
 
 	return (
 		<div className={style.con}>
@@ -115,13 +116,13 @@ function Gallery() {
 				{showSearch ? (
 					<div
 						onPointerDown={(ev) => setCardsType(cardsTypeConst.Search)}
-						className={`${style.menu} ${cardsType === cardsTypeConst.Search ? style.selected : ''
-							}`}>
+						className={`${style.menu} ${cardsType === cardsTypeConst.Search ? style.selected : ''}`}>
 						{cardsTypeConst.Search}
 						<div className={style.close} onPointerDown={handleCloseSearch}>
-							X
+							×
 						</div>
 					</div>
+
 				) : null}
 				{logInfo ? (
 					<div
@@ -162,7 +163,7 @@ function Gallery() {
 								<img alt='cover' src={card.image_url} />
 							)}
 						</div>
-						
+
 						<btn
 							className={`${style.likeCon} ${card.is_like ? style.like : ''}`}
 							onClick={(event) => handleLikeClick(event, card.task_uuid)}

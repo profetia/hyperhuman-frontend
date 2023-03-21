@@ -26,6 +26,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	position: relative;
 }
 .menu:hover {
 	color: #fff;
@@ -43,13 +44,22 @@
 	user-select: none;
 	width: 1rem;
 	height: 1rem;
-	background-color: #fff;
 	color: var(--font-dark-color);
-	right: -1rem;
-	top: 0;
-	border-radius: 0.5rem;
+	right: 0.3rem;
+	top: 0.9rem;
 	text-align: center;
-	line-height: 1rem;
+	line-height: 0.9rem;
+	font-size: 1rem;
+	backdrop-filter: blur(5px);
+	color: #ffffff;
+	transition: all 0.3s;
+	opacity: 0; 
+	pointer-events: none; 
+}
+
+.menu:hover .close {
+	opacity: 1; 
+	pointer-events: auto;
 }
 
 .cardsCon {
