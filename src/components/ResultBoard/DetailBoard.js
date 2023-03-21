@@ -11,6 +11,11 @@ import {
 } from './store'
 import { getTaskDownload, likeCard } from '../../net'
 import { global_render_target_injector, startUp } from '../../render/rendering'
+// import {
+// 	global_render_target_injector,
+// 	build_project,
+// 	load_profile,
+// } from '../../render/rendering_new'
 import { logInfoAtom } from '../Header'
 import { exportToImage } from './utils'
 import { cardsAtom } from '../Gallery'
@@ -63,7 +68,7 @@ function DetailBoard() {
 		setStopChat(true)
 
 		return () => {
-		// 	setStopChat(false)
+			// 	setStopChat(false)
 			setMeshProfile(false)
 		}
 		// eslint-disable-next-line
@@ -147,6 +152,8 @@ function DetailBoard() {
 			setShowProgress(false)
 			startUp(urls)
 			global_render_target_injector.enabled = false
+			// load_profile(urls)
+			// build_project()
 		})
 	}, [meshProfile])
 

@@ -62,13 +62,22 @@ function GenerateBoard() {
 		// eslint-disable-next-line
 	}, [taskDetail, stopChat])
 
-	const handleGenerate = (ev) => {
+	const handleGenerate = async (ev) => {
 		if (!prompt) return
 
 		// setChatGuess([])
 		setStopChat(true)
 		// navi('/result/detail')
-		generateDetail({ task_uuid: taskInit.task_uuid, prompt })
+		try {
+			const rep = await generateDetail({ task_uuid: taskInit.task_uuid, prompt })
+			if (rep.data.error) {
+				throw new Error(rep.data.error)
+			}
+			// throw new Error('test err')
+		} catch (e) {
+			console.log(e.message)
+			setStopChat(false)
+		}
 	}
 
 	const handleIpt = (ev) => {
