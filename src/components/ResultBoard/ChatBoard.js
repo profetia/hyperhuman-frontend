@@ -121,17 +121,15 @@ function ChatBoard() {
 					<>
 						<div
 							onPointerDown={() => handleChangeLang('Chinese')}
-							className={`${style.lang} ${
-								chatLang === 'Chinese' ? style.selected : ''
-							}`}>
+							className={`${style.lang} ${chatLang === 'Chinese' ? style.selected : ''
+								}`}>
 							中文
 						</div>
 						<div>|</div>
 						<div
 							onPointerDown={() => handleChangeLang('English')}
-							className={`${style.lang} ${style.en} ${
-								chatLang === 'English' ? style.selected : ''
-							}`}>
+							className={`${style.lang} ${style.en} ${chatLang === 'English' ? style.selected : ''
+								}`}>
 							English
 						</div>
 					</>
@@ -146,24 +144,24 @@ function ChatBoard() {
 
 			<div className={style.chatCon} ref={chatRef}>
 				<div className={style.chatMsgCon}>
-				{/* {console.log (!allAssistantMessages || !stopChat )} */}
-				{(!allAssistantMessages || !stopChat) &&
-					Object.values(chatHistory)
-						.sort((a, b) => a.timeStamp - b.timeStamp)
-						.filter((chat, idx, arr) => {
-							return !(chat.provider === "assistant" && idx === arr.length - 1) || !stopChat;
-						})
-						.map((chat) => (
-							<div
-								key={chat.chat_uuid}
-								className={`${style.chatMsgRow} ${chat.provider === "user" ? style.user : ""
-									}`}
-							>
-								<div className={`${style.bubble} ${stopChat ? style.unactive : ""}`}>
-									{chat.content}
+					{/* {console.log (!allAssistantMessages || !stopChat )} */}
+					{(!allAssistantMessages || !stopChat) &&
+						Object.values(chatHistory)
+							.sort((a, b) => a.timeStamp - b.timeStamp)
+							.filter((chat, idx, arr) => {
+								return !(chat.provider === "assistant" && idx === arr.length - 1) || !stopChat;
+							})
+							.map((chat) => (
+								<div
+									key={chat.chat_uuid}
+									className={`${style.chatMsgRow} ${chat.provider === "user" ? style.user : ""
+										}`}
+								>
+									<div className={`${style.bubble} ${stopChat ? style.unactive : ""}`}>
+										{chat.content}
+									</div>
 								</div>
-							</div>
-						))}
+							))}
 
 					{stopChat && (
 						<div className={`${style.assistant}`}>
@@ -192,17 +190,22 @@ function ChatBoard() {
 						<div className={style.chatTipsCon}>
 							{chatGuess
 								.filter((c) => c)
-								.map(
-									(guess) =>
-										showGuess && (
+								.map((guess) => {
+									const substringGuess = guess.substring(3);
+
+									if (substringGuess && showGuess) {
+										return (
 											<div
 												className={style.chatTips}
 												key={guess}
-												onPointerDown={handleSelectTip(guess)}>
-												{guess.substring(3)}
+												onPointerDown={handleSelectTip(guess)}
+											>
+												{substringGuess}
 											</div>
-										)
-								)}
+										);
+									}
+									return null;
+								})}
 						</div>
 						<div className={style.chatRowCon}>
 							<div className={style.iptLineCon}>

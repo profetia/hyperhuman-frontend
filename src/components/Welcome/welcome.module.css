@@ -23,6 +23,12 @@
 	line-height: 5rem;
 	margin-bottom: 1.5rem;
 	color: white;
+	transition: color 0.3s, transform 0.3s;
+}
+
+.title:hover {
+	color: #ffffff;
+	transform: translateY(-5px);
 }
 
 .iptCon {
@@ -36,6 +42,10 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+.iptCon:hover {
+	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+	transform: translateY(-5px);
 }
 .iptCon img {
 	position: static;
@@ -60,9 +70,14 @@
 	padding: 0 2rem;
 	font-size: 1rem;
 	color: var(--font-dark-color);
+	transition: box-shadow 0.3s, transform 0.3s;
 }
 .ipt::placeholder {
 	font-size: 1rem;
+}
+.ipt:focus {
+	box-shadow: 0 0 1px rgb(255, 255, 255);
+	transform: translateY(0px);
 }
 .btnCon {
 	display: flex;
@@ -93,6 +108,7 @@
 }
 .btn:hover {
 	color: #ffffff;
+	transform: scale(1.1); 
 }
 
 .animated-bg {
