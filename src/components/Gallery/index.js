@@ -25,6 +25,11 @@ function Gallery() {
 	const elRef = useRef(null)
 	const [isAnimating, setIsAnimating] = useState(false)
 	const [loading, setLoading] = useState(false)
+	const [suggestionCards, setSuggestionCards] = useState([]);
+	const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+	const skeletonCardWidth = 250;
+	const numberOfSkeletonCards = Math.min(8, Math.floor(windowWidth / skeletonCardWidth));
+
 
 
 	useEffect(() => {
@@ -43,6 +48,14 @@ function Gallery() {
 			} else {
 				const data = await getCards({ type: cardsType, page_num: pageRef.current });
 				setCards(data.data);
+				if (data.data.length === 0) {
+					const suggestionData = await getCards({
+						type: "Recent",
+						page_num: 0,
+					});
+					setSuggestionCards(suggestionData.data.slice(0, numberOfSkeletonCards));
+					console.log(suggestionData)
+				}
 				setLoading(false);
 			}
 			setIsAnimating(false);
@@ -50,6 +63,18 @@ function Gallery() {
 
 		fetchData();
 	}, [cardsType, searchKeyWord]);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setWindowWidth(window.innerWidth);
+		};
+	
+		window.addEventListener('resize', handleResize);
+	
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
 
 	useEffect(() => {
 		if (cards.length >= 24) {
@@ -162,60 +187,115 @@ function Gallery() {
 
 				{
 					loading &&
-					Array.from({ length: 8 }).map((_, index) => (
+					Array.from({ length: numberOfSkeletonCards }).map((_, index) => (
 						<div key={index} className={style.skeleton}></div>
 					))
 				}
 
-				{cards.map((card) => (
-					<div
-						className={`${style.card}`}
-						key={card.task_uuid}
-						style={{ opacity: isAnimating ? 0 : 1 }}
-						//onPointerDown={handleClickCard(card.task_uuid)}
-						onMouseEnter={() => setHoverCard(card.task_uuid)}
-						onMouseLeave={(ev) => setHoverCard(false)}>
-
-						{/* <div></div> */}
-						<div
-							className={style.coverImg}
-							onPointerDown={handleClickCard(card.task_uuid)}>
-							{hoverCard === card.task_uuid ? (
-								<img alt='cover' src={card.video_url} />
-							) : (
-								<img alt='cover' src={card.image_url} />
-							)}
-						</div>
-
-						<div
-							className={`${style.likeCon} ${card.is_like ? style.like : ''}`}
-							onClick={(event) => handleLikeClick(event, card.task_uuid)}>
-							❤
-						</div>
-
-						{hoverCard === card.task_uuid ? null : (
-							<div className={style.infoCon}>
-								<div className={style.avatar}>
-									<img alt='avatar' src={card.author.avatar_url} />
-								</div>
-								<div>{card.author.username}</div>
-								<div className={style.spaceholder}></div>
-								<div>{card.num_like} likes</div>
-							</div>
-						)}
-						<div
-							className={`${style.prompt} ${hoverCard === card.task_uuid ? style.show : ''
-								}`}>
-							{card.prompt}
+				{cards.length === 0 && !loading && (
+					<div className={style.emptyContainer}>
+						<div className={style.emptyList}>
+							We currently do not have any results in this tab, however, we would like to offer some suggestions for you.
 						</div>
 					</div>
-				))}
-				{canMore && cardsType !== cardsTypeConst.Search ? (
+				)}
+
+
+				{cards.length > 0 ? (
+					cards.map((card) => (
+						<div
+							className={`${style.card}`}
+							key={card.task_uuid}
+							style={{ opacity: isAnimating ? 0 : 1 }}
+							//onPointerDown={handleClickCard(card.task_uuid)}
+							onMouseEnter={() => setHoverCard(card.task_uuid)}
+							onMouseLeave={(ev) => setHoverCard(false)}>
+
+							{/* <div></div> */}
+							<div
+								className={style.coverImg}
+								onPointerDown={handleClickCard(card.task_uuid)}>
+								{hoverCard === card.task_uuid ? (
+									<img alt='cover' src={card.video_url} />
+								) : (
+									<img alt='cover' src={card.image_url} />
+								)}
+							</div>
+
+							<div
+								className={`${style.likeCon} ${card.is_like ? style.like : ''}`}
+								onClick={(event) => handleLikeClick(event, card.task_uuid)}>
+								❤
+							</div>
+
+							{hoverCard === card.task_uuid ? null : (
+								<div className={style.infoCon}>
+									<div className={style.avatar}>
+										<img alt='avatar' src={card.author.avatar_url} />
+									</div>
+									<div>{card.author.username}</div>
+									<div className={style.spaceholder}></div>
+									<div>{card.num_like} likes</div>
+								</div>
+							)}
+							<div
+								className={`${style.prompt} ${hoverCard === card.task_uuid ? style.show : ''
+									}`}>
+								{card.prompt}
+							</div>
+						</div>
+					))) : (
+
+					suggestionCards.map((card) => (
+						<div
+							className={`${style.card}`}
+							key={card.task_uuid}
+							style={{ opacity: isAnimating ? 0 : 1 }}
+							onMouseEnter={() => setHoverCard(card.task_uuid)}
+							onMouseLeave={(ev) => setHoverCard(false)}>
+
+							<div
+								className={style.coverImg}
+								onPointerDown={handleClickCard(card.task_uuid)}>
+								{hoverCard === card.task_uuid ? (
+									<img alt='cover' src={card.video_url} />
+								) : (
+									<img alt='cover' src={card.image_url} />
+								)}
+							</div>
+
+							<div
+								className={`${style.likeCon} ${card.is_like ? style.like : ''}`}
+								onClick={(event) => handleLikeClick(event, card.task_uuid)}>
+								❤
+							</div>
+
+							{hoverCard === card.task_uuid ? null : (
+								<div className={style.infoCon}>
+									<div className={style.avatar}>
+										<img alt='avatar' src={card.author.avatar_url} />
+									</div>
+									<div>{card.author.username}</div>
+									<div className={style.spaceholder}></div>
+									<div>{card.num_like} likes</div>
+								</div>
+							)}
+							<div
+								className={`${style.prompt} ${hoverCard === card.task_uuid ? style.show : ''
+									}`}>
+								{card.prompt}
+							</div>
+						</div>
+					))
+				)
+				}
+
+				{cards.length !== 0 && canMore && cardsType !== cardsTypeConst.Search ? (
 					<div className={style.more} onPointerDown={loadMore}>
 						More
 					</div>
 				) : (
-					<div className={style.more}>That's all</div>
+					cards.length !== 0 && <div className={style.more}>That's all</div>
 				)}
 			</div>
 			{/* {cardsType === cardsTypeConst.Featured ? (
