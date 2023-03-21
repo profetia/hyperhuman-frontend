@@ -168,7 +168,7 @@ function ChatBoard() {
 						</div>
 						)}
 
-						{!assistantChatStatus && (
+						{!assistantChatStatus && !stopChat && (
 						<div className={`${style.chatMsgRow} ${style.assistant}`}>
 							<div className={`${style.bubble}`}>
 							<span className={style.dot} style={{ animationDelay: "0s" }}>.</span>
