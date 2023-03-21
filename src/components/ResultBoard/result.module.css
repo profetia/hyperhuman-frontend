@@ -56,6 +56,8 @@
 }
 
 .colTitle > div.restart {
+	display: flex;
+	line-height: 1rem;
 	margin-bottom: 0;
 	margin-left: 1rem;
 	font-weight: 400;
@@ -63,7 +65,7 @@
 	user-select: none;
 	cursor: pointer;
 	padding: 0.5rem;
-	border-radius: 5px;
+	border-radius: 5px
 }
 .restart:hover {
 	color: var(--font-dark-color);

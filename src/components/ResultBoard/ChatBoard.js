@@ -17,6 +17,7 @@ import {
 	meshProfileAtom,
 } from './store'
 import { exportToImage } from './utils'
+import { HiRefresh } from 'react-icons/hi'
 
 function ChatBoard() {
 	const [chatHistory, setChatHistory] = useRecoilState(chatHistoryAtom)
@@ -112,6 +113,7 @@ function ChatBoard() {
 				<div>Chat</div>
 				{taskDetail ? null : (
 					<div className={style.restart} onPointerDown={handleRestart}>
+						<HiRefresh size="1em" />
 						Restart
 					</div>
 				)}
