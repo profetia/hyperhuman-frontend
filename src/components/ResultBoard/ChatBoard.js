@@ -141,7 +141,7 @@ function ChatBoard() {
 					</div>
 				) : null}
 			</div>
-			{console.log(chatHistory)}
+
 			<div className={style.chatCon} ref={chatRef}>
 				<div className={style.chatMsgCon}>
 				{console.log (!allAssistantMessages || !stopChat )}
