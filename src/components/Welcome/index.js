@@ -53,9 +53,6 @@ function Welcome() {
 
 	const handleSearch = async (ev) => {
 		if (Date.now() - timeStampRef.current >= 1000) {
-			// timeStampRef.current = Date.now()
-			// const rep = await search({ keyword: description })
-			// setCards(rep.data)
 			setCardsType(cardsTypeConst.Search)
 			setSearchKeyWord(description)
 		}

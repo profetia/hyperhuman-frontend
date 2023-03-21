@@ -37,7 +37,7 @@ function Gallery() {
 				setCards(data.data)
 			})
 		}
-	}, [cardsType])
+	}, [cardsType, searchKeyWord])
 
 	useEffect(() => {
 		if (cards.length >= 24) {
