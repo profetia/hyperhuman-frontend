@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import style from './gallery.module.css'
 import { logInfoAtom, showLoginAtom } from '../Header'
 import { getCards, getTaskDetail, search } from '../../net'
-import { taskDetailAtom } from '../ResultBoard/store'
+import { taskDetailAtom, taskInitAtom } from '../ResultBoard/store'
 import { useNavigate } from 'react-router-dom'
 import { cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom } from './store'
 import { likeCard } from '../../net'
@@ -12,6 +12,7 @@ function Gallery() {
 	const navi = useNavigate()
 	const logInfo = useRecoilValue(logInfoAtom)
 	const setTaskDetail = useSetRecoilState(taskDetailAtom)
+	const setTaskInit = useSetRecoilState(taskInitAtom)
 	const [cardsType, setCardsType] = useRecoilState(cardsTypeAtom)
 	const [cards, setCards] = useRecoilState(cardsAtom)
 	const [hoverCard, setHoverCard] = useState(null)
@@ -54,6 +55,7 @@ function Gallery() {
 			const rep = await getTaskDetail(task_uuid)
 			// console.log(rep.data)
 			setTaskDetail(rep.data)
+			setTaskInit(false)
 			navi('/result/detail')
 		} catch (e) {
 			console.log(e)
@@ -84,10 +86,10 @@ function Gallery() {
 
 	const handleLikeClick = async (event, task_uuid) => {
 		if (!logInfo) setShowLogin(true)
-		console.log("uuid" + task_uuid);
+		console.log('uuid' + task_uuid)
 
 		try {
-			const res = await likeCard(task_uuid);
+			const res = await likeCard(task_uuid)
 			if (res.data.message === 'SUCCESS_LIKE' || res.data.message === 'SUCCESS_DELIKE') {
 				setCards((prevCards) => {
 					return prevCards.map((card) => {
@@ -95,20 +97,18 @@ function Gallery() {
 							return {
 								...card,
 								is_like: res.data.message === 'SUCCESS_LIKE',
-							};
+							}
 						}
-						return card;
-					});
-				});
+						return card
+					})
+				})
 			} else {
-				throw new Error(res.data.message);
+				throw new Error(res.data.message)
 			}
 		} catch (error) {
-			console.error('Error in handleLikeClick:', error.message);
-
+			console.error('Error in handleLikeClick:', error.message)
 		}
-	};
-
+	}
 
 	return (
 		<div className={style.con}>
@@ -116,33 +116,37 @@ function Gallery() {
 				{showSearch ? (
 					<div
 						onPointerDown={(ev) => setCardsType(cardsTypeConst.Search)}
-						className={`${style.menu} ${cardsType === cardsTypeConst.Search ? style.selected : ''}`}>
+						className={`${style.menu} ${
+							cardsType === cardsTypeConst.Search ? style.selected : ''
+						}`}>
 						{cardsTypeConst.Search}
 						<div className={style.close} onPointerDown={handleCloseSearch}>
 							×
 						</div>
 					</div>
-
 				) : null}
 				{logInfo ? (
 					<div
 						onPointerDown={(ev) => setCardsType(cardsTypeConst.Mine)}
-						className={`${style.menu} ${cardsType === cardsTypeConst.Mine ? style.selected : ''
-							}`}>
+						className={`${style.menu} ${
+							cardsType === cardsTypeConst.Mine ? style.selected : ''
+						}`}>
 						{cardsTypeConst.Mine}
 					</div>
 				) : null}
 
 				<div
 					onPointerDown={(ev) => setCardsType(cardsTypeConst.Featured)}
-					className={`${style.menu} ${cardsType === cardsTypeConst.Featured ? style.selected : ''
-						}`}>
+					className={`${style.menu} ${
+						cardsType === cardsTypeConst.Featured ? style.selected : ''
+					}`}>
 					{cardsTypeConst.Featured}
 				</div>
 				<div
 					onPointerDown={(ev) => setCardsType(cardsTypeConst.Recent)}
-					className={`${style.menu} ${cardsType === cardsTypeConst.Recent ? style.selected : ''
-						}`}>
+					className={`${style.menu} ${
+						cardsType === cardsTypeConst.Recent ? style.selected : ''
+					}`}>
 					{cardsTypeConst.Recent}
 				</div>
 			</div>
@@ -156,7 +160,9 @@ function Gallery() {
 						onMouseEnter={() => setHoverCard(card.task_uuid)}
 						onMouseLeave={(ev) => setHoverCard(false)}>
 						{/* <div></div> */}
-						<div className={style.coverImg} onPointerDown={handleClickCard(card.task_uuid)}>
+						<div
+							className={style.coverImg}
+							onPointerDown={handleClickCard(card.task_uuid)}>
 							{hoverCard === card.task_uuid ? (
 								<img alt='cover' src={card.video_url} />
 							) : (
@@ -166,11 +172,9 @@ function Gallery() {
 
 						<div
 							className={`${style.likeCon} ${card.is_like ? style.like : ''}`}
-							onClick={(event) => handleLikeClick(event, card.task_uuid)}
-						>
+							onClick={(event) => handleLikeClick(event, card.task_uuid)}>
 							❤
 						</div>
-
 
 						{hoverCard === card.task_uuid ? null : (
 							<div className={style.infoCon}>
@@ -183,8 +187,9 @@ function Gallery() {
 							</div>
 						)}
 						<div
-							className={`${style.prompt} ${hoverCard === card.task_uuid ? style.show : ''
-								}`}>
+							className={`${style.prompt} ${
+								hoverCard === card.task_uuid ? style.show : ''
+							}`}>
 							{card.prompt}
 						</div>
 					</div>

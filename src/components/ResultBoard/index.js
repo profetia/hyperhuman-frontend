@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { closeWebsocket, startWebsocket } from '../../net'
+import { closeWebsocket, disposeWebsocket, startWebsocket } from '../../net'
 import { ChatBoard } from './ChatBoard'
 import { DetailBoard } from './DetailBoard'
 import { GenerateBoard } from './GenerateBoard'
@@ -122,7 +122,7 @@ function ResultBoard() {
 	useEffect(() => {
 		if (!needStartWs) return
 
-		setChatGuess([])
+        setChatGuess([])
 		setPrompt('')
 		setChatHistory({})
 		setChatText('')
@@ -141,7 +141,10 @@ function ResultBoard() {
 	}, [needStartWs])
 
 	useEffect(() => {
-		if (!taskInit) return
+        if (!taskInit) {
+            closeWebsocket()
+            disposeWebsocket()
+        }
 		;(async () => {
 			if (isListenRef.current) return
 			isListenRef.current = true
@@ -192,4 +195,4 @@ function ResultBoard() {
 	)
 }
 
-export { ResultBoard, GenerateBoard, DetailBoard, taskInitAtom, taskDetailAtom, chatTextAtom }
+export { ResultBoard, GenerateBoard, DetailBoard, taskInitAtom, taskDetailAtom, chatTextAtom, needStartWsAtom }

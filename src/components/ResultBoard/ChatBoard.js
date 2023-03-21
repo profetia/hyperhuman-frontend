@@ -146,7 +146,7 @@ function ChatBoard() {
 
 			<div className={style.chatCon} ref={chatRef}>
 				<div className={style.chatMsgCon}>
-				{console.log (!allAssistantMessages || !stopChat )}
+				{/* {console.log (!allAssistantMessages || !stopChat )} */}
 				{(!allAssistantMessages || !stopChat) &&
 					Object.values(chatHistory)
 						.sort((a, b) => a.timeStamp - b.timeStamp)

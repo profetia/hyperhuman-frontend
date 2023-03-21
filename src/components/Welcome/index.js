@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { search, startChat } from '../../net'
 import { logInfoAtom, showLoginAtom } from '../Header'
-import { chatTextAtom, taskInitAtom } from '../ResultBoard'
+import { chatTextAtom, needStartWsAtom, taskDetailAtom, taskInitAtom } from '../ResultBoard'
 import style from './welcome.module.css'
 import bgImg from '../../assets/background.png'
 import aiLogo from '../../assets/ai-logo.png'
@@ -11,7 +11,9 @@ import { cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom } from '../
 
 function Welcome() {
 	const [description, setDescription] = useState('')
-	const setTaskInit = useSetRecoilState(taskInitAtom)
+	const [taskInit, setTaskInit] = useRecoilState(taskInitAtom)
+    const setTaskDetail = useSetRecoilState(taskDetailAtom)
+    const setNeedStartWs = useSetRecoilState(needStartWsAtom)
 	const logInfo = useRecoilValue(logInfoAtom)
 	const navi = useNavigate()
 	const setChatText = useSetRecoilState(chatTextAtom)
@@ -35,13 +37,19 @@ function Welcome() {
 			setShowLogin(true)
 			return
 		}
-		setChatText(description)
-		setDescription('')
+
+		if (!taskInit) {
+            setTaskDetail(false)
+            setNeedStartWs(true)
+		}
+
 		startChat()
 			.then((data) => {
 				if (data) {
-					const taskInit = data.data
-					setTaskInit(taskInit)
+					const init = data.data
+					setTaskInit(init)
+					setChatText(description)
+					setDescription('')
 				}
 				navi('/result/generate')
 			})

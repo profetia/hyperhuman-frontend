@@ -62,10 +62,10 @@ function DetailBoard() {
 	useEffect(() => {
 		setStopChat(true)
 
-		// return () => {
+		return () => {
 		// 	setStopChat(false)
-		// 	setMeshProfile(false)
-		// }
+			setMeshProfile(false)
+		}
 		// eslint-disable-next-line
 	}, [])
 
