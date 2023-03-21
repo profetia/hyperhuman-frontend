@@ -23,22 +23,33 @@ function Gallery() {
 	const timeStampRef = useRef(0)
 	const setShowLogin = useSetRecoilState(showLoginAtom)
 	const elRef = useRef(null)
+	const [isAnimating, setIsAnimating] = useState(false)
+	const [loading, setLoading] = useState(false)
+
 
 	useEffect(() => {
-		pageRef.current = 0
-		timeStampRef.current = 0
+		setCards([])
+		setLoading(true);
+		pageRef.current = 0;
+		timeStampRef.current = 0;
+		setIsAnimating(true);
 
-		if (cardsType === cardsTypeConst.Search) {
-			setShowSearch(true)
-			search({ keyword: searchKeyWord, page_num: pageRef.current }).then((data) => {
-				setCards(data.data)
-			})
-		} else {
-			getCards({ type: cardsType, page_num: pageRef.current }).then((data) => {
-				setCards(data.data)
-			})
-		}
-	}, [cardsType, searchKeyWord])
+		const fetchData = async () => {
+			if (cardsType === cardsTypeConst.Search) {
+				setShowSearch(true);
+				const data = await search({ keyword: searchKeyWord, page_num: pageRef.current });
+				setCards(data.data);
+				setLoading(false);
+			} else {
+				const data = await getCards({ type: cardsType, page_num: pageRef.current });
+				setCards(data.data);
+				setLoading(false);
+			}
+			setIsAnimating(false);
+		};
+
+		fetchData();
+	}, [cardsType, searchKeyWord]);
 
 	useEffect(() => {
 		if (cards.length >= 24) {
@@ -116,9 +127,8 @@ function Gallery() {
 				{showSearch ? (
 					<div
 						onPointerDown={(ev) => setCardsType(cardsTypeConst.Search)}
-						className={`${style.menu} ${
-							cardsType === cardsTypeConst.Search ? style.selected : ''
-						}`}>
+						className={`${style.menu} ${cardsType === cardsTypeConst.Search ? style.selected : ''
+							}`}>
 						{cardsTypeConst.Search}
 						<div className={style.close} onPointerDown={handleCloseSearch}>
 							×
@@ -128,37 +138,44 @@ function Gallery() {
 				{logInfo ? (
 					<div
 						onPointerDown={(ev) => setCardsType(cardsTypeConst.Mine)}
-						className={`${style.menu} ${
-							cardsType === cardsTypeConst.Mine ? style.selected : ''
-						}`}>
+						className={`${style.menu} ${cardsType === cardsTypeConst.Mine ? style.selected : ''
+							}`}>
 						{cardsTypeConst.Mine}
 					</div>
 				) : null}
 
 				<div
 					onPointerDown={(ev) => setCardsType(cardsTypeConst.Featured)}
-					className={`${style.menu} ${
-						cardsType === cardsTypeConst.Featured ? style.selected : ''
-					}`}>
+					className={`${style.menu} ${cardsType === cardsTypeConst.Featured ? style.selected : ''
+						}`}>
 					{cardsTypeConst.Featured}
 				</div>
 				<div
 					onPointerDown={(ev) => setCardsType(cardsTypeConst.Recent)}
-					className={`${style.menu} ${
-						cardsType === cardsTypeConst.Recent ? style.selected : ''
-					}`}>
+					className={`${style.menu} ${cardsType === cardsTypeConst.Recent ? style.selected : ''
+						}`}>
 					{cardsTypeConst.Recent}
 				</div>
 			</div>
 
 			<div className={style.cardsCon} ref={elRef}>
+
+				{
+					loading &&
+					Array.from({ length: 8 }).map((_, index) => (
+						<div key={index} className={style.skeleton}></div>
+					))
+				}
+
 				{cards.map((card) => (
 					<div
 						className={`${style.card}`}
 						key={card.task_uuid}
+						style={{ opacity: isAnimating ? 0 : 1 }}
 						//onPointerDown={handleClickCard(card.task_uuid)}
 						onMouseEnter={() => setHoverCard(card.task_uuid)}
 						onMouseLeave={(ev) => setHoverCard(false)}>
+
 						{/* <div></div> */}
 						<div
 							className={style.coverImg}
@@ -187,9 +204,8 @@ function Gallery() {
 							</div>
 						)}
 						<div
-							className={`${style.prompt} ${
-								hoverCard === card.task_uuid ? style.show : ''
-							}`}>
+							className={`${style.prompt} ${hoverCard === card.task_uuid ? style.show : ''
+								}`}>
 							{card.prompt}
 						</div>
 					</div>

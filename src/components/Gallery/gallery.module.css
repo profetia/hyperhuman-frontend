@@ -72,6 +72,7 @@
 	justify-content: flex-start;
 	align-items: flex-start;
 	overflow-y: auto;
+	transition: opacity 0.3s ease;
 }
 .cardsCon::-webkit-scrollbar-thumb {
 	background-color: rgba(255, 255, 255, 0.2);
@@ -180,4 +181,28 @@
 .spaceholder {
 	flex-shrink: 1;
 	flex-grow: 1;
+}
+
+.skeleton {
+    width: 200px;
+    height: 260px;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius);
+    background-color: var(--bg-gray3-color);
+    overflow: hidden;
+    font-size: 0.75rem;
+    cursor: pointer;
+    background: linear-gradient(90deg, #2f2f2f 25%, #232323 50%, #3d3d3d 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
 }
