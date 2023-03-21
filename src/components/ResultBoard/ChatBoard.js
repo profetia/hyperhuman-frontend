@@ -100,6 +100,12 @@ function ChatBoard() {
 		await exportToImage(chatRef.current, "chat");
 	};
 
+	const allAssistantMessages = Object.values(chatHistory).every(
+		(chat) => chat.provider === "assistant"
+	);
+
+
+
 	return (
 		<div className={style.col}>
 			<div className={style.colTitle}>
@@ -135,48 +141,47 @@ function ChatBoard() {
 					</div>
 				) : null}
 			</div>
+			{console.log(chatHistory)}
 			<div className={style.chatCon} ref={chatRef}>
 				<div className={style.chatMsgCon}>
-					{Object.values(chatHistory)
+				{console.log (!allAssistantMessages || !stopChat )}
+				{(!allAssistantMessages || !stopChat) &&
+					Object.values(chatHistory)
 						.sort((a, b) => a.timeStamp - b.timeStamp)
-						.map(
-							(chat, idx, arr) =>
-								(!stopChat ||
-									chat.provider !== 'assistant' ||
-									idx !== arr.length - 1) && (
-									
-									<div
-										key={chat.chat_uuid}
-										className={`${style.chatMsgRow} ${chat.provider === 'user' ? style.user : ''
-											}`}>
-										{/* <div className={style.avatar}></div> */}
-										<div
-											className={`${style.bubble} ${stopChat ? style.unactive : ''
-												}`}>
-											{chat.content}
-										</div>
-									</div>
-								)
-						)}
-						{stopChat && (
+						.filter((chat, idx, arr) => {
+							return !(chat.provider === "assistant" && idx === arr.length - 1) || !stopChat;
+						})
+						.map((chat) => (
+							<div
+								key={chat.chat_uuid}
+								className={`${style.chatMsgRow} ${chat.provider === "user" ? style.user : ""
+									}`}
+							>
+								<div className={`${style.bubble} ${stopChat ? style.unactive : ""}`}>
+									{chat.content}
+								</div>
+							</div>
+						))}
+
+					{stopChat && (
 						<div className={`${style.assistant}`}>
 							<div className={`${style.bubble} ${style.unactive}`}>
-							{Object.keys(chatHistory).length <= 1
-								? "Seems like we don't have any conversations here"
-								: "End of the conversation"}
+								{Object.keys(chatHistory).length <= 1 || allAssistantMessages
+									? "Seems like we don't have any conversations here"
+									: "End of the conversation"}
 							</div>
 						</div>
-						)}
+					)}
 
-						{!assistantChatStatus && !stopChat && (
+					{!assistantChatStatus && !stopChat && (
 						<div className={`${style.chatMsgRow} ${style.assistant}`}>
 							<div className={`${style.bubble}`}>
-							<span className={style.dot} style={{ animationDelay: "0s" }}>.</span>
-							<span className={style.dot} style={{ animationDelay: "0.33s" }}>.</span>
-							<span className={style.dot} style={{ animationDelay: "0.66s" }}>.</span>
+								<span className={style.dot} style={{ animationDelay: "0s" }}>.</span>
+								<span className={style.dot} style={{ animationDelay: "0.33s" }}>.</span>
+								<span className={style.dot} style={{ animationDelay: "0.66s" }}>.</span>
 							</div>
 						</div>
-						)}
+					)}
 
 				</div>
 
@@ -210,8 +215,8 @@ function ChatBoard() {
 
 							<div
 								className={`${style.btn} ${!chatText || assistantChatStatus !== '[END]'
-										? style.disabled
-										: ''
+									? style.disabled
+									: ''
 									}`}
 								onPointerDown={handleSend}>
 								Send
