@@ -42,7 +42,9 @@ function ResultBoard() {
 	const promptRef = useRef('')
 
 	const handleClose = (ev) => {
-		if (assistantChatStatus !== '[END]') return;
+		console.log(assistantChatStatus !== '[END]')
+		console.log(stopChat)
+		if (!(assistantChatStatus === '[END]' || stopChat)) return;
 		navi('/');
 	}
 
