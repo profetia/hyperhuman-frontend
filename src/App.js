@@ -62,44 +62,6 @@ function App() {
 		// eslint-disable-next-line
 	}, [logInfo])
 
-	// useEffect(() => {
-	// 	//页面加载完成，检查缓存，设置各种状态的初始值
-	// 	//检查localstorage有没有登录凭证
-	// 	if (localStorage.getItem('user_uuid')) {
-	// 		getUserInfo({ user_uuid: localStorage.getItem('user_uuid') })
-	// 			.then(async (data) => {
-	// 				if (data.data.error) return Promise.reject(data.data.error)
-	// 				setLogInfo({ ...data.data.meta, token: localStorage.getItem('token') })
-	// 				initNet(localStorage.getItem('token'))
-
-	// 				if (urlRef.current.includes('/detail/')) {
-	// 					const task_uuid = urlRef.current.split('/').pop()
-	// 					try {
-	// 						const rep = await getTaskDetail(task_uuid)
-	// 						// console.log(rep.data)
-	// 						setTaskDetail(rep.data)
-	// 						navi(`/result/detail/${task_uuid}`)
-	// 					} catch (e) {
-	// 						console.log(e)
-	// 					}
-	// 					// console.log(1);
-	// 				}
-
-	// 				if (localStorage.getItem('remember')) localStorage.clear()
-	// 			})
-	// 			.catch((err) => {
-	// 				localStorage.clear()
-	// 				setLogInfo(false)
-	// 			})
-	// 			.finally(() => {
-	// 				setShowGallery(true)
-	// 			})
-	// 	} else {
-	// 		setShowGallery(true)
-	// 	}
-	// 	// eslint-disable-next-line
-	// }, [])
-
 	useEffect(() => {
 		const handleScroll = () => {
 			const maxScrollDistance = 300 // 请根据您的需求设置最大滚动距离
