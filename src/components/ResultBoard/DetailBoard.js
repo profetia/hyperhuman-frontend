@@ -19,6 +19,7 @@ import { global_render_target_injector, startUp } from '../../render/rendering'
 import { logInfoAtom } from '../Header'
 import { exportToImage } from './utils'
 import { cardsAtom } from '../Gallery'
+import { useParams } from 'react-router'
 // import { async } from 'q'
 
 function DetailBoard() {
@@ -195,7 +196,7 @@ function DetailBoard() {
 								id='preloaderProgress'
 								className='preloaderProgress'
 								style={{ width: '85%' }}></div>
-						</div>           
+						</div>
 					</div>
 				</div>
 			</div>

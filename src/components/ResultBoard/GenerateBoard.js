@@ -109,7 +109,7 @@ function GenerateBoard() {
 		// return null
 		await selectCandidate(taskInit.task_uuid, candidateIndex)
 		setCandidates([])
-		navi('/result/detail')
+		navi(`/result/detail/${taskInit.task_uuid}`)
 	}
 
 	const handleMouseEnter = (event) => {
@@ -128,7 +128,7 @@ function GenerateBoard() {
 				placeholder={'Prompt will be generated'}
 				onChange={handleIpt}
 			/>
-			{console.log(assistantChatStatus !== '[END]')}
+			{/* {console.log(assistantChatStatus !== '[END]')} */}
 			<div
 				className={`${style.btn} ${style.generateBtn} ${assistantChatStatus !== '[END]' || !prompt || stopChat ? style.disabled : ''
 					}`}

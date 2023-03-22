@@ -29,7 +29,7 @@ function Outter() {
           element: <ResultBoard />,
           children: [
             {
-              path: "detail",
+              path: "detail/:task_uuid",
               element: <DetailBoard />,
             },
             {

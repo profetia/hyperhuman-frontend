@@ -18,52 +18,56 @@ function LoginPanel() {
 	const [isRemember, setIsRemember] = useState(true)
 	const [tips, setTips] = useState('')
 	const showLogin = useRecoilValue(showLoginAtom)
-	const [sidebarVisible, setSidebarVisible] = useState(false);
-	const loginConRef = useRef(null);
-	const animationFrameIdRef = useRef(null);
+	const [sidebarVisible, setSidebarVisible] = useState(false)
+	const loginConRef = useRef(null)
+	const animationFrameIdRef = useRef(null)
 
 	const handleClose = (ev) => {
 		setShowLogin(false)
 	}
 
 	function animateSidebar() {
-		if (!loginConRef.current) return;
-	  
-		const startTime = performance.now();
-		const startValue = showLogin ? -100 : 0;
-		const endValue = showLogin ? 0 : -100;
-		const duration = 300;
-	  
+		if (!loginConRef.current) return
+
+		const startTime = performance.now()
+		const startValue = showLogin ? -100 : 0
+		const endValue = showLogin ? 0 : -100
+		const duration = 300
+
 		const step = (currentTime) => {
-		  const progress = (currentTime - startTime) / duration;
-		  const value = startValue + (endValue - startValue) * progress;
-		  loginConRef.current.style.transform = `translateX(${value}%)`;
-	  
-		  if (progress < 1) {
-			animationFrameIdRef.current = requestAnimationFrame(step);
-		  } else {
-			cancelAnimationFrame(animationFrameIdRef.current);
-			animationFrameIdRef.current = null;
-		  }
-		};
-	  
-		animationFrameIdRef.current = requestAnimationFrame(step);
-	  }
+			const progress = (currentTime - startTime) / duration
+			const value = startValue + (endValue - startValue) * progress
+			loginConRef.current.style.transform = `translateX(${value}%)`
+
+			if (progress < 1) {
+				animationFrameIdRef.current = requestAnimationFrame(step)
+			} else {
+				cancelAnimationFrame(animationFrameIdRef.current)
+				animationFrameIdRef.current = null
+			}
+		}
+
+		animationFrameIdRef.current = requestAnimationFrame(step)
+	}
 
 	useEffect(() => {
-		animateSidebar();
-	}, [showLogin]);
+		document.documentElement.style.overflowY = 'hidden'
+		return () => (document.documentElement.style.overflowY = 'overlay')
+	}, [])
 
+	useEffect(() => {
+		animateSidebar()
+	}, [showLogin])
 
 	useEffect(() => {
 		if (showLogin) {
-			setSidebarVisible(true);
+			setSidebarVisible(true)
 		} else {
 			setTimeout(() => {
-				setSidebarVisible(false);
-			}, 300);
+				setSidebarVisible(false)
+			}, 300)
 		}
-	}, [showLogin]);
+	}, [showLogin])
 
 	const handleSwitch = (stage) => (ev) => {
 		setTips('')
@@ -161,7 +165,7 @@ function LoginPanel() {
 			} else {
 				localStorage.setItem('user_uuid', res.data.user_uuid)
 				localStorage.setItem('token', res.data.token)
-				if (!isRemember) localStorage.setItem('remember', 1)
+				if (!isRemember) localStorage.setItem('unremember', 1)
 				window.location.reload(true)
 			}
 		} catch (e) {
@@ -180,8 +184,7 @@ function LoginPanel() {
 				exit: style.fadeInFadeOutExit,
 				exitActive: style.fadeInFadeOutExitActive,
 			}}
-			unmountOnExit
-		>
+			unmountOnExit>
 			{children}
 		</CSSTransition>
 	)
@@ -195,8 +198,7 @@ function LoginPanel() {
 				className={style.loginCon}
 				style={{
 					transform: showLogin ? 'translateX(0%)' : 'translateX(100%)',
-				}}
-			>
+				}}>
 				<div className={style.title}>ChatAvatar</div>
 				<>
 					<div className={`${style.btn} ${style.google}`}>Sign in With Google</div>
@@ -206,11 +208,10 @@ function LoginPanel() {
 					</div>
 				</>
 
-				{renderCSSTransition(loginStage === 2, (
+				{renderCSSTransition(
+					loginStage === 2,
 					<>
-						<div className={style.label}>
-							Username
-						</div>
+						<div className={style.label}>Username</div>
 						<input
 							className={style.ipt}
 							placeholder='Enter username'
@@ -218,13 +219,12 @@ function LoginPanel() {
 							onChange={(ev) => setUsername(ev.currentTarget.value)}
 						/>
 					</>
-				))}
+				)}
 
-				{renderCSSTransition(loginStage === 0, (
+				{renderCSSTransition(
+					loginStage === 0,
 					<>
-						<div className={style.label}>
-							Email Address
-						</div>
+						<div className={style.label}>Email Address</div>
 						<input
 							className={style.ipt}
 							placeholder='Enter email address'
@@ -232,9 +232,10 @@ function LoginPanel() {
 							onChange={(ev) => setEmail(ev.currentTarget.value)}
 						/>
 					</>
-				))}
+				)}
 
-				{renderCSSTransition(loginStage !== 1, (
+				{renderCSSTransition(
+					loginStage !== 1,
 					<>
 						<div className={style.label}>Password</div>
 						<input
@@ -245,9 +246,10 @@ function LoginPanel() {
 							onChange={(ev) => setPassword(ev.currentTarget.value)}
 						/>
 					</>
-				))}
+				)}
 
-				{renderCSSTransition(loginStage === 2, (
+				{renderCSSTransition(
+					loginStage === 2,
 					<>
 						<div className={style.label}>Vetification Code</div>
 						<input
@@ -257,9 +259,10 @@ function LoginPanel() {
 							onChange={(ev) => setCode(ev.currentTarget.value)}
 						/>
 					</>
-				))}
+				)}
 
-				{renderCSSTransition(loginStage === 2, (
+				{renderCSSTransition(
+					loginStage === 2,
 					<>
 						<div className={style.label}>Invitation Code(optional)</div>
 						<input
@@ -269,9 +272,10 @@ function LoginPanel() {
 							onChange={(ev) => setInvitation(ev.currentTarget.value)}
 						/>
 					</>
-				))}
+				)}
 
-				{renderCSSTransition(loginStage === 1, (
+				{renderCSSTransition(
+					loginStage === 1,
 					<>
 						<div className={style.label}>Email</div>
 						<input
@@ -281,7 +285,7 @@ function LoginPanel() {
 							onChange={(ev) => setEmail(ev.currentTarget.value)}
 						/>
 					</>
-				))}
+				)}
 
 				{loginStage !== 1 ? (
 					<div className={style.remCon}>
@@ -289,6 +293,7 @@ function LoginPanel() {
 							type='checkbox'
 							checked={isRemember}
 							onPointerDown={(ev) => setIsRemember(!isRemember)}
+							onChange={(e) => e}
 						/>
 						<span onPointerDown={(ev) => setIsRemember(!isRemember)}>Remember me</span>
 						<span className={style.spaceholder}></span>
@@ -318,24 +323,25 @@ function LoginPanel() {
 
 				<div className={style.spaceholder}></div>
 
-				{renderCSSTransition(loginStage === 0, (
+				{renderCSSTransition(
+					loginStage === 0,
 					<div className={style.foot}>
 						<span onPointerDown={handleSwitch(1)} style={{ fontWeight: 'bold' }}>
 							Sign Up
 						</span>{' '}
 						to create a new account!
 					</div>
-				))}
+				)}
 
-
-				{renderCSSTransition(loginStage !== 0, (
+				{renderCSSTransition(
+					loginStage !== 0,
 					<div className={style.foot}>
 						Already have an account?{' '}
 						<span onPointerDown={handleSwitch(0)} style={{ fontWeight: 'bold' }}>
 							Sign In!
 						</span>
 					</div>
-				))}
+				)}
 			</div>
 		</div>
 	)

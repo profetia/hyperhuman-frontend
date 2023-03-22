@@ -42,10 +42,10 @@ function ResultBoard() {
 	const promptRef = useRef('')
 
 	const handleClose = (ev) => {
-		console.log(assistantChatStatus !== '[END]')
-		console.log(stopChat)
-		if (!(assistantChatStatus === '[END]' || stopChat)) return;
-		navi('/');
+		// console.log(assistantChatStatus !== '[END]')
+		// console.log(stopChat)
+		if (!(assistantChatStatus === '[END]' || stopChat)) return
+		navi('/')
 	}
 
 	const bindWsListeners = (ws) => {
@@ -142,10 +142,12 @@ function ResultBoard() {
 	}, [needStartWs])
 
 	useEffect(() => {
-        if (!taskInit) {
-            closeWebsocket()
-            disposeWebsocket()
-        }
+		if (!taskInit) {
+			closeWebsocket()
+			disposeWebsocket()
+
+			return
+		}
 		;(async () => {
 			if (isListenRef.current) return
 			isListenRef.current = true
@@ -171,7 +173,7 @@ function ResultBoard() {
 		)
 		setPrompt(taskDetail.prompt)
 		setMeshProfile({ ...taskDetail.resources, task_uuid: taskDetail.task_uuid })
-		navi('/result/detail')
+		// navi(`/result/detail`)//todo
 		// eslint-disable-next-line
 	}, [taskDetail])
 
@@ -196,4 +198,12 @@ function ResultBoard() {
 	)
 }
 
-export { ResultBoard, GenerateBoard, DetailBoard, taskInitAtom, taskDetailAtom, chatTextAtom, needStartWsAtom }
+export {
+	ResultBoard,
+	GenerateBoard,
+	DetailBoard,
+	taskInitAtom,
+	taskDetailAtom,
+	chatTextAtom,
+	needStartWsAtom,
+}

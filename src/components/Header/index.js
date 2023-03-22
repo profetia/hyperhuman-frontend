@@ -16,9 +16,9 @@ function Header() {
 		else setShowLogin(true)
 	}
 
-	useEffect(() => {
-		console.log(logInfo)
-	}, [logInfo])
+	// useEffect(() => {
+	// 	console.log(logInfo)
+	// }, [logInfo])
 
 	return (
 		<header className={style.con}>
