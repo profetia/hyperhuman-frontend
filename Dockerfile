@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json ./
 
 RUN yarn install
-RUN yarn install serve
+RUN yarn add serve
 
 COPY . ./
 
