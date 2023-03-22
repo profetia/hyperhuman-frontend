@@ -31,6 +31,7 @@ function DetailBoard() {
 	const logInfo = useRecoilValue(logInfoAtom)
 	const [showProgress, setShowProgress] = useState(false)
 	const [isLike, setIsLike] = useState(false)
+	const [isShared, setIsShared] = useState(false)
 	const [cards, setCards] = useRecoilState(cardsAtom)
 
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
@@ -64,6 +65,19 @@ function DetailBoard() {
 				throw new Error(res.data.message)
 			}
 		} catch {}
+	}
+
+	const handleShare = async (ev) => {
+		try {
+			await navigator.clipboard.writeText(window.location.href)
+			setIsShared(true)
+
+			setTimeout(() => {
+				setIsShared(false)
+			}, 3000)
+		} catch (e) {
+			console.log(e.message)
+		}
 	}
 	useEffect(() => {
 		setStopChat(true)
@@ -173,9 +187,17 @@ function DetailBoard() {
 				{/* <div className={style.shareCon}>Share</div> */}
 				{taskDetail ? (
 					<>
-						<div className={`${style.titleBtn} ${style.shareCon}`}>
-							<span>O</span>share
-						</div>
+						{isShared ? (
+							<div className={`${style.titleBtn} ${style.shareCon}`}>
+								<span>√</span>Copied
+							</div>
+						) : (
+							<div
+								className={`${style.titleBtn} ${style.shareCon}`}
+								onPointerDown={handleShare}>
+								<span>O</span>share
+							</div>
+						)}
 						<div className={style.titleBtn}>D</div>
 						<div
 							className={`${style.titleBtn} ${isLike ? style.like : ''}`}
