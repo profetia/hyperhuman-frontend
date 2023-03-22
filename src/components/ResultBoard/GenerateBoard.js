@@ -10,6 +10,7 @@ import {
 	stopChatAtom,
 	taskDetailAtom,
 	taskInitAtom,
+	assistantChatStatusAtom,
 } from './store'
 
 function GenerateBoard() {
@@ -24,6 +25,7 @@ function GenerateBoard() {
 	const [stopChat, setStopChat] = useRecoilState(stopChatAtom)
 	const [countdown, setCountdown] = useState(10);
 	const [progress, setProgress] = useState(100);
+	const [assistantChatStatus, setAssistantChatStatus] = useRecoilState(assistantChatStatusAtom)
 
 
 	// useEffect(() => () => clearInterval(intervalRef.current), [])
@@ -66,7 +68,7 @@ function GenerateBoard() {
 	}, [taskDetail, stopChat])
 
 	const handleGenerate = async (ev) => {
-		if (!prompt) return
+		if (assistantChatStatus !== '[END]' || !prompt || stopChat) return;
 
 		// setChatGuess([])
 		setStopChat(true)
@@ -126,8 +128,9 @@ function GenerateBoard() {
 				placeholder={'Prompt will be generated'}
 				onChange={handleIpt}
 			/>
+			{console.log(assistantChatStatus !== '[END]')}
 			<div
-				className={`${style.btn} ${style.generateBtn} ${!prompt || stopChat ? style.disabled : ''
+				className={`${style.btn} ${style.generateBtn} ${assistantChatStatus !== '[END]' || !prompt || stopChat ? style.disabled : ''
 					}`}
 				onPointerDown={handleGenerate}>
 				Generate
@@ -184,9 +187,9 @@ function GenerateBoard() {
 			</div>
 			{stopChat ? (
 				<div className={style.modelInfoCon}>
-					{stopChat && countdown > 0 ? (
+					{stopChat && countdown > 0 && (generateProgress.stage !== 'Waiting') ? (
 						<>
-							<div className={style.progressInfo}>Please choose in: {countdown}s</div>
+							<div className={style.progressInfo}>Default model generated if no choice made in {countdown}s</div>
 							<div className={style.progressTrack}>
 								<div
 									className={style.progressThumb}
@@ -196,7 +199,7 @@ function GenerateBoard() {
 					) : null}
 					{generateProgress.stage === 'Waiting' ? (
 						<div className={style.progressInfo}>
-							Waiting in queue, {generateProgress.payload.waiting_num} tasks remain...
+							Waiting in queue, {generateProgress.payload.waiting_num ? generateProgress.payload.waiting_num : 0} tasks remain...
 						</div>
 					) : null}
 				</div>

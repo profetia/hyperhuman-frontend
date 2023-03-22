@@ -414,12 +414,32 @@
 }
 .progressThumb {
 	height: 4px;
-	border-radius: px;
+	border-radius: 2px;
 	position: absolute;
 	top: 0;
 	left: 0;
 	background-color: var(--theme-color);
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+.progressAnimation {
+	width: 30%;
+	height: 4px;
+    position: absolute;
+    top: 0;
+	left: 11rem;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(79, 0, 211, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
+    animation: move 4s linear infinite;
+}
+
+
+
+@keyframes move {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 .modelPrompt {
