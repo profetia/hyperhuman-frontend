@@ -62,7 +62,7 @@ function DetailBoard() {
 			} else {
 				throw new Error(res.data.message)
 			}
-		} catch { }
+		} catch {}
 	}
 	useEffect(() => {
 		setStopChat(true)
@@ -98,20 +98,20 @@ function DetailBoard() {
 
 	//阻止MacOS使用触摸板缩放
 	useEffect(() => {
-		const container = modelRef.current;
+		const container = modelRef.current
 		const onWheel = (event) => {
-			event.preventDefault();
-			const deltaY = event.deltaY;
-			const rect = container.getBoundingClientRect();
-			const scale = 1 - deltaY * 0.001;
-			const dx = (event.clientX - rect.left) * (1 - scale);
-			const dy = (event.clientY - rect.top) * (1 - scale);
-			container.style.transformOrigin = `${dx}px ${dy}px 0px`;
-			container.style.transform = `scale3d(${scale}, ${scale}, ${scale})`;
-		};
-		container.addEventListener("wheel", onWheel, { passive: false });
-		return () => container.removeEventListener("wheel", onWheel);
-	}, []);
+			event.preventDefault()
+			const deltaY = event.deltaY
+			const rect = container.getBoundingClientRect()
+			const scale = 1 - deltaY * 0.001
+			const dx = (event.clientX - rect.left) * (1 - scale)
+			const dy = (event.clientY - rect.top) * (1 - scale)
+			container.style.transformOrigin = `${dx}px ${dy}px 0px`
+			container.style.transform = `scale3d(${scale}, ${scale}, ${scale})`
+		}
+		container.addEventListener('wheel', onWheel, { passive: false })
+		return () => container.removeEventListener('wheel', onWheel)
+	}, [])
 
 	useEffect(() => {
 		if (!meshProfile) return
@@ -139,22 +139,22 @@ function DetailBoard() {
 				name: 'texture_specular',
 			}),
 		}
-			; (async (urlP) => ({
-				model: await urlP['model'],
-				diffuse: await urlP['diffuse'],
-				normal: await urlP['normal'],
-				roughness_ao_thickness: await urlP['spectular'],
-				roughness_detail: '/assets/juanfu/roughness-detail.jpg',
-				env_irradiance: '/assets/env/lapa_4k_panorama_irradiance.hdr',
-				env_specular: '/assets/env/lapa_4k_panorama_specular.hdr',
-			}))(urlPromise).then((urls) => {
-				// console.log(urls)
-				setShowProgress(false)
-				startUp(urls)
-				global_render_target_injector.enabled = false
-				// load_profile(urls)
-				// build_project()
-			})
+		;(async (urlP) => ({
+			model: await urlP['model'],
+			diffuse: await urlP['diffuse'],
+			normal: await urlP['normal'],
+			roughness_ao_thickness: await urlP['spectular'],
+			roughness_detail: '/assets/juanfu/roughness-detail.jpg',
+			env_irradiance: '/assets/env/lapa_4k_panorama_irradiance.hdr',
+			env_specular: '/assets/env/lapa_4k_panorama_specular.hdr',
+		}))(urlPromise).then((urls) => {
+			// console.log(urls)
+			setShowProgress(false)
+			startUp(urls)
+			global_render_target_injector.enabled = false
+			// load_profile(urls)
+			// build_project()
+		})
 	}, [meshProfile])
 
 	return (
@@ -170,11 +170,19 @@ function DetailBoard() {
 				</div>
 				<div className={style.spaceholder}></div>
 				{/* <div className={style.shareCon}>Share</div> */}
-				<div
-					className={`${style.likeCon} ${isLike ? style.like : ''}`}
-					onPointerDown={handleLike}>
-					❤
-				</div>
+				{taskDetail ? (
+					<>
+						<div className={`${style.titleBtn} ${style.shareCon}`}>
+							<span>O</span>share
+						</div>
+						<div className={style.titleBtn}>D</div>
+						<div
+							className={`${style.titleBtn} ${isLike ? style.like : ''}`}
+							onPointerDown={handleLike}>
+							❤
+						</div>
+					</>
+				) : null}
 			</div>
 			<div className={style.modelView} id='webglcontainer' ref={modelRef}></div>
 			<div style={{ position: 'absolute', zIndex: -100 }}>
@@ -187,7 +195,7 @@ function DetailBoard() {
 								id='preloaderProgress'
 								className='preloaderProgress'
 								style={{ width: '85%' }}></div>
-						</div>
+						</div>           
 					</div>
 				</div>
 			</div>
@@ -196,12 +204,11 @@ function DetailBoard() {
 					<>
 						<div className={style.progressInfo}>{generateProgress.stage}</div>
 						<div className={style.progressTrack}>
-						<div className={style.progressAnimation}></div>
+							<div className={style.progressAnimation}></div>
 							<div
 								className={style.progressThumb}
 								style={{ width: `${generateProgress.percent}%` }}></div>
 						</div>
-
 					</>
 				) : null}
 

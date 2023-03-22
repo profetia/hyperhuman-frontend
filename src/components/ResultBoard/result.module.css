@@ -356,7 +356,7 @@
 	font-size: 1rem;
 	color: var(--font-gray-color);
 }
-.likeCon {
+.titleBtn {
 	width: 3rem;
 	height: 3rem;
 	border-radius: var(--radius);
@@ -368,10 +368,19 @@
 	cursor: pointer;
 	user-select: none;
 	font-size: 1.2rem;
+    margin-left: 1rem;
 }
-.likeCon.like {
+.titleBtn.like {
 	background-color: #fa2d5380;
 	color: #fa2d53;
+}
+.titleBtn.shareCon{
+    width:fit-content;
+    padding: 0 1rem;
+    color: var(--font-dark-color)
+}
+.titleBtn.shareCon span{
+    margin-right: .5rem;
 }
 
 .modelView {

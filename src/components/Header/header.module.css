@@ -1,87 +1,113 @@
 .con {
-    width: 100vw;
-    padding: 0 var(--side-gap);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	width: 100vw;
+	padding: 0 var(--side-gap);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.spaceholder {
+	flex-grow: 1;
+	flex-shrink: 1;
 }
 .header {
-    width: 100%;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
+	width: 100%;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 0;
 }
 .logoCon {
-    height: 3rem;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+	height: 3rem;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
 }
 .logo {
-    height: 3rem;
-    margin-right: 1rem;
-    transition: transform 0.5s;
+	height: 3rem;
+	margin-right: 1rem;
+	transition: transform 0.5s;
 }
 .logoCon:hover .logo {
-    transform: scale(1.05);
+	transform: scale(1.05);
 }
 .logoCon > div {
-    line-height: 2rem;
-    font-size: 2rem;
-    margin-top: 5px;
-    font-weight: bold;
-    transition: color 0.5s;
+	line-height: 2rem;
+	font-size: 2rem;
+	margin-top: 5px;
+	font-weight: bold;
+	transition: color 0.5s;
 }
 .logoCon:hover > div {
-    color: #ffffff;
+	color: #ffffff;
 }
-.avatar {
+
+.balance{
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    background-color: var(--bg-gray4-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1.5rem;
     user-select: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    line-height: 1.5rem;
+}
+.balance > img{
+    width:2rem;
+    height: 2rem;
+    margin-left: .25rem;
+}
+.balance > div{
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.avatar {
+	user-select: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	line-height: 1.5rem;
 }
 .avatar img {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
 }
 .avatar div {
-    display: flex;
-    align-items: center;
-    line-height: 1.5rem;
-    margin-right: 10px;
+	display: flex;
+	align-items: center;
+	line-height: 1.5rem;
+	margin-right: 10px;
 }
 .avatar .text {
-    line-height: 5rem;
+	line-height: 5rem;
 }
 
 .avatarContainer {
-    display: inline-flex;
-    align-items: center;
+	display: inline-flex;
+	align-items: center;
 }
 
 .progressBarContainer {
-    position: relative;
-    height: 5px;
-    background-color: #f0f0f0;
-    border-radius: 3px;
-    overflow: hidden;
-    margin-bottom: 10px;
+	position: relative;
+	height: 5px;
+	background-color: #f0f0f0;
+	border-radius: 3px;
+	overflow: hidden;
+	margin-bottom: 10px;
 }
 
 .progressBar {
-    position: absolute;
-    height: 100%;
-    background-color: #4caf50;
-    transition: width 0.5s ease-out;
+	position: absolute;
+	height: 100%;
+	background-color: #4caf50;
+	transition: width 0.5s ease-out;
 }
 
 .countdownText {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 10px;
+	font-size: 14px;
+	color: #666;
+	margin-bottom: 10px;
 }
