@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 import * as THREE from 'three';
 import { Pass } from 'three/addons/postprocessing/Pass.js';
 import { CopyShader } from 'three/addons/shaders/CopyShader.js';
@@ -1032,7 +1034,7 @@ class RenderTargetInjector {
         this.render_type = RenderTargetInjector.Type.FINAL_COMPOSE;
 
         this.skin_material = null;
-        this.enabled = true;
+        this.enabled = false;
         document.addEventListener("keyup", this._onKeyUp.bind(this));
 
     }
@@ -1191,7 +1193,7 @@ class MaterialOverrider {
         this.material_face = null;
         this.material_hair = null;
         this.skybox_hair = null;
-        self.type = null;
+        this.type = null;
     }
     override(type) {
         if (type in this.override_setting) {
@@ -1217,7 +1219,7 @@ class MaterialOverrider {
 
     }
     unoverride() {
-        type = this.type;
+        let type = this.type;
         if (!this.override_setting[type].hair)
             this.hair_mesh.visible = true;
 
