@@ -63,3 +63,25 @@
     display: inline-flex;
     align-items: center;
 }
+
+.progressBarContainer {
+    position: relative;
+    height: 5px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progressBar {
+    position: absolute;
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.5s ease-out;
+}
+
+.countdownText {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}

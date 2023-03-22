@@ -22,6 +22,9 @@ function GenerateBoard() {
 	const [candidates, setCandidates] = useState([])
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	const [stopChat, setStopChat] = useRecoilState(stopChatAtom)
+	const [countdown, setCountdown] = useState(10);
+	const [progress, setProgress] = useState(100);
+
 
 	// useEffect(() => () => clearInterval(intervalRef.current), [])
 
@@ -78,7 +81,23 @@ function GenerateBoard() {
 			console.log(e.message)
 			setStopChat(false)
 		}
+
+		if (!stopChat) {
+			setCountdown(10);
+		}
 	}
+
+	useEffect(() => {
+		if (countdown > 0 && stopChat) {
+			const timer = setTimeout(() => {
+				setCountdown(countdown - 1);
+				setProgress((countdown - 1) * 10);
+			}, 1000);
+			return () => clearTimeout(timer);
+		} else if (countdown === 0) {
+			// 暂无需要执行的逻辑
+		}
+	}, [countdown, stopChat]);
 
 	const handleIpt = (ev) => {
 		setPrompt(ev.currentTarget.value)
@@ -113,6 +132,11 @@ function GenerateBoard() {
 				onPointerDown={handleGenerate}>
 				Generate
 			</div>
+
+			<div className={style.progressBarContainer}>
+				<div className={style.progressBar} style={{ width: `${progress}%` }}></div>
+			</div>
+
 			<div className={style.candidateCon}>
 				<div className={style.candidateCol}>
 					{candidates.map((item, index) =>
@@ -160,6 +184,16 @@ function GenerateBoard() {
 			</div>
 			{stopChat ? (
 				<div className={style.modelInfoCon}>
+					{stopChat && countdown > 0 ? (
+						<>
+							<div className={style.progressInfo}>Please choose in: {countdown}s</div>
+							<div className={style.progressTrack}>
+								<div
+									className={style.progressThumb}
+									style={{ width: `${countdown * 10}%` }}></div>
+							</div>
+						</>
+					) : null}
 					{generateProgress.stage === 'Waiting' ? (
 						<div className={style.progressInfo}>
 							Waiting in queue, {generateProgress.payload.waiting_num} tasks remain...
