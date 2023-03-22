@@ -97,8 +97,8 @@ function ResultBoard() {
 	}
 
 	useEffect(() => {
-		document.documentElement.style.overflowY = 'hidden'
-		return () => (document.documentElement.style.overflowY = 'overlay')
+		// document.documentElement.style.overflowY = 'hidden'
+		// return () => (document.documentElement.style.overflowY = 'overlay')
 	}, [])
 
 	useEffect(() => {

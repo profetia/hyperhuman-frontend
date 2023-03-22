@@ -34,7 +34,7 @@ function Welcome() {
 		// setChatText(description)
 		setPrompt(description)
 		setDescription('')
-		setChatDialogStart(true)
+		// setChatDialogStart(true)
 	}
 	return (
 		<div className={style.con}>
@@ -46,13 +46,15 @@ function Welcome() {
 			}
 			<div className={!chatDialogStart ? style.mainCon : ''}>
 				<div className={style.title}>ChatAvatar</div>
-				<div>
+				<div style={{
+					marginBottom: '1rem'
+				}}>
 					Progressive Generation Of Animatable 3D Faces
 					<br />
 					Under Text Guidance
 				</div>
 			</div>
-			<div className={style.ioCon}>				
+			{/* <div className={style.ioCon}>
 				<div className={style.iptCon}>
 					<input
 						className={style.ipt}
@@ -69,7 +71,8 @@ function Welcome() {
 						Generate
 					</div>
 				</div>					
-			</div>		
+			</div>		 */}
+			<ResultBoard />
 		</div>
 	)
 }

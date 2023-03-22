@@ -1,14 +1,16 @@
 .con {
-	position: fixed;
+	/* position: fixed;
 	top: 0;
 	width: 0;
 	width: 100vw;
-	height: 100vh;
+	height: 100vh; */
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	color: var(--font-dark-color);
+	/* padding-top: 16rem; */
 	/* overflow: hidden; */
+	z-index: 999;
 }
 .con * {
 	flex-shrink: 0;
@@ -43,7 +45,7 @@
 	width: 100%;
 	font-size: 1.2rem;
 	line-height: 1.2rem;
-	height: 3rem;
+	/* height: 3rem; */
 	font-weight: bold;
 	display: flex;
 	align-items: flex-end;
@@ -338,7 +340,7 @@
 	width: 100%;
 	font-size: 1.2rem;
 	line-height: 1.2rem;
-	height: 3rem;
+	/* height: 3rem; */
 	font-weight: bold;
 	display: flex;
 	color: var(--font-gray-color);

@@ -124,6 +124,11 @@ function GenerateBoard() {
 				onPointerDown={handleGenerate}>
 				Generate
 			</div>
+			<div>This is a demo of ChatAvatar, visit the <a 
+					href="https://TBD"
+				>
+					{'main site'}
+				</a> for more.</div>
 			{stopChat ? (
 				<div className={style.modelInfoCon}>
 					{generateProgress.stage === 'Waiting' ? (

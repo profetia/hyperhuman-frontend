@@ -5,16 +5,17 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	padding-top: calc(50vh - 18rem);
-	
+	padding-top: 2rem;
+	background: #121317;
+	padding-bottom: 2rem;
 }
 
 .con > img {
 	position: absolute;
 	/* top: calc(50vh - 30rem); */
-	top: 4rem;
+	top: 0rem;
 	/* left: 20vw; */
-	width: 50vw;
+	width: 40vw;
 	/* z-index: -1;	 */
 }
 
@@ -27,7 +28,7 @@
 	font-size: 5rem;
 	font-weight: bold;
 	line-height: 5rem;
-	margin-bottom: 1.5rem;
+	/* margin-bottom: 1.5rem; */
 	color: white;
 }
 
