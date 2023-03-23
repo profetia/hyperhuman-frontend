@@ -167,7 +167,7 @@ function ChatBoard() {
 
 					{stopChat && (
 						<div className={`${style.assistant}`}>
-							<div className={`${style.bubble} ${style.unactive}`}>
+							<div className={`${style.notificationBubble} ${style.unactive}`}>
 								{Object.keys(chatHistory).length <= 1 || allAssistantMessages
 									? "Seems like we don't have any conversations here"
 									: "End of the conversation"}
@@ -194,7 +194,6 @@ function ChatBoard() {
 								.filter((c) => c)
 								.map((guess) => {
 									const substringGuess = guess.substring(3);
-
 									if (substringGuess && showGuess) {
 										return (
 											<div

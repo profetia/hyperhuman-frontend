@@ -163,6 +163,20 @@
 	margin-right: 0;
 }
 
+.notificationBubble {
+	/* margin: 0 1rem; */
+	padding: 0.75rem 1rem;
+	line-height: 1.5rem;
+	flex-shrink: 1;
+	background: var(--bg-theme-color);
+	border-radius: var(--radius);
+	word-break: break-all;
+	white-space: pre-wrap;
+}
+.notificationBubble.unactive {
+	background: var(--bg-gray1-color);
+}
+
 .bubble {
 	/* margin: 0 1rem; */
 	padding: 0.75rem 1rem;
@@ -394,7 +408,19 @@
 }
 
 .modelInfoCon {
+	padding: 10px;
 
+	position: absolute;
+	bottom: 1rem;
+	left: 1rem;
+	right: 1rem;
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: center;
+}
+.modelInfoConWithBackground {
 	background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(5px);
 	padding: 10px;

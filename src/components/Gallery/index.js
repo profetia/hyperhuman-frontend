@@ -156,12 +156,14 @@ function Gallery() {
 						className={`${style.menu} ${
 							cardsType === cardsTypeConst.Search ? style.selected : ''
 						}`}>
+							
 						{cardsTypeConst.Search}
 						<div className={style.close} onPointerDown={handleCloseSearch}>
 							×
 						</div>
 					</div>
 				) : null}
+
 				{logInfo ? (
 					<div
 						onPointerDown={(ev) => setCardsType(cardsTypeConst.Mine)}

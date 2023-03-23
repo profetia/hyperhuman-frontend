@@ -45,6 +45,7 @@ function ResultBoard() {
 		// console.log(assistantChatStatus !== '[END]')
 		// console.log(stopChat)
 		if (!(assistantChatStatus === '[END]' || stopChat)) return
+		setGuessChatStatus('')
 		navi('/')
 	}
 

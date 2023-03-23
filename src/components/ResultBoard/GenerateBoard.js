@@ -186,7 +186,7 @@ function GenerateBoard() {
 				</div>
 			</div>
 			{stopChat ? (
-				<div className={style.modelInfoCon}>
+				<div className={`${stopChat && countdown > 0 && generateProgress.stage !== 'Waiting' ? style.modelInfoConWithBackground : style.modelInfoCon}`} >
 					{stopChat && countdown > 0 && (generateProgress.stage !== 'Waiting') ? (
 						<>
 							<div className={style.progressInfo}>Default model generated if no choice made in {countdown}s</div>

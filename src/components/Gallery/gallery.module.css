@@ -53,14 +53,16 @@
 	backdrop-filter: blur(5px);
 	color: #ffffff;
 	transition: all 0.3s;
-	opacity: 0; 
+	opacity: 1; 
 	pointer-events: none; 
 }
 
+/* 关闭X是否默认显示
 .menu:hover .close {
 	opacity: 1; 
 	pointer-events: auto;
 }
+*/
 
 .cardsCon {
 	flex-grow: 1;
