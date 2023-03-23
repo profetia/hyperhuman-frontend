@@ -1,9 +1,8 @@
-/* eslint-disable */
 import * as THREE from 'three';
 import { EXRLoader } from 'three/addons/loaders/EXRLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
-import { ShaderLibrary } from './shader_library_new.js';
+import { ShaderLibrary } from './shader_library.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
@@ -11,13 +10,19 @@ import { ColorCorrectionShader } from 'three/addons/shaders/ColorCorrectionShade
 import Stats from 'three/addons/libs/stats.module.js';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 
-import { FloatTex, Skybox, OrbitController, Entity, verifyExtension, SceneDepthRenderer, VSMShadowRenderer, SSSProfile, SSSRenderer, DepthOfFieldPass, isPlatformMobile, QueryString, debugMode, global_render_target_injector, RenderTargetInjector, key_dispose, highPerformance, HairMaterial, global_material_overrider } from "./utils_new.js"
-import { FXAAToneMapShader } from "./shader_parameters_new.js"
+import { FloatTex, Skybox, OrbitController, Entity, verifyExtension, SceneDepthRenderer, VSMShadowRenderer, SSSProfile, SSSRenderer, DepthOfFieldPass, isPlatformMobile, QueryString, debugMode, global_render_target_injector, RenderTargetInjector, key_dispose, highPerformance, HairMaterial, global_material_overrider } from "./utils.js"
+import { FXAAToneMapShader } from "./shader_parameters.js"
 
 function hello() {
     console.log("hello from sssss rendering", THREE.REVISION);
 }
 
+
+// const assets_profile_static = {
+//     roughness_detail: "assets/juanfu/roughness-detail.jpg",
+//     env_irradiance: "assets/env/lapa_4k_panorama_irradiance.hdr",
+//     env_specular: "assets/env/lapa_4k_panorama_specular.hdr",
+// };
 
 const assets_profile_static = {
     roughness_detail: "/assets/juanfu/roughness-detail.jpg",
@@ -25,20 +30,19 @@ const assets_profile_static = {
     env_specular: "/assets/env/lapa_4k_panorama_specular.hdr",
 };
 
-
 const assets_profile_face_1 = {
-    model: "/assets/juanfu/exported_vs_pca_dis_vn.obj",
-    diffuse: "/assets/juanfu/002_diffuse_neutral.png",
-    normal: "/assets/juanfu/002_normal_neutral.png",
-    roughness_ao_thickness: "/assets/juanfu/rat.png",
+    model: "assets/juanfu/exported_vs_pca_dis_vn.obj",
+    diffuse: "assets/juanfu/002_diffuse_neutral.png",
+    normal: "assets/juanfu/002_normal_neutral.png",
+    roughness_ao_thickness: "assets/juanfu/rat.png",
 };
 
 
 const assets_profile_face_2 = {
-    model: "/assets/lhy/exported_vs_pca_dis.threejs.obj",
-    diffuse: "/assets/lhy/diffuse.jpg",
-    normal: "/assets/lhy/normal.jpg",
-    roughness_ao_thickness: "/assets/lhy/rat.jpg",
+    model: "assets/lhy/exported_vs_pca_dis.threejs.obj",
+    diffuse: "assets/lhy/diffuse.jpg",
+    normal: "assets/lhy/normal.jpg",
+    roughness_ao_thickness: "assets/lhy/rat.jpg",
 };
 
 
@@ -46,12 +50,14 @@ class PersistentAssetsLibrary {
     constructor() {
     }
     get(key) {
+        let self = this;
         if (self[key] === void 0) {
             console.log(`[ get undefined ] ${key}`);
         }
         return self[key];
     }
     load_assets(profile, callback, project) {
+        let self = this;
 
         function on_progress(xhr) {
             return;
@@ -318,7 +324,7 @@ class SimpleThreeProject {
     }
     _resizeCanvas() {
         if (this.renderer) {
-            var width =this.container.clientWidth, height = this.container.clientHeight
+            var width = this.container.clientWidth, height = this.container.clientHeight;
 
             // renderer
             this.renderer.setSize(width, height);
@@ -374,6 +380,14 @@ class SimpleThreeProject {
         this.container.removeChild(this.renderer.domElement);
         key_dispose(this);
     }
+
+
+    clean_scene() {
+        let project = this;
+        if (project.content.face_mesh.geometry) project.content.face_mesh.geometry.dispose();
+        project.content.face_mesh.geometry = new THREE.BufferGeometry();
+    }
+
 }
 
 
@@ -441,8 +455,8 @@ class SSSSSContent {
         orbit.minRadius = 0.05;
         orbit.maxRadius = 0.3;
         orbit.zoomSpeed = 0.05;
-        // orbit.mouse_constant = 0.0002;
-        orbit.mouse_constant = 0.0008;
+        orbit.mouse_constant = 0.0002;
+        // orbit.mouse_constant = 0.0008;
         Entity.addComponent(this.camera, orbit);
         this.orbit = orbit;
 
@@ -588,10 +602,11 @@ function build_project(callback) {
 }
 
 function load_profile(profile, callback) {
-    if (!static_project) build_project();
-    assets_library.load_assets(profile, callback, static_project);
+    if (!static_project)
+        build_project(() => { assets_library.load_assets(profile, callback, static_project); });
+    else
+        assets_library.load_assets(profile, callback, static_project);
 }
-
 
 export {
     hello,
