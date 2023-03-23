@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as THREE from 'three';
 import { EXRLoader } from 'three/addons/loaders/EXRLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';

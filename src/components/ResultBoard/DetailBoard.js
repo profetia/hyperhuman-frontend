@@ -10,7 +10,11 @@ import {
 	taskInitAtom,
 } from './store'
 import { getTaskDownload, likeCard } from '../../net'
-import { global_render_target_injector, build_project, load_profile } from '../../render/sssss_rendering'
+import {
+	global_render_target_injector,
+	build_project,
+	load_profile,
+} from '../../render/sssss_rendering'
 // import {
 // 	global_render_target_injector,
 // 	build_project,
@@ -64,7 +68,7 @@ function DetailBoard() {
 			} else {
 				throw new Error(res.data.message)
 			}
-		} catch { }
+		} catch {}
 	}
 
 	const handleShare = async (ev) => {
@@ -153,29 +157,34 @@ function DetailBoard() {
 				task_uuid: meshProfile.task_uuid,
 				name: 'texture_specular',
 			}),
-		};
-		(async (urlP) => ({
+		}
+		;(async (urlP) => ({
 			model: await urlP['model'],
 			diffuse: await urlP['diffuse'],
 			normal: await urlP['normal'],
 			roughness_ao_thickness: await urlP['spectular'],
 		}))(urlPromise).then((urls) => {
 			setShowProgress(false)
-			global_render_target_injector.enabled = false;
+			global_render_target_injector.enabled = false
 			// load_profile(urls)
 
-			let same_urls = (window.last_urls && window.last_urls.model == urls.model && window.last_urls.diffuse == urls.diffuse && window.last_urls.normal == urls.normal && window.last_urls.roughness_ao_thickness == urls.roughness_ao_thickness);
+			let same_urls =
+				window.last_urls &&
+				window.last_urls.model === urls.model &&
+				window.last_urls.diffuse === urls.diffuse &&
+				window.last_urls.normal === urls.normal &&
+				window.last_urls.roughness_ao_thickness === urls.roughness_ao_thickness
 			if (window.static_project) {
-				if (!same_urls)
-					window.static_project.clean_scene();
-				document.querySelector("#webglcontainer").replaceWith(window.static_project.container);
+				if (!same_urls) window.static_project.clean_scene()
+				document
+					.querySelector('#webglcontainer')
+					.replaceWith(window.static_project.container)
 			}
 			if (!same_urls)
 				load_profile(urls, () => {
-					window.last_urls = urls;
-					console.log("loaded profile");
-				});
-
+					window.last_urls = urls
+					console.log('loaded profile')
+				})
 		})
 	}, [meshProfile])
 

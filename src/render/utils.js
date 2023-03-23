@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-expressions */
+/* eslint-disable */
 
 import * as THREE from 'three';
 import { Pass } from 'three/addons/postprocessing/Pass.js';
