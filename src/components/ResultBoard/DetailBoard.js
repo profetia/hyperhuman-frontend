@@ -116,6 +116,7 @@ function DetailBoard() {
 	}, [taskDetail])
 
 	//阻止MacOS使用触摸板缩放
+	/*
 	useEffect(() => {
 		const container = modelRef.current
 		const onWheel = (event) => {
@@ -131,6 +132,7 @@ function DetailBoard() {
 		container.addEventListener('wheel', onWheel, { passive: false })
 		return () => container.removeEventListener('wheel', onWheel)
 	}, [])
+	*/
 
 	useEffect(() => {
 		if (!meshProfile) return
