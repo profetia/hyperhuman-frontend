@@ -115,32 +115,25 @@ function DetailBoard() {
 		}
 	}, [taskDetail])
 
-	//阻止MacOS使用触摸板缩放
-	/*
+	//控制MAC触摸板缩放范围
 	useEffect(() => {
-		const container = modelRef.current
-		const onWheel = (event) => {
-			event.preventDefault()
-			const deltaY = event.deltaY
-			const rect = container.getBoundingClientRect()
-			const scale = 1 - deltaY * 0.001
-			const dx = (event.clientX - rect.left) * (1 - scale)
-			const dy = (event.clientY - rect.top) * (1 - scale)
-			container.style.transformOrigin = `${dx}px ${dy}px 0px`
-			container.style.transform = `scale3d(${scale}, ${scale}, ${scale})`
-		}
-		container.addEventListener('wheel', onWheel, { passive: false })
-		return () => container.removeEventListener('wheel', onWheel)
-	}, [])
-	*/
+		const handleWheel = (event) => {
+			if (event.ctrlKey) {
+				event.preventDefault();
+			}
+		};
+	
+		const modelView = document.getElementById("webglcontainer");
+		modelView.addEventListener("wheel", handleWheel, { passive: false });
+	
+		return () => {
+			modelView.removeEventListener("wheel", handleWheel);
+		};
+	}, []);
 
 	useEffect(() => {
-		console.log("xxxxx")
-		console.log("ss" + meshProfile)
-		console.log(meshProfile)
 		if (!meshProfile) return
 
-		// console.log(meshProfile)
 		const urlPromise = {
 			model: getTaskDownload({
 				type: 'PreviewPack',
