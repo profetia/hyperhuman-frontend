@@ -130,6 +130,7 @@ function DetailBoard() {
 			modelView.removeEventListener("wheel", handleWheel);
 		};
 	}, []);
+	
 
 	useEffect(() => {
 		if (!meshProfile) return
