@@ -1,56 +1,43 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { login } from './net'
+import React, { useState, useEffect } from 'react';
+import { authorizeExternal } from './net';
 
-export default function Login() {
+const Login = () => {
+  const [urlParams, setUrlParams] = useState(null);
+  const [error, setError] = useState(null);
 
-    const navigate = useNavigate()
-
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [loginError, setLoginError] = useState('')
-
-    const onLogin = async (e) => {
-        e.preventDefault()
-        if (!username) {
-            setLoginError('Username is required')
-            return
-        }
-        if (!password) {
-            setLoginError('Password is required')
-            return
-        }
-        
-        setLoginError('')
-        const response = await login({
-            username,
-            email: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(username) ? username : undefined,
-            password,
-        })
-        navigate('/')
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    console.log(params)
+    if (params.toString()) {
+      setUrlParams(Object.fromEntries(params));
     }
+  }, []);
 
-    return (
-        <>
-            <h1>Login</h1>
-            <form style={{display: 'flex', flexDirection: 'column'}}
-                onSubmit={onLogin}
-            >
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username"
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
-                />
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" 
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                />
-                <button type="submit">Login</button>
-                {
-                    loginError && <p style={{color: 'red'}}>{loginError}</p>
-                }
-            </form>
-        </>
-    )
-}
+  useEffect(() => {
+    if (urlParams) {
+      handleOauthLogin();
+    }
+  }, [urlParams]);
+
+  const handleOauthLogin = async () => {
+    const provider = Object.values(urlParams).some((value) => value.includes('github')) ? 'github' : 'google';
+    try {
+      const { data } = await authorizeExternal(provider, urlParams);
+      console.log(data)
+      if (data.error) {
+        throw new Error(data.error);
+      } else {
+        localStorage.setItem('user_uuid', data.user_uuid);
+        localStorage.setItem('token', data.token);
+        window.location.href = '/'; // Redirect to the main page after successful login
+      }
+    } catch (e) {
+      console.log(e.message);
+      setError(e.message);
+    }
+  };
+
+  return error ? <pre>{JSON.stringify({ error }, null, 2)}</pre> : "";;
+};
+
+export default Login;

@@ -205,8 +205,8 @@ function LoginPanel() {
 	};
 
 	const handleExternalLogin = async (provider) => {
-		setTips(`Login with ${provider} failed.`);
-		return
+		//setTips(`Login with ${provider} failed.`);
+		//return
 		try {
 			const { data: redirectUrl } = await getExternalRedirectUrl(provider);
 			window.location.href = redirectUrl.redirect_url;

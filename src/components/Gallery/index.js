@@ -92,7 +92,6 @@ function Gallery() {
 		}
 		try {
 			const rep = await getTaskDetail(task_uuid)
-			// console.log(rep.data)
 			setTaskDetail(rep.data)
 			setTaskInit(false)
 			setIsVisible(true);

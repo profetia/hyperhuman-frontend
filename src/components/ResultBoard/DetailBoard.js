@@ -135,6 +135,9 @@ function DetailBoard() {
 	*/
 
 	useEffect(() => {
+		console.log("xxxxx")
+		console.log("ss" + meshProfile)
+		console.log(meshProfile)
 		if (!meshProfile) return
 
 		// console.log(meshProfile)
@@ -176,8 +179,10 @@ function DetailBoard() {
 				window.last_urls.diffuse === urls.diffuse &&
 				window.last_urls.normal === urls.normal &&
 				window.last_urls.roughness_ao_thickness === urls.roughness_ao_thickness
-			if (window.static_project) {
+				console.log(window.static_project)
+				if (window.static_project) {
 				if (!same_urls) window.static_project.clean_scene()
+				console.log("start rending")
 				document
 					.querySelector('#webglcontainer')
 					.replaceWith(window.static_project.container)

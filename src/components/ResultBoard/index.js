@@ -29,7 +29,7 @@ function ResultBoard() {
 	const taskDetail = useRecoilValue(taskDetailAtom)
 	const [chatHistory, setChatHistory] = useRecoilState(chatHistoryAtom)
 	const setChatGuess = useSetRecoilState(chatGuessAtom)
-	const setMeshProfile = useSetRecoilState(meshProfileAtom)
+	const [meshProfile, setMeshProfile] = useRecoilState(meshProfileAtom)
 	const [assistantChatStatus, setAssistantChatStatus] = useRecoilState(assistantChatStatusAtom)
 	const setGuessChatStatus = useSetRecoilState(guessChatStatusAtom)
 	const [prompt, setPrompt] = useRecoilState(promptAtom)
@@ -163,6 +163,7 @@ function ResultBoard() {
 	}, [taskInit])
 
 	useEffect(() => {
+		console.log("task detail" + taskDetail)
 		if (!taskDetail) return
 		// console.log(taskDetail);
 		setChatHistory(
@@ -175,10 +176,21 @@ function ResultBoard() {
 			)
 		)
 		setPrompt(taskDetail.prompt)
-		setMeshProfile({ ...taskDetail.resources, task_uuid: taskDetail.task_uuid })
+		console.log("b" + meshProfile)
+		console.log(taskDetail)
+		console.log({ ...taskDetail.resources, task_uuid: taskDetail.task_uuid })
+		setIsVisible(true);
+		//setMeshProfile(true)
+		//setMeshProfile({ ...taskDetail.resources, task_uuid: taskDetail.task_uuid })
+		console.log("a" + meshProfile)
 		// navi(`/result/detail`)//todo
 		// eslint-disable-next-line
 	}, [taskDetail])
+
+	useEffect(() => {
+		console.log("Updated meshProfile: ", meshProfile);
+		// 在这里执行你需要在 meshProfile 更新后的操作
+	}, [meshProfile]);
 
 	const dialogRef = useRef(null)
 
