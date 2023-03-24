@@ -2,7 +2,7 @@
 // import { redirect } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { login, sendCode, signUp, getExternalRedirectUrl } from '../../net'
+import { login, sendCode, signUp, getExternalRedirectUrl, resetPassword } from '../../net'
 import { showLoginAtom } from '../Header'
 import { CSSTransition } from 'react-transition-group'
 import style from './login.module.css'
@@ -22,6 +22,12 @@ function LoginPanel() {
 	const [sidebarVisible, setSidebarVisible] = useState(false)
 	const loginConRef = useRef(null)
 	const animationFrameIdRef = useRef(null)
+	const [resetPasswordStage, setResetPasswordStage] = useState(0);
+	const [resetCode, setResetCode] = useState('');
+	const [resetEmailSent, setResetEmailSent] = useState(false);
+
+
+
 	const handleClose = (ev) => {
 		setShowLogin(false)
 	}
@@ -190,20 +196,6 @@ function LoginPanel() {
 	)
 
 
-	const handleResetPassword = async (ev) => {
-		setTips('');
-		if (!email) {
-			setTips('Enter a email');
-			return;
-		}
-
-		try {
-			throw new Error("Reset password is currently closed.");
-		} catch (e) {
-			setTips(e.message);
-		}
-	};
-
 	const handleExternalLogin = async (provider) => {
 		//setTips(`Login with ${provider} failed.`);
 		//return
@@ -219,8 +211,55 @@ function LoginPanel() {
 	const handleGithubLogin = () => handleExternalLogin("github");
 	const handleGoogleLogin = () => handleExternalLogin("google");
 
+	const handleResetPassword = async (ev) => {
+		setTips('');
+		if (!email) {
+			setTips('Enter an email');
+			return;
+		}
+		if (!resetCode) {
+			setTips('Enter a verification code');
+			return;
+		}
+		if (!password) {
+			setTips('Enter a new password');
+			return;
+		}
+
+		try {
+			const res = await resetPassword({ email, emailVerificationCode: resetCode, password });
+			console.log(res)
+			if (res.data.error) {
+				console.log(res.data.error);
+			} else {
+				setTips('Password reset successfully. Please login.');
+				setResetPasswordStage(0);
+			}
+		} catch (e) {
+			setTips(e.message);
+		}
+	};
+
+	const handleForgetPassword = async () => {
+		if (!email) {
+			setTips('Please enter your email');
+			return;
+		}
+
+		try {
+			const res = await sendCode({ email });
+			if (res.data.error) {
+				throw new Error(res.data.error);
+			} else {
+				setResetEmailSent(true);
+				setLoginStage(3);
+			}
+		} catch (e) {
+			setTips(e.message);
+		}
+	};
+
 	return (
-		//Sidebar整体Transition动效代码不Work，不确定原因，需要进一步排查。
 		<div className={style.con}>
 			<div className={style.mask} onPointerDown={handleClose}></div>
 			<div
@@ -286,6 +325,33 @@ function LoginPanel() {
 				)}
 
 				{renderCSSTransition(
+					loginStage === 3,
+					<>
+						<div className={style.label}>Verification Code</div>
+						<input
+							className={style.ipt}
+							placeholder='Enter verification code'
+							value={resetCode}
+							onChange={(ev) => setResetCode(ev.currentTarget.value)}
+						/>
+					</>
+				)}
+
+				{renderCSSTransition(
+					loginStage === 3,
+					<>
+						<div className={style.label}>New Password</div>
+						<input
+							className={style.ipt}
+							placeholder='Enter a new password'
+							type='password'
+							value={password}
+							onChange={(ev) => setPassword(ev.currentTarget.value)}
+						/>
+					</>
+				)}
+
+				{renderCSSTransition(
 					loginStage === 2,
 					<>
 						<div className={style.label}>Invitation Code(optional)</div>
@@ -321,9 +387,11 @@ function LoginPanel() {
 						/>
 						<span onPointerDown={(ev) => setIsRemember(!isRemember)}>Remember me</span>
 						<span className={style.spaceholder}></span>
-						<span onClick={handleResetPassword} className={style.forgetPassword}>
+						<span onPointerDown={handleForgetPassword} className={style.forgetPassword}>
 							Forget password?
 						</span>
+
+
 					</div>
 				) : null}
 
@@ -344,6 +412,13 @@ function LoginPanel() {
 						Sign Up
 					</div>
 				) : null}
+
+				{loginStage === 3 ? (
+					<div className={`${style.btn} ${style.sign}`} onPointerDown={handleResetPassword}>
+						Reset Password
+					</div>
+				) : null}
+
 				<br></br>
 				{tips ? <div className={style.tips}>{tips}</div> : null}
 				<br></br>

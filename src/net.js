@@ -26,6 +26,12 @@ const sendCode = (payload) =>
 		type: 'Register',
 	})
 
+const sendResetCode = (payload) =>
+axiosClient.post(`${BASE_URL}/user/send_email_verification_code`, {
+	...payload,
+	type: 'Reset',
+})
+
 const signUp = (payload) => axiosClient.post(`${BASE_URL}/user/register`, payload)
 
 const register = ({ username, email, emailVerificationCode, invitationCode, password }) =>
@@ -37,7 +43,7 @@ const register = ({ username, email, emailVerificationCode, invitationCode, pass
 		password,
 	})
 
-const reset_password = ({ email, emailVerificationCode, newPassword }) =>
+const resetPassword = ({ email, emailVerificationCode, newPassword }) =>
 	axiosClient.post(`${BASE_URL}/user/reset_password`, {
 		email,
 		email_verification_code: emailVerificationCode,
@@ -162,7 +168,7 @@ export {
 	sendCode,
 	signUp,
 	register,
-	reset_password,
+	resetPassword,
 	send_email_verification_code,
 	getUserInfo,
 	startChat,
@@ -180,4 +186,5 @@ export {
 	likeCard,
 	getTaskDownload,
 	selectCandidate,
+	sendResetCode,
 }
