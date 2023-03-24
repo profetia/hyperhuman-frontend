@@ -118,19 +118,20 @@ function DetailBoard() {
 	//控制MAC触摸板缩放范围
 	useEffect(() => {
 		const handleWheel = (event) => {
-			if (event.ctrlKey) {
+			const modelView = document.getElementById("webglcontainer");
+			if (event.ctrlKey && event.target === modelView) {
 				event.preventDefault();
 			}
 		};
 	
-		const modelView = document.getElementById("webglcontainer");
-		modelView.addEventListener("wheel", handleWheel, { passive: false });
+		window.addEventListener("wheel", handleWheel, { passive: false });
 	
 		return () => {
-			modelView.removeEventListener("wheel", handleWheel);
+			window.removeEventListener("wheel", handleWheel);
 		};
 	}, []);
 	
+
 
 	useEffect(() => {
 		if (!meshProfile) return
