@@ -164,16 +164,22 @@ function ChatBoard() {
 									</div>
 								</div>
 							))}
-
-					{stopChat && (
-						<div className={`${style.assistant}`}>
+					{(stopChat && (Object.keys(chatHistory).length <= 1 || allAssistantMessages) && (
+						<div className={`${style.assistant} ${style.notificationText}`}>
 							<div className={`${style.notificationBubble} ${style.unactive}`}>
-								{Object.keys(chatHistory).length <= 1 || allAssistantMessages
-									? "Seems like we don't have any conversations here"
-									: "End of the conversation"}
+								Seems like we don't have any conversations here
 							</div>
 						</div>
-					)}
+					))}
+
+					{(stopChat && !(Object.keys(chatHistory).length <= 1 || allAssistantMessages) && (
+						<div className={`${style.assistant}`}>
+							<div className={`${style.notificationBubble} ${style.unactive}`}>
+							End of the conversation
+							</div>
+						</div>
+					))}
+
 
 					{!assistantChatStatus && !stopChat && (
 						<div className={`${style.chatMsgRow} ${style.assistant}`}>
