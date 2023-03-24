@@ -395,6 +395,7 @@ class SimpleThreeProject {
         project.content.hair_mesh.visible = false;
 
         project.content.orbit._coords.set((Math.random() * 0.4 + 0.3) * Math.PI, (Math.random() * 0.2 + 0.3) * Math.PI, 2);
+        project._resizeCanvas();
     }
 
     show_scene() {
@@ -403,6 +404,7 @@ class SimpleThreeProject {
         project.content.hair_mesh.visible = false;
 
         project.content.face_mesh.position.set(0.5, 0, 0);
+        project._resizeCanvas();
     }
 
     clean_scene() {
