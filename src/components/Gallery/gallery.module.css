@@ -6,11 +6,13 @@
 	justify-content: center;
 	align-items: flex-start;
 }
+
 .menuCon {
 	/* display: flex; */
 	width: max-content;
 	margin-right: 2rem;
 }
+
 .menu {
 	cursor: pointer;
 	position: relative;
@@ -28,10 +30,12 @@
 	justify-content: center;
 	position: relative;
 }
+
 .menu:hover {
 	color: #fff;
 	background-color: var(--bg-gray3-color);
 }
+
 .menu.selected {
 	color: #fff;
 	border-color: #fff;
@@ -53,8 +57,8 @@
 	backdrop-filter: blur(5px);
 	color: #ffffff;
 	transition: all 0.3s;
-	opacity: 1; 
-	pointer-events: none; 
+	opacity: 1;
+	pointer-events: none;
 }
 
 /* 关闭X是否默认显示
@@ -75,13 +79,22 @@
 	align-items: flex-start;
 	overflow-y: auto;
 	transition: opacity 0.3s ease;
+	overflow-y: hidden;
+	overflow-y: scroll;
+	scrollbar-width: none; /* Firefox */
 }
+
+.cardsCon::-webkit-scrollbar {
+	display: none;
+  }
+
 .cardsCon::-webkit-scrollbar-thumb {
 	background-color: rgba(255, 255, 255, 0.2);
 	border-radius: 8px;
 	border: 5px solid;
 	border-color: #121317;
 }
+
 .card {
 	position: relative;
 	width: 200px;
@@ -94,25 +107,27 @@
 	font-size: 0.75rem;
 	cursor: pointer;
 }
+
 .more {
 	width: 100%;
 	cursor: pointer;
 	height: 3rem;
 	line-height: 3rem;
 }
+
 .more:hover {
 	background-color: #00000050;
 }
 
 .coverImg,
 .coverImg img {
-    transition: transform 0.3s ease-in-out;
+	transition: transform 0.3s ease-in-out;
 	width: 100%;
 	height: 100%;
 }
 
 .card:hover .coverImg img {
-    transform: scale(1.1);
+	transform: scale(1.1);
 }
 
 .likeCon {
@@ -128,10 +143,12 @@
 	justify-content: center;
 	align-items: center;
 }
+
 .likeCon.like {
 	background-color: #fa2d5380;
 	color: #fa2d53;
 }
+
 .prompt {
 	position: absolute;
 	bottom: 1rem;
@@ -149,24 +166,29 @@
 	max-height: 5rem;
 	overflow-y: overlay;
 	opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+	transition: opacity 0.5s ease-in-out;
 }
+
 .prompt::-webkit-scrollbar {
 	width: 6px;
 	height: 6px;
 }
+
 .prompt::-webkit-scrollbar-thumb {
 	background-color: rgba(255, 255, 255, 0.5);
 	border-radius: 3px;
 	border: none;
 }
+
 .prompt.show {
 	height: fit-content;
 	padding: 0.5rem;
 }
+
 .card:hover .prompt {
-    opacity: 1;
+	opacity: 1;
 }
+
 .infoCon {
 	position: absolute;
 	bottom: 1rem;
@@ -181,6 +203,7 @@
 	align-items: center;
 	color: var(--font-dark-color);
 }
+
 .avatar,
 .avatar img {
 	width: 24px;
@@ -188,70 +211,74 @@
 	border-radius: 12px;
 	overflow: hidden;
 }
+
 .avatar {
 	margin-right: 1rem;
 }
+
 .spaceholder {
 	flex-shrink: 1;
 	flex-grow: 1;
 }
 
 .skeleton {
-    width: 200px;
-    height: 260px;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
-    border-radius: var(--radius);
-    background-color: var(--bg-gray3-color);
-    overflow: hidden;
-    font-size: 0.75rem;
-    cursor: pointer;
-    background: linear-gradient(90deg, #2f2f2f 25%, #232323 50%, #3d3d3d 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
+	width: 200px;
+	height: 260px;
+	margin-right: 1rem;
+	margin-bottom: 1rem;
+	border-radius: var(--radius);
+	background-color: var(--bg-gray3-color);
+	overflow: hidden;
+	font-size: 0.75rem;
+	cursor: pointer;
+	background: linear-gradient(90deg, #2f2f2f 25%, #232323 50%, #3d3d3d 75%);
+	background-size: 200% 100%;
+	animation: loading 1.5s infinite;
 }
 
 @keyframes loading {
-    0% {
-        background-position: 200% 0;
-    }
-    100% {
-        background-position: -200% 0;
-    }
+	0% {
+		background-position: 200% 0;
+	}
+
+	100% {
+		background-position: -200% 0;
+	}
 }
 
 .emptyContainer {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-    margin-bottom: 1rem;
-    padding: 2rem;
-    border-radius: var(--radius);
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	align-items: center;
+	margin-bottom: 1rem;
+	padding: 2rem;
+	border-radius: var(--radius);
 
 	background-color: rgba(0, 0, 0, 0.5);
 }
+
 .emptyContainer:hover {
 	background-color: var(--bg-gray4-color);
 
-  }
-
-  
-  @keyframes fadeIn {
-	from {
-	  opacity: 0;
-	}
-	to {
-	  opacity: 1;
-	}
-  }
-  
-  .emptyList {
-    font-size: 1rem;
-    font-weight: bold;
-    text-align: center;
-    padding: 1rem;
-    color: var(--font-light-color);
-    animation: fadeIn 1s ease-in;
 }
-  
+
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+.emptyList {
+	font-size: 1rem;
+	font-weight: bold;
+	text-align: center;
+	padding: 1rem;
+	color: var(--font-light-color);
+	animation: fadeIn 1s ease-in;
+}

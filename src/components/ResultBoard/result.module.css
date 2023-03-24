@@ -145,6 +145,9 @@
 .chatMsgRow.user {
 	flex-direction: row-reverse;
 }
+
+
+
 .avatar {
 	height: 3rem;
 	width: 3rem;
@@ -168,13 +171,13 @@
 	padding: 0.75rem 1rem;
 	line-height: 1.5rem;
 	flex-shrink: 1;
-	background: var(--bg-theme-color);
+	/* background: var(--bg-theme-color); */
 	border-radius: var(--radius);
 	word-break: break-all;
 	white-space: pre-wrap;
 }
 .notificationBubble.unactive {
-	background: var(--bg-gray1-color);
+	color: var(--bg-gray1-color);
 }
 
 .bubble {
@@ -288,6 +291,9 @@
 	font-weight: bold;
 	border: 1px solid var(--theme-color);
 }
+
+
+
 .btn:hover {
 	background: transparent;
 	color: var(--theme-color);
