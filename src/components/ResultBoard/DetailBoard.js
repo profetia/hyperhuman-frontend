@@ -68,7 +68,7 @@ function DetailBoard() {
 			} else {
 				throw new Error(res.data.message)
 			}
-		} catch {}
+		} catch { }
 	}
 
 	const handleShare = async (ev) => {
@@ -135,6 +135,10 @@ function DetailBoard() {
 	*/
 
 	useEffect(() => {
+		if (window.last_uuidtime === meshProfile.task_uuid + meshProfile.time) return
+
+		if (window.static_project) window.static_project.hide_scene()
+
 		console.log("xxxxx")
 		console.log("ss" + meshProfile)
 		console.log(meshProfile)
@@ -163,7 +167,8 @@ function DetailBoard() {
 				name: 'texture_specular',
 			}),
 		}
-		;(async (urlP) => ({
+			;
+		(async (urlP) => ({
 			model: await urlP['model'],
 			diffuse: await urlP['diffuse'],
 			normal: await urlP['normal'],
@@ -171,27 +176,12 @@ function DetailBoard() {
 		}))(urlPromise).then((urls) => {
 			setShowProgress(false)
 			global_render_target_injector.enabled = false
-			// load_profile(urls)
 
-			let same_urls =
-				window.last_urls &&
-				window.last_urls.model === urls.model &&
-				window.last_urls.diffuse === urls.diffuse &&
-				window.last_urls.normal === urls.normal &&
-				window.last_urls.roughness_ao_thickness === urls.roughness_ao_thickness
-				console.log(window.static_project)
-				if (window.static_project) {
-				if (!same_urls) window.static_project.clean_scene()
-				console.log("start rending")
-				document
-					.querySelector('#webglcontainer')
-					.replaceWith(window.static_project.container)
-			}
-			if (!same_urls)
-				load_profile(urls, () => {
-					window.last_urls = urls
-					console.log('loaded profile')
-				})
+			load_profile(urls, () => {
+				console.log('loaded profile')
+				window.last_uuidtime = meshProfile.task_uuid + meshProfile.time
+				if (window.static_project) window.static_project.show_scene()
+			})
 		})
 	}, [meshProfile])
 

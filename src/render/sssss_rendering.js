@@ -368,6 +368,12 @@ class SimpleThreeProject {
             // this._stats && (this._stats.update());
 
             if (window.stats) window.stats.update();
+
+
+            let current_position = this.content.face_mesh.position;
+            let scale = 0.5 ** (time_delta / 100);
+            let next_position = new THREE.Vector3(current_position.x * scale, current_position.y * scale, current_position.z * scale);
+            this.content.face_mesh.position.set(next_position.x, next_position.y, next_position.z);
         }
     }
     _requestAnimationFrame() {
@@ -382,6 +388,22 @@ class SimpleThreeProject {
         key_dispose(this);
     }
 
+
+    hide_scene() {
+        let project = this;
+        project.content.face_mesh.visible = false;
+        project.content.hair_mesh.visible = false;
+
+        project.content.orbit._coords.set((Math.random() * 0.4 + 0.3) * Math.PI, (Math.random() * 0.2 + 0.3) * Math.PI, 2);
+    }
+
+    show_scene() {
+        let project = this;
+        project.content.face_mesh.visible = true;
+        project.content.hair_mesh.visible = false;
+
+        project.content.face_mesh.position.set(0.5, 0, 0);
+    }
 
     clean_scene() {
         let project = this;
