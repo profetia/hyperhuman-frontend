@@ -181,7 +181,7 @@ function ResultBoard() {
 		console.log({ ...taskDetail.resources, task_uuid: taskDetail.task_uuid })
 		setIsVisible(true);
 		//setMeshProfile(true)
-		//setMeshProfile({ ...taskDetail.resources, task_uuid: taskDetail.task_uuid })
+		setMeshProfile({ ...taskDetail.resources, task_uuid: taskDetail.task_uuid })
 		console.log("a" + meshProfile)
 		// navi(`/result/detail`)//todo
 		// eslint-disable-next-line
