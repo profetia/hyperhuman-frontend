@@ -4,10 +4,13 @@ import { authorizeExternal } from './net';
 const Login = () => {
   const [urlParams, setUrlParams] = useState(null);
   const [error, setError] = useState(null);
+  const [provider, setProvider] = useState(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     console.log(params)
+    const provider = params.get('oauth');
+    setProvider(provider)
     if (params.toString()) {
       setUrlParams(Object.fromEntries(params));
     }
@@ -20,16 +23,15 @@ const Login = () => {
   }, [urlParams]);
 
   const handleOauthLogin = async () => {
-    const provider = Object.values(urlParams).some((value) => value.includes('github')) ? 'github' : 'google';
+    
     try {
       const { data } = await authorizeExternal(provider, urlParams);
-      console.log(data)
       if (data.error) {
         throw new Error(data.error);
       } else {
         localStorage.setItem('user_uuid', data.user_uuid);
         localStorage.setItem('token', data.token);
-        window.location.href = '/'; // Redirect to the main page after successful login
+        window.location.href = '/';
       }
     } catch (e) {
       console.log(e.message);
