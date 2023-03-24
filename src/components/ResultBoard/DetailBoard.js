@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import style from './result.module.css'
 import {
@@ -37,12 +37,11 @@ function DetailBoard() {
 	const [isLike, setIsLike] = useState(false)
 	const [isShared, setIsShared] = useState(false)
 	const [cards, setCards] = useRecoilState(cardsAtom)
+	const modelRef = useRef(null);
 
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	// const [stage, setStage] = useState('')
 	// const [percent, setPercent] = useState(0)
-
-	const modelRef = useRef(null)
 	const promptRef = useRef(null)
 
 	window.exportModelView = async () => {
@@ -116,20 +115,22 @@ function DetailBoard() {
 	}, [taskDetail])
 
 	//控制MAC触摸板缩放范围
-	useEffect(() => {
-		const handleWheel = (event) => {
-			const modelView = document.getElementById("webglcontainer");
-			if (event.ctrlKey && event.target === modelView) {
-				event.preventDefault();
-			}
-		};
-	
-		window.addEventListener("wheel", handleWheel, { passive: false });
-	
-		return () => {
-			window.removeEventListener("wheel", handleWheel);
-		};
-	}, []);
+    useEffect(() => {
+        const handleWheel = (e) => {
+            e.preventDefault();
+        };
+
+        const modelElement = modelRef.current;
+        if (modelElement) {
+            modelElement.addEventListener('wheel', handleWheel);
+        }
+
+        return () => {
+            if (modelElement) {
+                modelElement.removeEventListener('wheel', handleWheel);
+            }
+        };
+    }, [modelRef]);
 	
 
 
