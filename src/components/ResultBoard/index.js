@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState} from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { closeWebsocket, disposeWebsocket, startWebsocket } from '../../net'
@@ -19,6 +19,7 @@ import {
 	chatTextAtom,
 	chatLangAtom,
 	needStartWsAtom,
+	generateVisibleAtom,
 } from './store.js'
 import { exportToImage } from './utils'
 
@@ -40,13 +41,14 @@ function ResultBoard() {
 	const chatHistoryRef = useRef({})
 	const chatGuessRef = useRef('')
 	const promptRef = useRef('')
-
+	const [isVisible, setIsVisible] = useRecoilState(generateVisibleAtom);
+	//改成隐藏
 	const handleClose = (ev) => {
 		// console.log(assistantChatStatus !== '[END]')
 		// console.log(stopChat)
-		if (!(assistantChatStatus === '[END]' || stopChat)) return
+		// if (!(assistantChatStatus === '[END]' || stopChat)) return
 		setGuessChatStatus('')
-		navi('/')
+		setIsVisible(false);
 	}
 
 	const bindWsListeners = (ws) => {
@@ -96,9 +98,9 @@ function ResultBoard() {
 	}
 
 	useEffect(() => {
-		document.documentElement.style.overflowY = 'hidden'
-		return () => (document.documentElement.style.overflowY = 'overlay')
-	}, [])
+		document.documentElement.style.overflowY = isVisible ? 'hidden' : 'overlay';
+	}, [isVisible]);
+	
 
 	useEffect(() => {
 		chatHistoryRef.current = { ...chatHistory }
@@ -187,7 +189,7 @@ function ResultBoard() {
 	window.exportDialog = exportDialog
 
 	return (
-		<div className={style.con} onPointerDown={handleClose}>
+		<div className={`${style.con} ${!isVisible ? style.hidden : ''}`} onPointerDown={handleClose}>
 			<div
 				className={style.board}
 				onPointerDown={(ev) => ev.stopPropagation()}

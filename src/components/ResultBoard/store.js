@@ -65,6 +65,11 @@ const needStartWsAtom = atom({
 	default: false,
 })
 
+const generateVisibleAtom = atom({
+	key: "generateVisible",
+	default: true,
+  });
+
 export {
 	taskInitAtom,
 	taskDetailAtom,
@@ -79,4 +84,5 @@ export {
 	chatLangAtom,
 	generateProgressAtom,
 	needStartWsAtom,
+	generateVisibleAtom,
 }

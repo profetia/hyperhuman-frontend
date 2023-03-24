@@ -2,10 +2,11 @@
 // import { redirect } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { login, sendCode, signUp } from '../../net'
+import { login, sendCode, signUp, getExternalRedirectUrl } from '../../net'
 import { showLoginAtom } from '../Header'
 import { CSSTransition } from 'react-transition-group'
 import style from './login.module.css'
+import { AiOutlineGoogle, AiOutlineGithub } from 'react-icons/ai'
 
 function LoginPanel() {
 	const setShowLogin = useSetRecoilState(showLoginAtom)
@@ -21,7 +22,6 @@ function LoginPanel() {
 	const [sidebarVisible, setSidebarVisible] = useState(false)
 	const loginConRef = useRef(null)
 	const animationFrameIdRef = useRef(null)
-
 	const handleClose = (ev) => {
 		setShowLogin(false)
 	}
@@ -189,6 +189,36 @@ function LoginPanel() {
 		</CSSTransition>
 	)
 
+
+	const handleResetPassword = async (ev) => {
+		setTips('');
+		if (!email) {
+			setTips('Enter a email');
+			return;
+		}
+
+		try {
+			throw new Error("Reset password is currently closed.");
+		} catch (e) {
+			setTips(e.message);
+		}
+	};
+
+	const handleExternalLogin = async (provider) => {
+		setTips(`Login with ${provider} failed.`);
+		return
+		try {
+			const { data: redirectUrl } = await getExternalRedirectUrl(provider);
+			window.location.href = redirectUrl.redirect_url;
+		} catch (error) {
+			console.log(error)
+			setTips(`Login with ${provider} failed.`);
+		}
+	};
+
+	const handleGithubLogin = () => handleExternalLogin("github");
+	const handleGoogleLogin = () => handleExternalLogin("google");
+
 	return (
 		//Sidebar整体Transition动效代码不Work，不确定原因，需要进一步排查。
 		<div className={style.con}>
@@ -200,13 +230,7 @@ function LoginPanel() {
 					transform: showLogin ? 'translateX(0%)' : 'translateX(100%)',
 				}}>
 				<div className={style.title}>ChatAvatar</div>
-				<>
-					<div className={`${style.btn} ${style.google}`}>Sign in With Google</div>
-					<div className={style.splitCon}>
-						<div className={style.split}></div>
-						<div className={style.text}>OR</div>
-					</div>
-				</>
+
 
 				{renderCSSTransition(
 					loginStage === 2,
@@ -297,7 +321,9 @@ function LoginPanel() {
 						/>
 						<span onPointerDown={(ev) => setIsRemember(!isRemember)}>Remember me</span>
 						<span className={style.spaceholder}></span>
-						<span>Forget password?</span>
+						<span onClick={handleResetPassword} className={style.forgetPassword}>
+							Forget password?
+						</span>
 					</div>
 				) : null}
 
@@ -318,8 +344,24 @@ function LoginPanel() {
 						Sign Up
 					</div>
 				) : null}
-
+				<br></br>
 				{tips ? <div className={style.tips}>{tips}</div> : null}
+				<br></br>
+				<div className={style.splitCon}>
+					<div className={style.split}></div>
+					<div className={style.text}>OR</div>
+				</div>
+				<>
+					<div className={`${style.btn} ${style.google}`} onClick={handleGoogleLogin}>
+						<AiOutlineGoogle size="1em" /> &nbsp;Sign in with Google
+					</div>
+				</>
+
+				<>
+					<div className={`${style.btn} ${style.google}`} onClick={handleGithubLogin}>
+						<AiOutlineGithub size="1em" /> &nbsp;Sign in with Github
+					</div>
+				</>
 
 				<div className={style.spaceholder}></div>
 

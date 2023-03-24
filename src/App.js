@@ -8,7 +8,9 @@ import { LoginPanel } from './components/LoginPanel'
 import { taskDetailAtom } from './components/ResultBoard'
 import { UserPanel } from './components/UserPanel'
 import { Welcome } from './components/Welcome'
-import { getTaskDetail, getUserInfo, initNet } from './net'
+import { getTaskDetail, getUserInfo, initNet, authorizeExternal } from './net'
+import { useLocation } from 'react-router-dom';
+
 
 function App() {
 	const showLogin = useRecoilValue(showLoginAtom)
@@ -19,6 +21,7 @@ function App() {
 	const [isFixed, setIsFixed] = useState(false)
 	const urlRef = useRef('/')
 	const setTaskDetail = useSetRecoilState(taskDetailAtom)
+	const location = useLocation();
 
 	//路由守卫
 	useEffect(() => {

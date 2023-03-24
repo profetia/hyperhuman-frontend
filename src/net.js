@@ -118,6 +118,8 @@ const disposeWebsocket = () => {
 	}
 }
 
+
+
 //task
 const generateDetail = ({ task_uuid, prompt }) =>
 	axiosClient.post(`${BASE_URL}/task/generate`, { task_uuid, prompt })
@@ -145,8 +147,17 @@ const selectCandidate = (task_uuid, candidateIndex) =>
 		selected_id: candidateIndex,
 	})
 
+const getExternalRedirectUrl = (provider) =>
+axiosClient.get(`${BASE_URL}/user/external/${provider}`);
+
+const authorizeExternal = (provider, params) =>
+axiosClient.get(`${BASE_URL}/user/external/${provider}/authorize`, { params });
+
+
 export {
 	initNet,
+	getExternalRedirectUrl,
+	authorizeExternal,
 	login,
 	sendCode,
 	signUp,

@@ -7,6 +7,7 @@ import { taskDetailAtom, taskInitAtom } from '../ResultBoard/store'
 import { useNavigate } from 'react-router-dom'
 import { cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom } from './store'
 import { likeCard } from '../../net'
+import { generateVisibleAtom } from '../ResultBoard/store'
 
 function Gallery() {
 	const navi = useNavigate()
@@ -29,6 +30,7 @@ function Gallery() {
 	const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 	const skeletonCardWidth = 250
 	const numberOfSkeletonCards = Math.min(8, Math.floor(windowWidth / skeletonCardWidth))
+	const setIsVisible = useSetRecoilState(generateVisibleAtom);
 
 	useEffect(() => {
 		setCards([])
@@ -93,6 +95,7 @@ function Gallery() {
 			// console.log(rep.data)
 			setTaskDetail(rep.data)
 			setTaskInit(false)
+			setIsVisible(true);
 			navi(`/result/detail/${task_uuid}`)
 		} catch (e) {
 			console.log(e)

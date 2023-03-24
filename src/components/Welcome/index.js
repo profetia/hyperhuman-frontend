@@ -4,13 +4,13 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { search, startChat } from '../../net'
 import { logInfoAtom, showLoginAtom } from '../Header'
 import { chatTextAtom, needStartWsAtom, taskDetailAtom, taskInitAtom } from '../ResultBoard'
+import { generateVisibleAtom } from '../ResultBoard/store'
 import style from './welcome.module.css'
 import bgImg from '../../assets/background.png'
 import aiLogo from '../../assets/ai-logo.png'
 import { cardsAtom, cardsTypeAtom, cardsTypeConst, searchKeyWordAtom } from '../Gallery'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { HiOutlineCursorArrowRays } from 'react-icons/hi2'
-
 
 
 function Welcome({ scrollPercentage }) {
@@ -26,6 +26,7 @@ function Welcome({ scrollPercentage }) {
 	const setSearchKeyWord = useSetRecoilState(searchKeyWordAtom)
 	const setShowLogin = useSetRecoilState(showLoginAtom)
 	const timeStampRef = useRef(0)
+	const setIsVisible = useSetRecoilState(generateVisibleAtom);
 
 	// useEffect(() => {
 	// 	console.log('input description: ', description)
@@ -55,6 +56,7 @@ function Welcome({ scrollPercentage }) {
 					setChatText(description)
 					setDescription('')
 				}
+				setIsVisible(true);
 				navi('/result/generate')
 			})
 			.catch((err) => {
