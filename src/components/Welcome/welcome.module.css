@@ -1,5 +1,5 @@
 .con {
-	width: 100%;
+	width: 45%;
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -15,12 +15,13 @@
 	/* top: calc(50vh - 30rem); */
 	top: 0rem;
 	/* left: 20vw; */
-	width: 40vw;
+	width: 100%;
 	/* z-index: -1;	 */
 }
 
 .mainCon {
 	z-index: 999;
+	margin-top: 0.5rem;
 }
 
 .title {

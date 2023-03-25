@@ -7,6 +7,7 @@ import { chatTextAtom, taskInitAtom, chatDialogStartAtom, ResultBoard, promptAto
 import style from './welcome.module.css'
 import bgImg from '../../assets/background.png'
 import aiLogo from '../../assets/ai-logo.png'
+import { Gallery } from '../Gallery'
 
 function Welcome() {
 	const [description, setDescription] = useState('')
@@ -47,7 +48,7 @@ function Welcome() {
 			<div className={!chatDialogStart ? style.mainCon : ''}>
 				<div className={style.title}>ChatAvatar</div>
 				<div style={{
-					marginBottom: '1rem'
+					marginTop: '0.75rem'
 				}}>
 					Progressive Generation Of Animatable 3D Faces
 					<br />
@@ -72,7 +73,7 @@ function Welcome() {
 					</div>
 				</div>					
 			</div>		 */}
-			<ResultBoard />
+			<Gallery />
 		</div>
 	)
 }

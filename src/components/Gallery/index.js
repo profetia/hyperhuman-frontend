@@ -38,7 +38,7 @@ function Gallery() {
 			const rep = await getTaskDetail(task_uuid)
 			// console.log(rep.data)
 			setTaskDetail(rep.data)
-			navi('/result/detail')
+			// navi('/result/detail')
 		} catch (e) {}
 	}
 
@@ -59,35 +59,9 @@ function Gallery() {
 
 	return (
 		<div className={style.con}>
-			<div className={style.menuCon}>
-				{logInfo ? (
-					<div
-						onPointerDown={(ev) => setCardsType(cardsTypeConst.Mine)}
-						className={`${style.menu} ${
-							cardsType === cardsTypeConst.Mine ? style.selected : ''
-						}`}>
-						{cardsTypeConst.Mine}
-					</div>
-				) : null}
-
-				<div
-					onPointerDown={(ev) => setCardsType(cardsTypeConst.Featured)}
-					className={`${style.menu} ${
-						cardsType === cardsTypeConst.Featured ? style.selected : ''
-					}`}>
-					{cardsTypeConst.Featured}
-				</div>
-				<div
-					onPointerDown={(ev) => setCardsType(cardsTypeConst.Recent)}
-					className={`${style.menu} ${
-						cardsType === cardsTypeConst.Recent ? style.selected : ''
-					}`}>
-					{cardsTypeConst.Recent}
-				</div>
-			</div>
 
 			<div className={style.cardsCon} ref={elRef} onWheel={handleWheel}>
-				{cards.map((card) => (
+				{cards.slice(0, 9).map((card) => (
 					<div
 						className={`${style.card}`}
 						key={card.task_uuid}

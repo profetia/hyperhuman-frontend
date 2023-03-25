@@ -103,41 +103,65 @@ function GenerateBoard() {
 			.finally()
 	}
 
+	const handleClear = (ev) => {
+		setPrompt('')
+		setTaskDetail(false)
+		if (document.getElementById('webglcontainer')) {
+			if (document.getElementById('webglcontainer').getElementsByTagName('canvas').length > 0) {
+				document.getElementById('webglcontainer').getElementsByTagName('canvas')[0].remove()
+			}
+		}
+
+	}
+
 	const handleIpt = (ev) => {
 		setPrompt(ev.currentTarget.value)
 	}
 
 
 	return (
-		<div className={style.col}>
-			<div className={style.colTitle}>Prompt</div>
-			<textarea
-				className={style.iptArea}
-				value={prompt}
-				placeholder={'Prompt will be generated'}
-				onChange={handleIpt}
-			/>
-			<div
-				className={`${style.btn} ${style.generateBtn} ${
-					!prompt || intervalRef.current ? style.disabled : ''
-				}`}
-				onPointerDown={handleGenerate}>
-				Generate
+		<div className={style.colHead}>
+			<div className={style.colInner}>
+				<div className={style.colTitle}>Positive Prompt</div>
+				<textarea
+					className={style.iptArea}
+					value={prompt}
+					placeholder={'Type your prompt here.'}
+					onChange={handleIpt}
+				/>
 			</div>
-			<div>This is a demo of ChatAvatar, visit the <a 
-					href="https://TBD"
+			<div className={style.btnCon}>
+				<div
+					className={`${style.clearBtn} ${
+						intervalRef.current ? style.disabled : ''
+					}`}
+					onPointerDown={handleClear}
 				>
-					{'main site'}
-				</a> for more.</div>
-			{stopChat ? (
-				<div className={style.modelInfoCon}>
-					{generateProgress.stage === 'Waiting' ? (
-						<div className={style.progressInfo}>
-							Waiting in queue, {generateProgress.payload.waiting_num} tasks remain...
-						</div>
-					) : null}
+					Clear
+				</div>			
+				<div
+					className={`${style.generateBtn} ${
+						intervalRef.current ? style.disabled : ''
+					}`}
+					onPointerDown={handleGenerate}
+				>
+					Generate
 				</div>
-			) : null}
+			</div>
+				{/* <div>This is a demo of ChatAvatar, visit the <a 
+						href="https://TBD"
+					>
+						{'main site'}
+					</a> for more.</div> */}
+				{/* {stopChat ? (
+					<div className={style.modelInfoCon}>
+						{generateProgress.stage === 'Waiting' ? (
+							<div className={style.progressInfo}>
+								Waiting in queue, {generateProgress.payload.waiting_num} tasks remain...
+							</div>
+						) : null}
+					</div>
+				) : null}			 */}
 		</div>
 	)
 }

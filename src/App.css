@@ -17,6 +17,10 @@
 	--side-gap: 5rem;
 	--radius: 0.5rem;
 	--shadow: -10px 0px 12px 1px rgba(135, 135, 135, 0.16);
+	padding: 16px;
+	padding-top: 32px;
+	display: flex;
+	justify-content: space-between;
 }
 .App * {
 	box-sizing: border-box;

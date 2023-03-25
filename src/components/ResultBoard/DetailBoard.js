@@ -129,83 +129,102 @@ function DetailBoard() {
 	};
 
 	return (
-		<div className={style.col}>
-			<div className={style.creatorCon}>
-				<div>
-					Model
-				</div>
-			</div>
-			{
-				taskCandidates.length ?
-				<>
-					<div className={style.candidateCon}>
-						<div className={style.candidateCol}>
-							{taskCandidates.map((item, index) =>
-								index >= 0 && index < 3 ? (
-									<img
-										key={index}
-										src={`data:image/png;base64,${item}`}
-										alt={item}
-										onClick={() => handleSelectCandidate(index)}
-									/>
-								) : null
-							)}
-						</div>
-						<div className={style.candidateCol}>
-							<div style={{ height: '4rem', marginBottom: '1rem' }}></div>
-							{taskCandidates.map((item, index) =>
-								index >= 3 && index < 6 ? (
-									<img
-										key={index}
-										src={`data:image/png;base64,${item}`}
-										alt={item}
-										onClick={() => handleSelectCandidate(index)}
-									/>
-								) : null
-							)}
-						</div>
-						<div className={style.candidateCol}>
-							{taskCandidates.map((item, index) =>
-								index >= 6 && index < 9 ? (
-									<img
-										key={index}
-										src={`data:image/png;base64,${item}`}
-										alt={item}
-										onClick={() => handleSelectCandidate(index)}
-									/>
-								) : null
-							)}
-						</div>
-					</div>	
-				</> : null
-			}		
-			<div className={style.modelView} id="webglcontainer" ref={modelRef}></div>
-			<div style={{ position: 'absolute', zIndex: -100 }}>
-				<div id='info'></div>
-				<div id='preloader' className='preloader'>
-					<div id='preloaderBar' className='vAligned'>
-						Loading...
-						<div className='preloaderBorder'>
-							<div
-								id='preloaderProgress'
-								className='preloaderProgress'
-								style={{ width: '85%' }}></div>
+		<div className={style.colDetail}>
+			<div className={style.colContent}>
+				{/* <div className={style.creatorCon}>
+					<div>
+						Model
+					</div>
+				</div> */}
+				{
+					taskCandidates.length ?
+					<>
+						<div className={style.candidateCon}>
+							<div className={style.candidateCol}>
+								{taskCandidates.map((item, index) =>
+									index >= 0 && index < 3 ? (
+										<img
+											key={index}
+											src={`data:image/png;base64,${item}`}
+											alt={item}
+											onClick={() => handleSelectCandidate(index)}
+										/>
+									) : null
+								)}
+							</div>
+							<div className={style.candidateCol}>
+								<div style={{ height: '4rem', marginBottom: '1rem' }}></div>
+								{taskCandidates.map((item, index) =>
+									index >= 3 && index < 6 ? (
+										<img
+											key={index}
+											src={`data:image/png;base64,${item}`}
+											alt={item}
+											onClick={() => handleSelectCandidate(index)}
+										/>
+									) : null
+								)}
+							</div>
+							<div className={style.candidateCol}>
+								{taskCandidates.map((item, index) =>
+									index >= 6 && index < 9 ? (
+										<img
+											key={index}
+											src={`data:image/png;base64,${item}`}
+											alt={item}
+											onClick={() => handleSelectCandidate(index)}
+										/>
+									) : null
+								)}
+							</div>
+						</div>	
+					</> : null
+				}		
+				<div className={style.modelView} id="webglcontainer" ref={modelRef}></div>
+				<div style={{ position: 'absolute', zIndex: -100}} className={style.loadingCon}>
+					<div id='info'></div>
+					<div id='preloader' className='preloader'>
+						<div id='preloaderBar' className='vAligned'>
+							Loading...
+							<div className='preloaderBorder'>
+								<div
+									id='preloaderProgress'
+									className='preloaderProgress'
+									style={{ width: '85%' }}></div>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div className={style.modelInfoCon}>
-				{showProgress ? (
-					generateProgress.stage ?
-					<>
-						<div className={style.progressInfo}>{generateProgress.stage}</div>
-						<div className={style.progressTrack}>
-							<div
-								className={style.progressThumb}
-								style={{ width: `${generateProgress.percent}%` }}></div>
+				<div className={style.modelInfoCon}>
+					{showProgress ? (
+						generateProgress.stage ?
+						<div className={style.progressCon}>
+							<div className={style.progressInfo}>{generateProgress.stage + "..."}</div>
+							<div className={style.progressTrack}>
+								<div
+									className={style.progressThumb}
+									style={{ width: `${generateProgress.percent}%` }}></div>
+							</div>
+						</div> : <div className={style.icon}>
+							<svg 
+								xmlns="http://www.w3.org/2000/svg" 
+								width="100%" 
+								height="100%" 
+								viewBox="0 0 24 24" 
+								fill="none" 
+								stroke="currentColor" 
+								strokeWidth="1.5" 
+								strokeLinecap="round" 
+								strokeLinejoin="round" 
+								className="feather feather-image"
+							>
+								<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+								<circle cx="8.5" cy="8.5" r="1.5"></circle>
+								<polyline points="21 15 16 10 5 21"></polyline>
+							</svg>
 						</div>
-					</> : <div>{'Click "Generate" to generate the model'}</div>
-				) : null}
+					) : null}
+				</div>				
 			</div>
 		</div>
 	)

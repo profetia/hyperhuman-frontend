@@ -8,6 +8,7 @@ import { LoginPanel } from './components/LoginPanel'
 import { UserPanel } from './components/UserPanel'
 import { Welcome } from './components/Welcome'
 import { getUserInfo } from './net'
+import { ResultBoard } from './components/ResultBoard'
 
 function App() {
 	const showLogin = useRecoilValue(showLoginAtom)
@@ -42,10 +43,8 @@ function App() {
 
 	return (
 		<div className='App'>
-			{showLogin ? <LoginPanel /> : null}
-			{showUser ? <UserPanel /> : null}
 			<Welcome />
-			{logInfo ? <Outlet /> : null}
+			<ResultBoard />
 		</div>
 	)
 }
