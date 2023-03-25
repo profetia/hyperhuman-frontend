@@ -30,6 +30,7 @@ function App() {
 					setLogInfo(false)
 				})
 		}
+
 		// eslint-disable-next-line
 	}, [])
 

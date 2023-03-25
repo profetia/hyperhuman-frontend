@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { io } from 'socket.io-client'
 
-const BASE_URL = 'http://10.19.93.33:3000'
+const BASE_URL = 'http://10.19.93.33:3000/api'
 const isMock = false
 const suffix = isMock ? '.json' : ''
 
