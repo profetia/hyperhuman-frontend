@@ -65,7 +65,7 @@
 	user-select: none;
 	cursor: pointer;
 	padding: 0.5rem;
-	border-radius: 5px
+	border-radius: 5px;
 }
 .restart:hover {
 	color: var(--font-dark-color);
@@ -350,6 +350,7 @@
 }
 
 .creatorCon {
+	position: relative;
 	display: flex;
 	justify-content: flex-start;
 	align-items: flex-end;
@@ -382,21 +383,179 @@
 	cursor: pointer;
 	user-select: none;
 	font-size: 1.2rem;
-    margin-left: 1rem;
+	margin-left: 1rem;
 }
 .titleBtn.like {
 	background-color: #fa2d5380;
 	color: #fa2d53;
 }
-.titleBtn.shareCon{
-    width:fit-content;
-    padding: 0 1rem;
-    color: var(--font-dark-color)
+.titleBtn.download {
+	background-color: var(--bg-theme-color);
+	color: var(--theme-color);
 }
-.titleBtn.shareCon span{
-    margin-right: .5rem;
+.titleBtn.shareCon {
+	width: fit-content;
+	padding: 0 1rem;
+	color: var(--font-dark-color);
+}
+.titleBtn.shareCon span {
+	margin-right: 0.5rem;
 }
 
+.downloadCon {
+	position: absolute;
+	top: 4rem;
+	right: 4rem;
+	border-radius: var(--radius);
+	box-shadow: 0 2px 8px 1px rgba(138, 138, 138, 0.16);
+	width: 16rem;
+	height: fit-content;
+	padding: 1rem;
+	background-color: #fff;
+	color: var(--font-gray-color);
+	user-select: none;
+}
+.downloadTitle {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.downloadTitle div:last-child {
+	cursor: pointer;
+	user-select: none;
+}
+.row {
+	position: relative;
+	width: 100%;
+	height: 5rem;
+	border: 2px solid #fff;
+	border-radius: var(--radius);
+	box-shadow: 0 3px 6px 1px rgba(109, 38, 255, 0.12);
+	background-color: var(--bg-gray0-color);
+	color: var(--font-dark-color);
+	margin-top: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+.downloadCon .row.disabled {
+	cursor: not-allowed;
+	color: var(--font-gray-color);
+}
+.row.disabled:hover {
+	border-color: #fff;
+}
+
+.row:hover {
+	border-color: var(--theme-color);
+}
+.downloadCon .row.selected {
+	color: var(--theme-color);
+	background-color: var(--bg-theme-color);
+	border-color: var(--theme-color);
+}
+
+.priceCon {
+	position: absolute;
+	top: 0.5rem;
+	left: 0.5rem;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	font-size: 0.75rem;
+	line-height: 0.75rem;
+}
+.priceCon .icon {
+	width: 1rem;
+	height: 1rem;
+	background-color: var(--bg-gray1-color);
+	color: #fff;
+	border-radius: 0.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 2;
+}
+.priceCon .price {
+	padding: 2px 0.5rem 2px 1rem;
+	background-color: rgba(0, 0, 0, 0.1);
+	margin-left: -0.5rem;
+	color: #fff;
+	border-radius: 5px;
+}
+.row.selected .priceCon .icon {
+	background-color: var(--theme-color);
+}
+.row.selected .priceCon .price {
+	background-color: #ece2ff;
+}
+.corner {
+	font-size: 0.75rem;
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	padding: 0.5rem;
+	border-bottom-left-radius: var(--radius);
+	border-top-right-radius: var(--radius);
+	color: #fff;
+	background-color: #e2d4ff;
+}
+.corner.sec {
+	background-color: #ffd13c;
+}
+.downloadBtn {
+	color: #fff;
+	background-color: var(--theme-color);
+	margin-top: 1rem;
+	width: 100%;
+	height: 3rem;
+	border-radius: var(--radius);
+	line-height: 1rem;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid var(--theme-color);
+	cursor: pointer;
+}
+.downloadBtn:hover {
+	background-color: #fff;
+	color: var(--theme-color);
+}
+
+.paidCon {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+.paidIcon {
+	width: 3rem;
+	height: 3rem;
+	border-radius: 1.5rem;
+	background-color: var(--theme-color);
+	line-height: 3rem;
+	text-align: center;
+	color: #fff;
+	margin-bottom: 1rem;
+    margin-top: .5rem;
+}
+.paidTitle {
+	color: var(--font-dark-color);
+	font-size: 1.2rem;
+	margin-bottom: 0.5rem;
+}
+.paidSubtitle {
+	font-size: 0.75rem;
+	margin-bottom: 3rem;
+}
+.paidProgress {
+	font-size: 0.75rem;
+	width: 100%;
+	text-align: left;
+}
 .modelView {
 	flex-shrink: 1;
 	flex-grow: 1;
@@ -422,7 +581,7 @@
 }
 .modelInfoConWithBackground {
 	background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(5px);
+	backdrop-filter: blur(5px);
 	padding: 10px;
 
 	position: absolute;
@@ -459,22 +618,25 @@
 .progressAnimation {
 	width: 30%;
 	height: 4px;
-    position: absolute;
-    top: 0;
+	position: absolute;
+	top: 0;
 	left: 11rem;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(79, 0, 211, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
-    animation: move 4s linear infinite;
+	background: linear-gradient(
+		90deg,
+		rgba(255, 255, 255, 0) 0%,
+		rgba(79, 0, 211, 0.8) 50%,
+		rgba(255, 255, 255, 0) 100%
+	);
+	animation: move 4s linear infinite;
 }
 
-
-
 @keyframes move {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(100%);
-    }
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(100%);
+	}
 }
 
 .modelPrompt {
@@ -490,26 +652,26 @@
 
 .dot {
 	animation: blink 1s linear infinite;
-  }
-  
-  @keyframes blink {
+}
+
+@keyframes blink {
 	0% {
-	  opacity: 0;
+		opacity: 0;
 	}
 	50% {
-	  opacity: 1;
+		opacity: 1;
 	}
 	100% {
-	  opacity: 0;
+		opacity: 0;
 	}
-  }
-  
-  .highlight {
-    border: 1px solid var(--theme-color);
-    box-sizing: border-box;
+}
+
+.highlight {
+	border: 1px solid var(--theme-color);
+	box-sizing: border-box;
 }
 .hidden {
-    display: none;
+	display: none;
 }
 
 .notificationText {
@@ -519,4 +681,4 @@
 	text-align: center;
 
 	height: 100%;
-  }
+}

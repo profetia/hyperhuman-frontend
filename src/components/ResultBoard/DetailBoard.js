@@ -39,6 +39,13 @@ function DetailBoard() {
 	const [cards, setCards] = useRecoilState(cardsAtom)
 
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
+
+	const [showDownload, setShowDownload] = useState(false)
+	const [downloadStage, setDownloadStage] = useState(0)
+	const [downloadOpt0, setDownloadOpt0] = useState(0)
+	const [downloadOpt1, setDownloadOpt1] = useState([])
+	const [downloadOpt2, setDownloadOpt2] = useState(0)
+	const [isPaid, setIsPaid] = useState(false)
 	// const [stage, setStage] = useState('')
 	// const [percent, setPercent] = useState(0)
 
@@ -68,7 +75,7 @@ function DetailBoard() {
 			} else {
 				throw new Error(res.data.message)
 			}
-		} catch { }
+		} catch {}
 	}
 
 	const handleShare = async (ev) => {
@@ -82,6 +89,20 @@ function DetailBoard() {
 		} catch (e) {
 			console.log(e.message)
 		}
+	}
+
+	const handleDownloadBack = (ev) => {
+		if (downloadStage === 1) setDownloadStage(0)
+		else if (downloadStage === 2 && downloadOpt0 === 0) {
+			setDownloadStage(1)
+		} else if (downloadStage === 2 && downloadOpt0 === 1) {
+			setDownloadStage(0)
+		}
+	}
+
+	const handleDownloadAndPay = async (ev) => {
+		//TODO
+		setIsPaid(true)
 	}
 	useEffect(() => {
 		setStopChat(true)
@@ -139,8 +160,8 @@ function DetailBoard() {
 
 		if (window.static_project) window.static_project.hide_scene()
 
-		console.log("xxxxx")
-		console.log("ss" + meshProfile)
+		console.log('xxxxx')
+		console.log('ss' + meshProfile)
 		console.log(meshProfile)
 		if (!meshProfile) return
 
@@ -167,8 +188,7 @@ function DetailBoard() {
 				name: 'texture_specular',
 			}),
 		}
-			;
-		(async (urlP) => ({
+		;(async (urlP) => ({
 			model: await urlP['model'],
 			diffuse: await urlP['diffuse'],
 			normal: await urlP['normal'],
@@ -211,12 +231,161 @@ function DetailBoard() {
 								<span>O</span>share
 							</div>
 						)}
-						<div className={style.titleBtn}>D</div>
+						<div
+							className={`${style.titleBtn} ${showDownload ? style.download : ''}`}
+							onPointerDown={(ev) => setShowDownload(!showDownload)}>
+							D
+						</div>
 						<div
 							className={`${style.titleBtn} ${isLike ? style.like : ''}`}
 							onPointerDown={handleLike}>
 							❤
 						</div>
+						{showDownload ? (
+							<div className={style.downloadCon}>
+								{!isPaid ? (
+									<div className={style.downloadTitle}>
+										<div>Export Options</div>
+										{downloadStage !== 0 ? (
+											<div onPointerDown={handleDownloadBack}>{'< '}Back</div>
+										) : null}
+									</div>
+								) : null}
+								{!isPaid && downloadStage === 0 ? (
+									<>
+										<div
+											className={`${style.row} ${
+												downloadOpt0 === 0 ? style.selected : ''
+											}`}
+											onPointerDown={(ev) => setDownloadOpt0(0)}>
+											<div className={style.priceCon}>
+												<div className={style.icon}>$</div>
+												<div className={style.price}>15</div>
+											</div>
+											<div className={style.option}>USC-ICT</div>
+											<div className={`${style.corner} ${style.sec}`}>
+												More options
+											</div>
+										</div>
+										<div
+											className={`${style.row} ${
+												downloadOpt0 === 1 ? style.selected : ''
+											}`}
+											onPointerDown={(ev) => setDownloadOpt0(1)}>
+											<div className={style.priceCon}>
+												<div className={style.icon}>$</div>
+												<div className={style.price}>15</div>
+											</div>
+											<div className={style.option}>MetaHuman</div>
+											<div className={style.corner}>Default 2K</div>
+										</div>
+										<div
+											className={style.downloadBtn}
+											onPointerDown={(ev) =>
+												downloadOpt0 === 0
+													? setDownloadStage(1)
+													: setDownloadStage(2)
+											}>
+											NEXT
+										</div>
+									</>
+								) : null}
+								{!isPaid && downloadStage === 1 ? (
+									<>
+										<div className={`${style.row} ${style.disabled}`}>
+											<div className={style.priceCon}>
+												<div className={style.icon}>$</div>
+												<div className={style.price}>15</div>
+											</div>
+											<div className={style.option}>Add A Body</div>
+										</div>
+										<div className={`${style.row} ${style.disabled}`}>
+											<div className={style.priceCon}>
+												<div className={style.icon}>$</div>
+												<div className={style.price}>15</div>
+											</div>
+											<div className={style.option}>
+												Add A Facial Component
+											</div>
+										</div>
+										<div className={`${style.row} ${style.disabled}`}>
+											<div className={style.priceCon}>
+												<div className={style.icon}>$</div>
+												<div className={style.price}>15</div>
+											</div>
+											<div className={style.option}>Add A Standard BS</div>
+										</div>
+										<div
+											className={`${style.row} ${
+												downloadOpt1.includes(3) ? style.selected : ''
+											}`}
+											onPointerDown={(ev) =>
+												downloadOpt1.includes(3)
+													? setDownloadOpt1(
+															downloadOpt1.filter((cur) => cur !== 3)
+													  )
+													: setDownloadOpt1([...downloadOpt1, 3])
+											}>
+											<div className={style.priceCon}>
+												<div className={style.icon}>$</div>
+												<div className={style.price}>15</div>
+											</div>
+											<div className={style.option}>
+												Need A Second Quadrant
+											</div>
+										</div>
+										<div
+											className={style.downloadBtn}
+											onPointerDown={(ev) => setDownloadStage(2)}>
+											NEXT
+										</div>
+									</>
+								) : null}
+								{!isPaid && downloadStage === 2 ? (
+									<>
+										<div
+											className={`${style.row} ${
+												downloadOpt2 === 0 ? style.selected : ''
+											}`}
+											onPointerDown={(ev) => setDownloadOpt2(0)}>
+											<div className={style.priceCon}>
+												<div className={style.icon}>$</div>
+												<div className={style.price}>15</div>
+											</div>
+											<div className={style.option}>2 K</div>
+										</div>
+										<div
+											className={`${style.row} ${
+												downloadOpt2 === 1 ? style.selected : ''
+											}`}
+											onPointerDown={(ev) => setDownloadOpt2(1)}>
+											<div className={style.priceCon}>
+												<div className={style.icon}>$</div>
+												<div className={style.price}>15</div>
+											</div>
+											<div className={style.option}>4 K</div>
+										</div>
+										<div
+											className={style.downloadBtn}
+											onPointerDown={handleDownloadAndPay}>
+											PAY
+										</div>
+									</>
+								) : null}
+								{isPaid ? (
+									<div className={style.paidCon}>
+										<div className={style.paidIcon}>√</div>
+										<div className={style.paidTitle}>Payment Successful!</div>
+										<div className={style.paidSubtitle}>
+											View in the list of mine
+										</div>
+										<div className={style.paidProgress}>
+											Estimated waiting time is 20 minutes...
+										</div>
+									</div>
+								) : null}
+							</div>
+						) : null}
 					</>
 				) : null}
 			</div>

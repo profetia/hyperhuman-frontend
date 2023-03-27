@@ -1,6 +1,7 @@
 .App {
 	text-align: center;
 	--theme-color: #4a00e0;
+    --bg-theme-color: #f5f0ff;
 
 	--font-dark-color: rgb(67, 67, 67);
 	--font-gray-color: #aaa;
