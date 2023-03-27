@@ -80,6 +80,11 @@ const taskCandidateAtom = atom({
 	default: [],
 })
 
+const modelSelectedAtom = atom({
+	default: false,
+	key: 'modelSelected',
+})
+
 export {
 	taskInitAtom,
 	taskDetailAtom,
@@ -96,5 +101,6 @@ export {
 	needStartWsAtom,
 	chatDialogStartAtom,
 	generateStageAtom,
-	taskCandidateAtom
+	taskCandidateAtom,
+	modelSelectedAtom
 }

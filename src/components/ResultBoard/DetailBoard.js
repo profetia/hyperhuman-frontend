@@ -9,10 +9,15 @@ import {
 	taskDetailAtom,
 	taskInitAtom,
 	taskCandidateAtom,
-	generateStageAtom
+	generateStageAtom,
+	modelSelectedAtom
 } from './store'
 import { getTaskDownload, selectCandidate } from '../../net'
-import { global_render_target_injector, startUp } from '../../render/rendering'
+import {
+	global_render_target_injector,
+	build_project,
+	load_profile,
+} from '../../render/sssss_rendering'
 import { logInfoAtom } from '../Header'
 import { exportToImage } from "./utils";
 
@@ -31,6 +36,11 @@ function DetailBoard() {
 	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
 	// const [stage, setStage] = useState('')
 	// const [percent, setPercent] = useState(0)
+	const [modelSelected, setModelSelected] = useRecoilState(modelSelectedAtom)
+	const [enteredMeshProfile, setEnteredMeshProfile] = useState(false)
+
+	const modelRef = useRef(null);
+	const promptRef = useRef(null);
 
 	// const
 	useEffect(() => {
@@ -56,57 +66,128 @@ function DetailBoard() {
 	}, [taskDetail])
 
 	useEffect(() => {
-		if (!meshProfile) {
-			if (document.getElementById('webglcontainer')) {
-				if (document.getElementById('webglcontainer').getElementsByTagName('canvas').length > 0) {
-					document.getElementById('webglcontainer').getElementsByTagName('canvas')[0].remove()
-				}
-			}
-			return
+		const handleMouseDown = () => {
+			window.isDraggingModel = true;
+		};
+
+		const handleMouseUp = () => {
+			window.isDraggingModel = false;
+		};
+
+		const modelElement = modelRef.current;
+		if (modelElement) {
+			modelElement.addEventListener('mousedown', handleMouseDown);
+			modelElement.addEventListener('mouseup', handleMouseUp);
 		}
 
-		// console.log(meshProfile)
+		return () => {
+			if (modelElement) {
+				modelElement.removeEventListener('mousedown', handleMouseDown);
+				modelElement.removeEventListener('mouseup', handleMouseUp);
+			}
+		};
+	}, [modelRef]);
+
+	useEffect(() => {
+		const updateBodyClass = () => {
+			if (window.isDraggingModel) {
+				setModelSelected(true)
+			} else {
+				setModelSelected(false)
+			}
+		};
+
+		window.addEventListener('mousedown', updateBodyClass);
+		window.addEventListener('mouseup', updateBodyClass);
+
+		return () => {
+			window.removeEventListener('mousedown', updateBodyClass);
+			window.removeEventListener('mouseup', updateBodyClass);
+		};
+	}, []);	
+
+	useEffect(() => {
+
+
+		console.log("Triggered meshProfile", window.last_uuidtime, meshProfile.task_uuid + meshProfile.time, meshProfile)
+		if (window.static_project && window.last_uuidtime === meshProfile.task_uuid + meshProfile.time) {
+			console.log("same profile")
+			window.static_project.show_scene()
+			document.querySelector("#webglcontainer").replaceWith(window.static_project.content.container)
+			return
+		}
+		if (window.static_project) {
+			console.log("hide scene")
+			window.static_project.hide_scene()
+		}
+		if (!meshProfile) {
+			console.log("no profile")
+			return
+		}
+		console.log("Enter meshProfile")
+		if (window.static_project) {
+			document.querySelector("#webglcontainer").replaceWith(window.static_project.content.container)
+		}
+		setEnteredMeshProfile(true);
+
+
 		const urlPromise = {
 			model: getTaskDownload({
 				type: 'PreviewPack',
 				task_uuid: meshProfile.task_uuid,
 				name: 'model',
-				token: logInfo.token,
 			}),
 			diffuse: getTaskDownload({
 				type: 'PreviewPack',
 				task_uuid: meshProfile.task_uuid,
 				name: 'texture_diffuse',
-				token: logInfo.token,
 			}),
 			normal: getTaskDownload({
 				type: 'PreviewPack',
 				task_uuid: meshProfile.task_uuid,
 				name: 'texture_normal',
-				token: logInfo.token,
 			}),
 			spectular: getTaskDownload({
 				type: 'PreviewPack',
 				task_uuid: meshProfile.task_uuid,
 				name: 'texture_specular',
-				token: logInfo.token,
 			}),
 		}
-		;(async (urlP) => ({
+			;
+		(async (urlP) => ({
 			model: await urlP['model'],
 			diffuse: await urlP['diffuse'],
 			normal: await urlP['normal'],
-			roughness_ao_thickness: await urlP['spectular'],
-			roughness_detail: '/assets/juanfu/roughness-detail.jpg',
-			env_irradiance: '/assets/env/lapa_4k_panorama_irradiance.hdr',
-			env_specular: '/assets/env/lapa_4k_panorama_specular.hdr',
+			roughness: await urlP['spectular'],
 		}))(urlPromise).then((urls) => {
-			// console.log(urls)
-            setShowProgress(false)
-			startUp(urls)
+			setShowProgress(false)
 			global_render_target_injector.enabled = false
+
+			console.log("load_profile", urls)
+			load_profile(urls, () => {
+				console.log("load_profile done")
+				window.last_uuidtime = meshProfile.task_uuid + meshProfile.time
+				if (window.static_project) window.static_project.show_scene()
+			})
 		})
 	}, [meshProfile])
+
+	//阻止MacOS使用触摸板缩放
+	// useEffect(() => {
+	// 	const container = modelRef.current
+	// 	const onWheel = (event) => {
+	// 		event.preventDefault()
+	// 		const deltaY = event.deltaY
+	// 		const rect = container.getBoundingClientRect()
+	// 		const scale = 1 - deltaY * 0.001
+	// 		const dx = (event.clientX - rect.left) * (1 - scale)
+	// 		const dy = (event.clientY - rect.top) * (1 - scale)
+	// 		container.style.transformOrigin = `${dx}px ${dy}px 0px`
+	// 		container.style.transform = `scale3d(${scale}, ${scale}, ${scale})`
+	// 	}
+	// 	container.addEventListener('wheel', onWheel, { passive: false })
+	// 	return () => container.removeEventListener('wheel', onWheel)
+	// }, [])	
 
 	const handleSelectCandidate = async (candidateIndex) => {
 		// return null
@@ -116,9 +197,6 @@ function DetailBoard() {
 		// navi('/result/detail')
 		setGenerateStage('detail')
 	}	
-
-	const modelRef = useRef(null);
-	const promptRef = useRef(null);
   
 	window.exportModelView = async () => {
 	  await exportToImage(modelRef.current, "model");
