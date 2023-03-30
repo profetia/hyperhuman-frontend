@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { closeWebsocket, startWebsocket } from '../../net'
+import { LoginBoard } from './LoginBoard'
 import { ChatBoard } from './ChatBoard'
 import { DetailBoard } from './DetailBoard'
 import { GenerateBoard } from './GenerateBoard'
@@ -23,6 +24,7 @@ import {
 	generateStageAtom,
 } from './store.js'
 import { exportToImage } from "./utils";
+import { logInfoAtom } from '../Header'
 
 function ResultBoard() {
 	const navi = useNavigate()
@@ -44,6 +46,7 @@ function ResultBoard() {
 	const chatGuessRef = useRef('')
 	const promptRef = useRef('')
 	const [generateStage, setGenerateStage] = useRecoilState(generateStageAtom)
+	const [logInfo, setLogInfo] = useRecoilState(logInfoAtom)
 
 	const handleClose = (ev) => {
 		// closeWebsocket()
@@ -193,7 +196,9 @@ function ResultBoard() {
 				onPointerDown={(ev) => ev.stopPropagation()}
 				ref={dialogRef}
 			>
-				<GenerateBoard />
+				{
+					logInfo ? <GenerateBoard /> : <LoginBoard />
+				}
 				<DetailBoard />
 			</div>
 		</div>

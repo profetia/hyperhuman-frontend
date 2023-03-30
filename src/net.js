@@ -6,8 +6,8 @@ const isMock = false
 const suffix = isMock ? '.json' : ''
 
 //user
-const login = ({ username, email, password }) =>
-	axios.post(`${BASE_URL}/user/login`, { username, email, password })
+const login = ({ email, password }) =>
+	axios.post(`${BASE_URL}/user/login`, { email, password })
 
 const register = ({ username, email, emailVerificationCode, invitationCode, password }) =>
 	axios.post(`${BASE_URL}/user/register`, {

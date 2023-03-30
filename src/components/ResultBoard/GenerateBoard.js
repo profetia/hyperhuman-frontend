@@ -16,6 +16,7 @@ import {
 	meshProfileAtom
 } from './store'
 import { startChat } from '../../net'
+import { logInfoAtom } from '../Header'
 
 function GenerateBoard() {
 	const [prompt, setPrompt] = useRecoilState(promptAtom)
@@ -31,6 +32,7 @@ function GenerateBoard() {
 	const setChatDialogStart = useSetRecoilState(chatDialogStartAtom)
 	const setTaskInit = useSetRecoilState(taskInitAtom)
 	const setMeshProfile = useSetRecoilState(meshProfileAtom)
+	const [logInfo, setLogInfo] = useRecoilState(logInfoAtom)
 
 	// useEffect(() => () => clearInterval(intervalRef.current), [])
 
@@ -84,6 +86,11 @@ function GenerateBoard() {
 	const handleGenerate = (ev) => {
 		if (!prompt) return
 
+		if (!logInfo) {
+
+			return;
+		}
+
 		setTaskDetail(false)
 		setStopChat(false)
 		setMeshProfile(false)
@@ -106,10 +113,9 @@ function GenerateBoard() {
 	const handleClear = (ev) => {
 		setPrompt('')
 		setTaskDetail(false)
-		if (document.getElementById('webglcontainer')) {
-			if (document.getElementById('webglcontainer').getElementsByTagName('canvas').length > 0) {
-				document.getElementById('webglcontainer').getElementsByTagName('canvas')[0].remove()
-			}
+		if (window.static_project) {
+			console.log("hide scene")
+			window.static_project.hide_scene()
 		}
 
 	}

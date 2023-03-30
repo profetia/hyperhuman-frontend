@@ -35,12 +35,12 @@ function App() {
 	}, [])
 
 	//路由守卫
-	useEffect(() => {
-		if (!logInfo && window.location.pathname !== '/') {
-			navi('/', { replace: true })
-		}
-		// eslint-disable-next-line
-	}, [logInfo])
+	// useEffect(() => {
+	// 	if (!logInfo && window.location.pathname !== '/') {
+	// 		navi('/', { replace: true })
+	// 	}
+	// 	// eslint-disable-next-line
+	// }, [logInfo])
 
 	return (
 		<div className='App'>
