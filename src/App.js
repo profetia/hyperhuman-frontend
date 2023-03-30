@@ -9,6 +9,7 @@ import { UserPanel } from './components/UserPanel'
 import { Welcome } from './components/Welcome'
 import { getUserInfo } from './net'
 import { ResultBoard } from './components/ResultBoard'
+import { initNet } from './net'
 
 function App() {
 	const showLogin = useRecoilValue(showLoginAtom)
@@ -24,6 +25,7 @@ function App() {
 				.then((data) => {
 					if (data.data.error) return Promise.reject(data.data.error)
 					setLogInfo({ ...data.data.meta, token: localStorage.getItem('token') })
+					initNet(localStorage.getItem('token'))
 				})
 				.catch((err) => {
 					localStorage.clear()

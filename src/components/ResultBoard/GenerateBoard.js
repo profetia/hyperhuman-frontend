@@ -13,7 +13,8 @@ import {
 	generateStageAtom,
 	chatDialogStartAtom,
 	taskCandidateAtom,
-	meshProfileAtom
+	meshProfileAtom,
+	modelHideAtom
 } from './store'
 import { startChat } from '../../net'
 import { logInfoAtom } from '../Header'
@@ -33,6 +34,7 @@ function GenerateBoard() {
 	const setTaskInit = useSetRecoilState(taskInitAtom)
 	const setMeshProfile = useSetRecoilState(meshProfileAtom)
 	const [logInfo, setLogInfo] = useRecoilState(logInfoAtom)
+	const [modelHide, setModelHide] = useRecoilState(modelHideAtom)
 
 	// useEffect(() => () => clearInterval(intervalRef.current), [])
 
@@ -87,9 +89,10 @@ function GenerateBoard() {
 		if (!prompt) return
 
 		if (!logInfo) {
-
 			return;
 		}
+
+		console.log(logInfo)
 
 		setTaskDetail(false)
 		setStopChat(false)
@@ -116,6 +119,7 @@ function GenerateBoard() {
 		if (window.static_project) {
 			console.log("hide scene")
 			window.static_project.hide_scene()
+			setModelHide(true)
 		}
 
 	}

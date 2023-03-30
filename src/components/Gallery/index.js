@@ -73,16 +73,6 @@ function Gallery() {
 							<img alt='cover' src={card.image_url} />
 						</div>
 
-						{hoverCard === card.task_uuid ? null : (
-							<div className={style.infoCon}>
-								<div className={style.avatar}>
-									<img alt='avatar' src={card.author.avatar_url} />
-								</div>
-								<div>{card.author.username}</div>
-								<div className={style.spaceholder}></div>
-								<div>{card.num_like}likes</div>
-							</div>
-						)}
 						<div
 							className={`${style.prompt} ${
 								hoverCard === card.task_uuid ? style.show : ''

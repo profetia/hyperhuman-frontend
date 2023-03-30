@@ -474,6 +474,7 @@
 }
 
 .candidateCon {
+	height: 100%;
 	width: 100%;
 	flex-grow: 1;
 	flex-shrink: 1;
@@ -502,7 +503,7 @@
 }
 
 .candidateCol img {
-	width: 100%;
+	/* width: 100%; */
 	margin-bottom: 1rem;
 	border-radius: var(--radius);
 	cursor: pointer;
@@ -603,4 +604,8 @@
 	position: absolute;
 	top: calc(50% - 10px);
 	height: 20px;
+}
+
+.hideModel {
+	display: none;
 }

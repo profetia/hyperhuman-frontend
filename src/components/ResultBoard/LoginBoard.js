@@ -13,7 +13,8 @@ import {
 	generateStageAtom,
 	chatDialogStartAtom,
 	taskCandidateAtom,
-	meshProfileAtom
+	meshProfileAtom,
+	modelHideAtom
 } from './store'
 import { startChat } from '../../net'
 import { logInfoAtom } from '../Header'
@@ -39,6 +40,8 @@ function LoginBoard() {
 
     const [isEmailError, setIsEmailError] = useState(false)
     const [isPasswordError, setIsPasswordError] = useState(false)     
+
+	const [modelHide, setModelHide] = useRecoilState(modelHideAtom)
 
 	// useEffect(() => () => clearInterval(intervalRef.current), [])
 
@@ -128,6 +131,11 @@ function LoginBoard() {
 	const handleClear = (ev) => {
         setEmail('')
         setPassword('')
+		if (window.static_project) {
+			console.log("hide scene")
+			window.static_project.hide_scene()
+			setModelHide(true)
+		}
 	}
 
     const handleEmail = (ev) => {

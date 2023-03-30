@@ -85,6 +85,11 @@ const modelSelectedAtom = atom({
 	key: 'modelSelected',
 })
 
+export const modelHideAtom = atom({
+	default: false,
+	key: 'modelHide',
+})
+
 export {
 	taskInitAtom,
 	taskDetailAtom,

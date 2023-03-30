@@ -10,10 +10,7 @@ import {
   GenerateBoard,
   ResultBoard,
 } from "./components/ResultBoard";
-import Login from "./Login";
-import Register from "./Register";
-import ResetPassword from "./ResetPassword";
-import UpdatePassword from "./UpdatePassword";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -23,38 +20,6 @@ function Outter() {
       path: "*",
       element: <App />,
       errorElement: <ErrorPage />,
-      children: [
-        {
-          path: "result",
-          element: <ResultBoard />,
-          children: [
-            {
-              path: "detail",
-              element: <DetailBoard />,
-            },
-            {
-              path: "generate",
-              element: <GenerateBoard />,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-      path: "/register",
-      element: <Register />,
-    },
-    {
-      path: "/reset-password",
-      element: <ResetPassword />,
-    },
-    {
-      path: "/update-password",
-      element: <UpdatePassword />,
     },
     {
       path: "*",
