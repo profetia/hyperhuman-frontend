@@ -128,49 +128,60 @@ function GenerateBoard() {
 
 
 	return (
-		<div className={style.colHead}>
-			<div className={style.colInner}>
-				<div className={style.colTitle}>Positive Prompt</div>
-				<textarea
-					className={style.iptArea}
-					value={prompt}
-					placeholder={'Type your prompt here.'}
-					onChange={handleIpt}
-				/>
-			</div>
-			<div className={style.btnCon}>
-				<div
-					className={`${style.clearBtn} ${
-						intervalRef.current ? style.disabled : ''
-					}`}
-					onPointerDown={handleClear}
-				>
-					Clear
-				</div>			
-				<div
-					className={`${style.generateBtn} ${
-						intervalRef.current ? style.disabled : ''
-					}`}
-					onPointerDown={handleGenerate}
-				>
-					Generate
-				</div>
-			</div>
-				{/* <div>This is a demo of ChatAvatar, visit the <a 
-						href="https://TBD"
-					>
-						{'main site'}
-					</a> for more.</div> */}
-				{/* {stopChat ? (
-					<div className={style.modelInfoCon}>
-						{generateProgress.stage === 'Waiting' ? (
-							<div className={style.progressInfo}>
-								Waiting in queue, {generateProgress.payload.waiting_num} tasks remain...
-							</div>
-						) : null}
+		<>
+			<div>
+				<h2>Deemos Technology - Hyperhuman Demo</h2>
+				<p className={style.descriptionLogin}>
+				This is a demo of Deemos Technology's Hyperhuman platform. For more
+				features, please visit our main site{" "}
+				<a href="https://hyperhuman.deemos.com">hyperhuman.deemos.com</a>.
+				</p>
+			</div>	
+			<div className={style.colHead}>
+					<div className={style.colInner}>
+						<div className={style.colTitle}>Positive Prompt</div>
+						<textarea
+							className={style.iptArea}
+							value={prompt}
+							placeholder={'Type your prompt here.'}
+							onChange={handleIpt}
+						/>
 					</div>
-				) : null}			 */}
-		</div>
+					<div className={style.btnCon}>
+						<div
+							className={`${style.clearBtn} ${
+								intervalRef.current ? style.disabled : ''
+							}`}
+							onPointerDown={handleClear}
+						>
+							Clear
+						</div>			
+						<div
+							className={`${style.generateBtn} ${
+								intervalRef.current ? style.disabled : ''
+							}`}
+							onPointerDown={handleGenerate}
+						>
+							Generate
+						</div>
+					</div>
+						{/* <div>This is a demo of ChatAvatar, visit the <a 
+								href="https://TBD"
+							>
+								{'main site'}
+							</a> for more.</div> */}
+						{/* {stopChat ? (
+							<div className={style.modelInfoCon}>
+								{generateProgress.stage === 'Waiting' ? (
+									<div className={style.progressInfo}>
+										Waiting in queue, {generateProgress.payload.waiting_num} tasks remain...
+									</div>
+								) : null}
+							</div>
+						) : null}			 */}
+				</div>	  		
+		</>
+
 	)
 }
 

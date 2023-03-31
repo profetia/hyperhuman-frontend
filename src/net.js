@@ -16,6 +16,12 @@ export const initNet = (token) => {
 		})
 }
 
+export const hfAccount = {
+	username: 'huggingface',
+	email: 'merife6322@duiter.com',
+	password: '123456',
+}
+
 //user
 const login = ({ email, password }) =>
 	axiosClient.post(`${BASE_URL}/user/login`, { email, password })

@@ -196,10 +196,16 @@ function ResultBoard() {
 				onPointerDown={(ev) => ev.stopPropagation()}
 				ref={dialogRef}
 			>
-				{
-					logInfo ? <GenerateBoard /> : <LoginBoard />
+				{ logInfo ? (
+						<>
+							<GenerateBoard />
+							<DetailBoard />
+						</>
+					) : 
+					<p>
+						Loading...
+					</p> 
 				}
-				<DetailBoard />
 			</div>
 		</div>
 	)

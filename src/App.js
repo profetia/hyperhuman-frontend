@@ -9,7 +9,7 @@ import { UserPanel } from './components/UserPanel'
 import { Welcome } from './components/Welcome'
 import { getUserInfo } from './net'
 import { ResultBoard } from './components/ResultBoard'
-import { initNet } from './net'
+import { initNet, login, hfAccount } from './net'
 
 function App() {
 	const showLogin = useRecoilValue(showLoginAtom)
@@ -31,6 +31,28 @@ function App() {
 					localStorage.clear()
 					setLogInfo(false)
 				})
+		} else {
+			(async () => {
+				const response = await login({
+					email: hfAccount.email,
+					password: hfAccount.password
+				  });
+			  
+				  if (response.data) {
+					if (response.data.error) {
+
+					} else {
+					  setLogInfo(response.data);
+					  localStorage.setItem("username", response.data.username);
+					  localStorage.setItem("token", response.data.token);
+					  localStorage.setItem("user_uuid", response.data.user_uuid);
+					  localStorage.setItem("avatar_url", response.data.avatar_url);
+					  initNet(response.data.token)
+					}
+				  } else {
+
+				  }
+			})()
 		}
 
 		// eslint-disable-next-line
