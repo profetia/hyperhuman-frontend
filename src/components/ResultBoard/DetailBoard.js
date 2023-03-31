@@ -116,13 +116,17 @@ function DetailBoard() {
       meshProfile.task_uuid + meshProfile.time,
       meshProfile
     );
+
     if (
       window.static_project &&
       window.last_uuidtime === meshProfile.task_uuid + meshProfile.time
     ) {
       console.log("same profile");
       window.static_project.show_scene();
-      setModelHide(false);
+		if (modelHide) {
+			console.log(modelHide)
+			return
+		}
       document
         .querySelector("#webglcontainer")
         .replaceWith(window.static_project.content.container);
@@ -310,7 +314,7 @@ function DetailBoard() {
                   </div>
                 </div>
               ) : null
-            ) : !modelHide ? (
+            ) : modelHide ? (
               <div className={style.icon}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

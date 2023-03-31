@@ -609,3 +609,7 @@
 .hideModel {
 	display: none;
 }
+
+.descriptionLogin {
+	text-align: start;
+}
