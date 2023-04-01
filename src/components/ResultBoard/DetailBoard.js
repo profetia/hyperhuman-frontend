@@ -123,10 +123,10 @@ function DetailBoard() {
     ) {
       console.log("same profile");
       window.static_project.show_scene();
-		if (modelHide) {
-			console.log(modelHide)
-			return
-		}
+      if (modelHide) {
+        console.log(modelHide);
+        return;
+      }
       document
         .querySelector("#webglcontainer")
         .replaceWith(window.static_project.content.container);

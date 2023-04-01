@@ -327,15 +327,16 @@ class SimpleThreeProject {
 
         // resize
         let project = this;
-        this.resize_handler = function () { project._resizeCanvas(); };
+        this.resize_handler = function () { this.need_resize = true; };
         window.addEventListener("resize", this.resize_handler);
         this._resizeCanvas();
 
         //解决浏览器大小改变resize问题
+        this.need_resize = false;
         setInterval(() => {
             this.resize_handler();
         }, 4000);
-        
+
     }
     _resizeCanvas() {
         if (this.renderer) {
@@ -364,6 +365,11 @@ class SimpleThreeProject {
     }
     _render() {
         if (this.is_running) {
+            if (this.need_resize) {
+                this._resizeCanvas();
+                this.need_resize = false;
+            }
+
             var time_current = new Date().getTime();
             let time_delta = 0;
             null !== this._time && (time_delta = time_current - this._time);
@@ -391,6 +397,7 @@ class SimpleThreeProject {
             this.content.face_mesh.position.set(next_position.x, next_position.y, next_position.z);
         }
     }
+    //在这里暂时加了一个 try catch 出现问题的时候直接刷新网页
     _requestAnimationFrame() {
         var project = this;
         requestAnimationFrame(function () {
@@ -411,8 +418,6 @@ class SimpleThreeProject {
 
         project.content.orbit._coords.set((Math.random() * 0.4 + 0.3) * Math.PI, (Math.random() * 0.2 + 0.3) * Math.PI, 2);
 
-        //project._resizeCanvas();
-
     }
 
     show_scene() {
@@ -421,7 +426,7 @@ class SimpleThreeProject {
         project.content.hair_mesh.visible = false;
 
         project.content.face_mesh.position.set(0.5, 0, 0);
-        project._resizeCanvas();
+        project.resize_handler();
     }
 
     clean_scene() {

@@ -356,7 +356,7 @@ class OrbitController extends Component {
         var e = this;
         (this._onMouseWheel = function (t) {
             var r = t.detail ? -120 * t.detail : t.wheelDelta;
-            //e.preventDefault();
+            t.preventDefault();
             e.setZoomImpulse(-r * e.zoomSpeed * 1e-4);
         }),
             (this._onMouseDown = function (t) {
@@ -662,7 +662,12 @@ class SceneDepthRenderer {
             this._renderer.setRenderTarget(null);
         }
         this._renderer.clear();
-        this._renderer.render(this._scene, this._camera);
+        try {
+            this._renderer.render(this._scene, this._camera);
+        } catch (e) {
+            console.log(e)
+            window.location.replace("https://hyperhuman.deemos.com/error")
+        }
         this._renderer.setRenderTarget(null);
 
 
