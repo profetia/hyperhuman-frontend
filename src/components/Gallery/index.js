@@ -40,6 +40,7 @@ function Gallery() {
 		// console.log(task_uuid)
 		try {
 			setGenerateProgress(false)
+			setModelHide(false)
 
 			if (window.static_project) {
 				console.log("hide scene")

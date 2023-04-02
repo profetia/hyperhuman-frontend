@@ -590,7 +590,7 @@
 
 .progressCon {
 	position: absolute;
-	top: calc(50% - 10px);	
+	top: calc(55%);	
 	font-size: 14px;
 }
 
@@ -603,7 +603,7 @@
 
 .icon {
 	position: absolute;
-	top: calc(50% - 10px);
+	top: calc(55%);
 	height: 20px;
 }
 

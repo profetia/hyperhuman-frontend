@@ -93,8 +93,8 @@ function GenerateBoard() {
 			return;
 		}
 
-		console.log(generateProgress)
-		if (generateProgress === "Downloading") {
+		if (generateProgress.stage) {
+			console.log(generateProgress.stage)
 			return;
 		}
 

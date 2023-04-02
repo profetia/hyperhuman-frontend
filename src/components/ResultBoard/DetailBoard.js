@@ -180,6 +180,7 @@ function DetailBoard() {
     }))(urlPromise).then((urls) => {
       setTimeout(() => {
         setShowProgress(false);
+        setGenerateProgress(false);
         global_render_target_injector.enabled = false;
   
         console.log("load_profile", urls);
