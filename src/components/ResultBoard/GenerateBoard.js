@@ -67,8 +67,8 @@ function GenerateBoard() {
 			if (data.candidates) setTaskCandidates(data.candidates)
 
 			if (data.stage === 'Done') {
-				// setGenerateProgress({ stage: 'Downloading', percent: 100, payload: data })
-				setGenerateProgress(false)
+				setGenerateProgress({ stage: 'Downloading', percent: 100, payload: data })
+				// setGenerateProgress(false)
 				setTaskCandidates([])
 				clearInterval(intervalRef.current)
 				intervalRef.current = null
@@ -93,10 +93,16 @@ function GenerateBoard() {
 			return;
 		}
 
+		console.log(generateProgress)
+		if (generateProgress === "Downloading") {
+			return;
+		}
+
 		setTaskDetail(false)
 		setStopChat(false)
 		setMeshProfile(false)
 		setGenerateStage('generate')
+		setGenerateProgress(false)
 
 		startChat()
 			.then((data) => {
@@ -113,6 +119,8 @@ function GenerateBoard() {
 	}
 
 	const handleClear = (ev) => {
+		setGenerateProgress(false)
+
 		if (window.static_project) {
 			console.log("hide scene")
 			window.static_project.hide_scene()
@@ -185,4 +193,4 @@ function GenerateBoard() {
 	)
 }
 
-export { GenerateBoard }
+export { GenerateBoard, generateProgressAtom, modelHideAtom }

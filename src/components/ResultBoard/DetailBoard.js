@@ -178,15 +178,17 @@ function DetailBoard() {
       normal: await urlP["normal"],
       roughness: await urlP["spectular"],
     }))(urlPromise).then((urls) => {
-      setShowProgress(false);
-      global_render_target_injector.enabled = false;
-
-      console.log("load_profile", urls);
-      load_profile(urls, () => {
-        console.log("load_profile done");
-        window.last_uuidtime = meshProfile.task_uuid + meshProfile.time;
-        if (window.static_project) window.static_project.show_scene();
-      });
+      setTimeout(() => {
+        setShowProgress(false);
+        global_render_target_injector.enabled = false;
+  
+        console.log("load_profile", urls);
+        load_profile(urls, () => {
+          console.log("load_profile done");
+          window.last_uuidtime = meshProfile.task_uuid + meshProfile.time;
+          if (window.static_project) window.static_project.show_scene();
+        });
+      }, 1000)
     });
   }, [meshProfile]);
 

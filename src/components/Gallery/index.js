@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState, useRecoilState } from 'recoil'
 import style from './gallery.module.css'
 import { logInfoAtom } from '../Header'
 import { getCards, getTaskDetail } from '../../net'
 import { taskDetailAtom } from '../ResultBoard/store'
 import { useNavigate } from 'react-router-dom'
+import { generateProgressAtom, modelHideAtom } from '../ResultBoard/GenerateBoard'
+
 
 const cardsTypeConst = {
 	Recent: 'Recent',
@@ -22,6 +24,8 @@ function Gallery() {
 	const timeStampRef = useRef(0)
 	const scrollTopRef = useRef(0)
 	const elRef = useRef(null)
+	const [generateProgress, setGenerateProgress] = useRecoilState(generateProgressAtom)
+	const [modelHide, setModelHide] = useRecoilState(modelHideAtom)
 
 	useEffect(() => {
 		pageRef.current = 0
@@ -35,8 +39,17 @@ function Gallery() {
 	const handleClickCard = (task_uuid) => async (ev) => {
 		// console.log(task_uuid)
 		try {
+			setGenerateProgress(false)
+
+			if (window.static_project) {
+				console.log("hide scene")
+				window.static_project.hide_scene()
+				setModelHide(true)
+			}
+			setTaskDetail(false)
 			const rep = await getTaskDetail(task_uuid)
 			// console.log(rep.data)
+			setGenerateProgress({ stage: 'Downloading', percent: 100 })
 			setTaskDetail(rep.data)
 			// navi('/result/detail')
 		} catch (e) {}

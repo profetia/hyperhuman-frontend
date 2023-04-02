@@ -478,7 +478,8 @@
 	width: 100%;
 	flex-grow: 1;
 	flex-shrink: 1;
-	overflow-y: overlay;
+	overflow-y: auto;
+	max-height: 45rem;
 
 	display: flex;
 	position: relative;
@@ -504,7 +505,7 @@
 
 .candidateCol img {
 	/* width: 100%; */
-	margin-bottom: 1rem;
+	margin-bottom: .5rem;
 	border-radius: var(--radius);
 	cursor: pointer;
 }
@@ -596,7 +597,7 @@
 .loadingCon {
 	z-index: -111;
 	position: absolute;
-	top: calc(50% - 10px);	
+	top: calc(55%);	
 	font-size: 14px;
 }
 
