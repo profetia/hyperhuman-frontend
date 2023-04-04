@@ -1,5 +1,6 @@
 .con {
-	width: 45%;
+	width: 680px;
+	height: 1080px;
 	position: relative;
 	display: flex;
 	flex-direction: column;
