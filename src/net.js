@@ -124,19 +124,14 @@ const generateDetail = ({ task_uuid, prompt }) =>
 const getGenerateProgress = (task_uuid) =>
 	axiosClient.post(`${BASE_URL}/task/check_progress/${task_uuid}`)
 
-const getCards = ({ type, page_num }) => axios.post(`${BASE_URL}/task/cards`, { type, page_num })
-const getTaskDetail = (task_uuid) => axios.post(`${BASE_URL}/task/card/${task_uuid}`)
+const getCards = ({ type, page_num }) => axiosClient.post(`${BASE_URL}/task/cards`, { type, page_num })
+const getTaskDetail = (task_uuid) => axiosClient.post(`${BASE_URL}/task/card/${task_uuid}`)
 
-const getTaskDownload = ({ task_uuid, type, name, token }) =>
+const getTaskDownload = ({ task_uuid, type, name }) =>
 	axiosClient
 		.post(
 			`${BASE_URL}/task/get_download`,
 			{ task_uuid, type, name },
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}
 		)
 		.then((data) => {
 			// console.log(file_uuid, data.data.url)

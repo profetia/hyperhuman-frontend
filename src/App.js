@@ -20,7 +20,8 @@ function App() {
 	useEffect(() => {
 		//页面加载完成，检查缓存，设置各种状态的初始值
 		//检查localstorage有没有登录凭证
-		if (localStorage.getItem('user_uuid')) {
+		// if (localStorage.getItem('user_uuid')) {
+		if (false) {
 			getUserInfo({ user_uuid: localStorage.getItem('user_uuid') })
 				.then((data) => {
 					if (data.data.error) return Promise.reject(data.data.error)
@@ -43,10 +44,10 @@ function App() {
 
 					} else {
 					  setLogInfo(response.data);
-					  localStorage.setItem("username", response.data.username);
-					  localStorage.setItem("token", response.data.token);
-					  localStorage.setItem("user_uuid", response.data.user_uuid);
-					  localStorage.setItem("avatar_url", response.data.avatar_url);
+					//   localStorage.setItem("username", response.data.username);
+					//   localStorage.setItem("token", response.data.token);
+					//   localStorage.setItem("user_uuid", response.data.user_uuid);
+					//   localStorage.setItem("avatar_url", response.data.avatar_url);
 					  initNet(response.data.token)
 					}
 				  } else {
