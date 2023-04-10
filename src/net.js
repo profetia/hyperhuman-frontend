@@ -119,7 +119,7 @@ const disposeWebsocket = () => {
 
 //task
 const generateDetail = ({ task_uuid, prompt }) =>
-	axiosClient.post(`${BASE_URL}/task/generate`, { task_uuid, prompt })
+	axiosClient.post(`${BASE_URL}/task/generate`, { task_uuid, prompt: `face, ${prompt}` })
 
 const getGenerateProgress = (task_uuid) =>
 	axiosClient.post(`${BASE_URL}/task/check_progress/${task_uuid}`)
